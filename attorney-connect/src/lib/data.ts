@@ -27,6 +27,7 @@ export interface Attorney {
   imageZoomOut?: boolean;
   billingType: "contingency" | "hourly" | "flat";
   hourlyRate?: number;
+  avgHourlyRate?: number;
 }
 
 export interface LegalIssue {
@@ -140,6 +141,7 @@ export const ATTORNEYS: Attorney[] = [
     feePercent: 0,
     avgFeePercent: 0,
     hourlyRate: 350,
+    avgHourlyRate: 400,
     responseTimeHours: 2,
     recentResult: "High-net-worth dissolution",
     recentResultAmount: undefined,
@@ -317,6 +319,10 @@ export const PLATFORM_STATS = {
 
 export function getSavingsPercent(feePercent: number, avgFeePercent: number): number {
   return avgFeePercent - feePercent;
+}
+
+export function getHourlySavingsPercent(hourlyRate: number, avgHourlyRate: number): number {
+  return Math.round(((avgHourlyRate - hourlyRate) / avgHourlyRate) * 100);
 }
 
 export function formatRating(rating: number): string {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Star, Clock, MapPin, TrendingDown, Trophy, ArrowRight, CheckCircle, Zap } from "lucide-react";
-import { Attorney, formatRating, getResponseLabel, getSavingsPercent } from "@/lib/data";
+import { Attorney, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import Badge from "@/components/shared/Badge";
 
 interface AttorneyCardProps {
@@ -19,6 +19,9 @@ const badgeGradients: Record<string, string> = {
 
 export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
   const savings = getSavingsPercent(attorney.feePercent, attorney.avgFeePercent);
+  const hourlySavings = attorney.billingType === "hourly" && attorney.hourlyRate && attorney.avgHourlyRate
+    ? getHourlySavingsPercent(attorney.hourlyRate, attorney.avgHourlyRate)
+    : 0;
   const winRate = Math.round((attorney.casesWon / attorney.totalCases) * 100);
   const primaryBadge = attorney.badges[0];
 
@@ -83,6 +86,12 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
               <>
                 <p className="text-lg font-extrabold text-gray-900 leading-none">${attorney.hourlyRate}<span className="text-xs font-semibold">/hr</span></p>
                 <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Hourly</p>
+                {hourlySavings > 0 && (
+                  <div className="flex items-center justify-center gap-0.5 text-emerald-600 mt-1">
+                    <TrendingDown className="w-2.5 h-2.5" />
+                    <span className="text-[10px] font-bold">-{hourlySavings}%</span>
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -151,8 +160,12 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
             View Profile & Connect
             <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
           </Link>
-          <p className={`text-center text-[11px] font-semibold mt-1.5 ${savings > 0 && attorney.billingType === "contingency" ? "text-emerald-600" : "invisible"}`}>
-            {savings > 0 && attorney.billingType === "contingency" ? `Save ${savings}% vs. avg · ~$${(300000 * savings / 100).toLocaleString()} on a $300K case` : "placeholder"}
+          <p className={`text-center text-[11px] font-semibold mt-1.5 ${(savings > 0 && attorney.billingType === "contingency") || hourlySavings > 0 ? "text-emerald-600" : "invisible"}`}>
+            {savings > 0 && attorney.billingType === "contingency"
+              ? `Save ${savings}% vs. avg · ~$${(300000 * savings / 100).toLocaleString()} on a $300K case`
+              : hourlySavings > 0 && attorney.avgHourlyRate
+              ? `$${attorney.avgHourlyRate - attorney.hourlyRate!}/hr below avg · save $${((attorney.avgHourlyRate - attorney.hourlyRate!) * 10).toLocaleString()} on 10 hrs`
+              : "placeholder"}
           </p>
         </div>
       </div>

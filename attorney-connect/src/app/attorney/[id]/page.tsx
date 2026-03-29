@@ -8,7 +8,7 @@ import {
   Star, Clock, MapPin, CheckCircle, Trophy, Phone, Mail,
   ArrowLeft, TrendingDown, Scale, Shield, FileText, Zap,
 } from "lucide-react";
-import { ATTORNEYS, formatRating, getResponseLabel, getSavingsPercent } from "@/lib/data";
+import { ATTORNEYS, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import { useReveal } from "@/hooks/useInView";
 
 const MOCK_REVIEWS = [
@@ -42,6 +42,9 @@ export default function AttorneyProfilePage() {
   }
 
   const savings = getSavingsPercent(attorney.feePercent, attorney.avgFeePercent);
+  const hourlySavings = attorney.billingType === "hourly" && attorney.hourlyRate && attorney.avgHourlyRate
+    ? getHourlySavingsPercent(attorney.hourlyRate, attorney.avgHourlyRate)
+    : 0;
   const winRate = Math.round((attorney.casesWon / attorney.totalCases) * 100);
   const isHourly = attorney.billingType === "hourly";
 
@@ -264,9 +267,22 @@ export default function AttorneyProfilePage() {
                     {isHourly ? "Hourly Rate" : "Contingency Fee"}
                   </p>
                   {isHourly ? (
-                    <p className="text-5xl font-extrabold text-white">
-                      ${attorney.hourlyRate}<span className="text-2xl text-white/50">/hr</span>
-                    </p>
+                    <>
+                      <p className="text-5xl font-extrabold text-white">
+                        ${attorney.hourlyRate}<span className="text-2xl text-white/50">/hr</span>
+                      </p>
+                      {hourlySavings > 0 && attorney.avgHourlyRate && (
+                        <>
+                          <p className="text-gray-200 text-sm mt-1">{hourlySavings}% below the ${attorney.avgHourlyRate}/hr area average</p>
+                          <div className="mt-3 bg-white/10 rounded-xl p-3">
+                            <p className="text-gray-200 text-xs">Save per 10 hours vs. avg:</p>
+                            <p className="text-2xl font-extrabold text-accent-300 mt-0.5">
+                              ${((attorney.avgHourlyRate - attorney.hourlyRate!) * 10).toLocaleString()}
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </>
                   ) : (
                     <>
                       <p className="text-5xl font-extrabold text-white">{attorney.feePercent}%</p>
