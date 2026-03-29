@@ -100,7 +100,7 @@ export default function EducationalSection() {
             {/* Comparison table */}
             <div className="bg-white/5 p-8 lg:p-12 flex items-center">
               <div className="w-full">
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-5">
+                <p className="text-xs text-gray-200 uppercase tracking-widest font-semibold mb-5">
                   Fee Comparison · $500,000 Settlement
                 </p>
                 <div className="space-y-3">
