@@ -66,7 +66,7 @@ function ComparePageInner() {
             {areaLabel ? `${areaLabel} Attorneys` : "Compare Attorneys"}
             {filterState ? ` in ${filterState}` : ""}
           </h1>
-          <p className="text-gray-300 text-sm">
+          <p className="text-white text-sm">
             {sorted.length} attorneys available · Sort by fee, rating, success rate, or response time
           </p>
         </div>
