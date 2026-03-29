@@ -44,7 +44,7 @@ export default function AttorneySignInPage() {
           signUpUrl="/join"
           appearance={{
             elements: {
-              rootBox: "w-full",
+              rootBox: "w-full flex justify-center",
               card: "bg-gray-800 border border-gray-700 shadow-2xl rounded-2xl",
               headerTitle: "text-white font-bold",
               headerSubtitle: "text-gray-400",
