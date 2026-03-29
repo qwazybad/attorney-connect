@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
-import ParticleCloud from "@/components/shared/ParticleCloud";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -39,9 +38,6 @@ export default function HeroSection() {
           priority
         />
       </div>
-
-      {/* 3D rotating particle cloud */}
-      <ParticleCloud />
 
 
       {/* Dot grid overlay */}
