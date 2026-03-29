@@ -61,7 +61,7 @@ function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
   return (
     <span
       className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${
-        ok ? "bg-accent-500/15 text-accent-400" : "bg-gray-700 text-gray-400"
+        ok ? "bg-accent-500/15 text-accent-400" : "bg-gray-100 text-gray-500"
       }`}
     >
       {ok ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
@@ -79,7 +79,7 @@ function SectionCard({
 }) {
   return (
     <div
-      className={`bg-gray-800 border border-gray-700 rounded-2xl p-6 ${className}`}
+      className={`bg-white border border-gray-200 shadow-sm rounded-2xl p-6 ${className}`}
     >
       {children}
     </div>
@@ -200,7 +200,7 @@ function ProfileTab({
     <div className="space-y-6">
       {/* Photo */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">
           Profile Photo
         </h3>
         <div className="flex items-center gap-5">
@@ -210,11 +210,11 @@ function ProfileTab({
               <img
                 src={photoUrl}
                 alt="Profile"
-                className="w-20 h-20 rounded-2xl object-cover border-2 border-gray-600"
+                className="w-20 h-20 rounded-2xl object-cover border-2 border-gray-200"
               />
             ) : (
-              <div className="w-20 h-20 rounded-2xl bg-gray-700 border-2 border-gray-600 flex items-center justify-center">
-                <User className="w-8 h-8 text-gray-500" />
+              <div className="w-20 h-20 rounded-2xl bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                <User className="w-8 h-8 text-gray-400" />
               </div>
             )}
             <button
@@ -225,10 +225,10 @@ function ProfileTab({
             </button>
           </div>
           <div>
-            <p className="text-white font-semibold text-sm">
+            <p className="text-gray-900 font-semibold text-sm">
               {name || user?.fullName || "Your Name"}
             </p>
-            <p className="text-gray-400 text-xs mt-0.5">{firm || "Your Firm"}</p>
+            <p className="text-gray-500 text-xs mt-0.5">{firm || "Your Firm"}</p>
             <button
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
@@ -249,7 +249,7 @@ function ProfileTab({
 
       {/* Details */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-5">
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-5">
           Firm Details
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -286,7 +286,7 @@ function ProfileTab({
         </div>
 
         <div className="mt-4">
-          <label className="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">
+          <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">
             <span className="flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5" />
               Bio
@@ -297,7 +297,7 @@ function ProfileTab({
             onChange={(e) => setBio(e.target.value)}
             rows={4}
             placeholder="Tell potential clients about your experience, practice areas, and approach..."
-            className="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
+            className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
           />
         </div>
       </SectionCard>
@@ -333,7 +333,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">
+      <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">
         <span className="flex items-center gap-1.5">
           <Icon className="w-3.5 h-3.5" />
           {label}
@@ -344,7 +344,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
     </div>
   );
@@ -427,7 +427,7 @@ function WebhookTab({
     <div className="space-y-6">
       {/* Webhook URL */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-1.5">
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
           Webhook URL
         </h3>
         <p className="text-gray-500 text-xs mb-5">
@@ -437,19 +437,19 @@ function WebhookTab({
 
         <div className="flex gap-2">
           <div className="relative flex-1">
-            <Webhook className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Webhook className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="url"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
               placeholder="https://hooks.zapier.com/..."
-              className="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-500 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
           </div>
           <button
             onClick={handleTest}
             disabled={!webhookUrl.trim() || testing}
-            className="px-4 py-3 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 border border-gray-600 text-gray-300 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap"
+            className="px-4 py-3 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap"
           >
             {testing ? "Testing…" : "Test"}
           </button>
@@ -476,23 +476,23 @@ function WebhookTab({
       {/* Field Mapping */}
       <SectionCard>
         <div className="flex items-start justify-between mb-1.5">
-          <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
+          <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
             Field Mapping
           </h3>
-          <span className="text-xs text-gray-500 bg-gray-700 px-2 py-1 rounded-lg">Optional</span>
+          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">Optional</span>
         </div>
         <p className="text-gray-500 text-xs mb-5">
           Map our standard field names to your CRM&apos;s field names. Leave blank
           to use our defaults. For example, if your CRM expects{" "}
-          <code className="bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">
             firstname
           </code>{" "}
           instead of{" "}
-          <code className="bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">
             first_name
           </code>
           , enter{" "}
-          <code className="bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">
             firstname
           </code>{" "}
           in the right column.
@@ -511,9 +511,9 @@ function WebhookTab({
         <div className="space-y-2">
           {LEAD_FIELDS.map(({ key, label }) => (
             <div key={key} className="grid grid-cols-2 gap-3 items-center">
-              <div className="flex items-center gap-2 bg-gray-700/50 border border-gray-700 rounded-lg px-3 py-2">
-                <ArrowRightLeft className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-                <code className="text-xs text-gray-300 font-mono">{key}</code>
+              <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                <ArrowRightLeft className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                <code className="text-xs text-gray-600 font-mono">{key}</code>
                 <span className="text-gray-500 text-xs ml-auto">{label}</span>
               </div>
               <input
@@ -521,7 +521,7 @@ function WebhookTab({
                 value={mapping[key] ?? ""}
                 onChange={(e) => updateMapping(key, e.target.value)}
                 placeholder={key}
-                className="bg-gray-700 border border-gray-600 text-white placeholder-gray-500 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
           ))}
@@ -530,10 +530,10 @@ function WebhookTab({
 
       {/* Example payload */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3">
           Example Payload
         </h3>
-        <pre className="bg-gray-900 rounded-xl p-4 text-xs text-gray-400 overflow-x-auto font-mono leading-relaxed">
+        <pre className="bg-gray-50 border border-gray-100 rounded-xl p-4 text-xs text-gray-600 overflow-x-auto font-mono leading-relaxed">
           {JSON.stringify(
             {
               ...(Object.fromEntries(
@@ -589,7 +589,7 @@ function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="h-24 bg-gray-800 rounded-2xl border border-gray-700 animate-pulse"
+            className="h-24 bg-gray-100 rounded-2xl border border-gray-200 animate-pulse"
           />
         ))}
       </div>
@@ -599,10 +599,10 @@ function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
   if (leads.length === 0) {
     return (
       <SectionCard className="text-center py-16">
-        <div className="w-16 h-16 bg-gray-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <Inbox className="w-8 h-8 text-gray-500" />
+        <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <Inbox className="w-8 h-8 text-gray-400" />
         </div>
-        <p className="text-white font-bold text-lg mb-1">No leads yet</p>
+        <p className="text-gray-800 font-bold text-lg mb-1">No leads yet</p>
         <p className="text-gray-400 text-sm max-w-xs mx-auto">
           Leads sent to you via the AttorneyCompete platform will appear here.
         </p>
@@ -613,7 +613,7 @@ function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
   return (
     <div className="space-y-3">
       {leads.map((lead) => (
-        <SectionCard key={lead.id} className="hover:border-gray-600 transition-colors">
+        <SectionCard key={lead.id} className="hover:border-gray-300 transition-colors">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-2">
@@ -621,14 +621,14 @@ function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
                   <User className="w-4 h-4 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">
+                  <p className="text-gray-900 font-semibold text-sm">
                     {lead.first_name} {lead.last_name}
                   </p>
                   <p className="text-gray-400 text-xs">{lead.legal_issue}</p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-400 ml-12">
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-500 ml-12">
                 <span className="flex items-center gap-1">
                   <Mail className="w-3 h-3" />
                   {lead.email}
@@ -802,7 +802,7 @@ export default function AttorneyPortalPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-gray-800 border border-gray-700 rounded-2xl p-1.5 mb-8 overflow-x-auto">
+        <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-8 overflow-x-auto">
           {tabs.map(({ id, label, icon: Icon, badge }) => (
             <button
               key={id}
@@ -810,7 +810,7 @@ export default function AttorneyPortalPage() {
               className={`flex-1 min-w-max flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                 activeTab === id
                   ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-                  : "text-gray-400 hover:text-white hover:bg-gray-700"
+                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -820,7 +820,7 @@ export default function AttorneyPortalPage() {
                   className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                     activeTab === id
                       ? "bg-white/20 text-white"
-                      : "bg-gray-600 text-gray-300"
+                      : "bg-gray-200 text-gray-500"
                   }`}
                 >
                   {badge}
