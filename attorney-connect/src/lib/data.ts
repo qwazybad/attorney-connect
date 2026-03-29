@@ -278,7 +278,7 @@ export const ATTORNEYS: Attorney[] = [
     bio: "Phoenix personal injury attorney with 12 years of experience fighting for accident victims across Arizona. Arizona Summit Law School graduate committed to maximizing every client's recovery.",
     successRate: 92,
     billingType: "contingency",
-    imagePosition: "center 5%",
+    imagePosition: "center 20%",
   },
   {
     id: "8",
