@@ -24,7 +24,6 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import type { Attorney, Lead } from "@/lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -145,18 +144,17 @@ function ProfileTab({
     if (!file || !user) return;
     setUploading(true);
 
-    const ext = file.name.split(".").pop();
-    const path = `${user.id}/profile.${ext}`;
+    const form = new FormData();
+    form.append("file", file);
 
-    const { error } = await supabase.storage
-      .from("attorney-photos")
-      .upload(path, file, { upsert: true, contentType: file.type });
+    const res = await fetch("/api/attorney/photo", {
+      method: "POST",
+      body: form,
+    });
 
-    if (!error) {
-      const { data } = supabase.storage
-        .from("attorney-photos")
-        .getPublicUrl(path);
-      setPhotoUrl(data.publicUrl);
+    if (res.ok) {
+      const { url } = await res.json();
+      setPhotoUrl(url);
     }
     setUploading(false);
   }
