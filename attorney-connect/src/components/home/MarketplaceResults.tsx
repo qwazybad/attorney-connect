@@ -47,32 +47,24 @@ export default function MarketplaceResults() {
         <div className="reveal text-center mb-8">
           <p className="text-xs text-accent-500 font-semibold uppercase tracking-widest mb-2">Live Marketplace</p>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Top Attorneys This Week</h2>
-          <p className="text-gray-500 mt-2 text-sm">Pick a specialty, then sort by fee, rating, or success rate.</p>
+          <p className="text-gray-500 mt-2 text-sm">Filter by specialty, then sort by fee, rating, or success rate.</p>
         </div>
 
-        {/* Specialty picker */}
-        <div className="reveal mb-6">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">1. Choose a specialty</p>
-          <div className="flex flex-wrap gap-2">
+        {/* Filters bar */}
+        <div className="reveal mb-8 flex flex-wrap items-center gap-3">
+          {/* Specialty dropdown */}
+          <select
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+            className="text-sm font-semibold px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          >
             {SPECIALTIES.map(({ value, label }) => (
-              <button
-                key={value}
-                onClick={() => setSpecialty(value)}
-                className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all duration-200 ${
-                  specialty === value
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-500"
-                }`}
-              >
-                {label}
-              </button>
+              <option key={value} value={value}>{value === "" ? "All Specialties" : label}</option>
             ))}
-          </div>
-        </div>
+          </select>
 
-        {/* Sort bar */}
-        <div className="reveal mb-8 flex items-center gap-2 flex-wrap">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mr-1">2. Sort by</p>
+          <div className="w-px h-6 bg-gray-200" />
+
           <ArrowUpDown className="w-3.5 h-3.5 text-gray-400" />
           {(
             [
