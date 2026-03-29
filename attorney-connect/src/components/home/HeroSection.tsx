@@ -123,7 +123,7 @@ export default function HeroSection() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)]"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)]"
               >
                 <Search className="w-4.5 h-4.5 w-[18px] h-[18px]" />
                 Compare Attorneys — It&apos;s Free

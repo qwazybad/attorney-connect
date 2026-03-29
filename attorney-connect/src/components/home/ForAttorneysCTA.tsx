@@ -47,7 +47,7 @@ export default function ForAttorneysCTA() {
             </ul>
 
             <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3">
-              <Link href="/join" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_24px_rgba(59,130,246,0.4)]">
+              <Link href="/join" className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_24px_rgba(59,130,246,0.4)]">
                 Apply as a Partner Firm
                 <ArrowRight className="w-5 h-5" />
               </Link>
