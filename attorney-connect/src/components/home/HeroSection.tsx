@@ -59,7 +59,7 @@ export default function HeroSection() {
           <p className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
             Compare fees, ratings, and results from top attorneys — transparently.
             The average contingency fee is{" "}
-            <span className="text-red-500 font-semibold underline">34%</span>. Many attorneys on our platform charge significantly less.
+            <span className="text-white font-semibold">34%</span>. Many attorneys on our platform charge significantly less.
           </p>
 
           {/* Glass search form */}
@@ -131,10 +131,10 @@ export default function HeroSection() {
               </button>
             </form>
 
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400 font-medium">
-              <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-green-500" /> No obligation</span>
-              <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 text-yellow-400" /> Verified reviews</span>
-              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-accent-400" /> Avg response 1.8 hrs</span>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-5 text-xs text-white font-semibold">
+              <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-green-400" /> No obligation</span>
+              <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 text-yellow-300" /> Verified reviews</span>
+              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-blue-400" /> Avg response 1.8 hrs</span>
             </div>
           </div>
 
