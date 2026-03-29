@@ -459,7 +459,7 @@ export default function JoinPage() {
               <button
                 type="submit"
                 disabled={step === 2 && (form.practiceAreas.length === 0 || form.states.length === 0)}
-                className="inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 disabled:bg-gray-300 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
               >
                 {step === 4 ? "Submit Application" : "Continue"}
                 <ArrowRight className="w-4 h-4" />

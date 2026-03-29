@@ -72,7 +72,7 @@ export default function ForAttorneysPage() {
             <div className="flex flex-col sm:flex-row gap-3 opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(5,150,105,0.4)] text-base"
+                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
               >
                 Apply as a Partner Firm
                 <ArrowRight className="w-5 h-5" />
@@ -216,7 +216,7 @@ export default function ForAttorneysPage() {
 
             <Link
               href="/join"
-              className="block w-full text-center bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(5,150,105,0.4)] text-base"
+              className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
             >
               Apply Now — It&apos;s Free
               <ArrowRight className="w-5 h-5 inline ml-2" />
@@ -275,7 +275,7 @@ export default function ForAttorneysPage() {
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/join"
-              className="inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(5,150,105,0.4)] text-base"
+              className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
             >
               Apply as a Partner Firm
               <ArrowRight className="w-5 h-5" />
