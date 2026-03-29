@@ -91,19 +91,19 @@ export default function AttorneyProfilePage() {
               <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
                 {attorney.name}
               </h1>
-              <p className="opacity-0 animate-slide-up text-lg text-white/60 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
+              <p className="opacity-0 animate-slide-up text-lg text-white font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
                 {attorney.firm}
               </p>
 
               {/* Meta */}
-              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-white/50 mb-6" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
+              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-200 mb-6" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
                 <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{attorney.city}, {attorney.state}</span>
                 <span className="flex items-center gap-1.5"><Scale className="w-4 h-4" />{attorney.yearsExperience} yrs experience</span>
                 <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent-400" />Bar: {attorney.barNumber}</span>
               </div>
 
               {/* Bio */}
-              <p className="opacity-0 animate-slide-up text-white/70 leading-relaxed text-sm max-w-lg" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
+              <p className="opacity-0 animate-slide-up text-white leading-relaxed text-sm max-w-lg" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
                 {attorney.bio}
               </p>
 
@@ -260,7 +260,7 @@ export default function AttorneyProfilePage() {
               <div className="reveal bg-gray-800 rounded-2xl p-5 relative overflow-hidden">
                 <div className="orb orb-blue w-40 h-40 -top-10 -right-10 opacity-40" />
                 <div className="relative">
-                  <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-1">
+                  <p className="text-gray-200 text-xs font-semibold uppercase tracking-widest mb-1">
                     {isHourly ? "Hourly Rate" : "Contingency Fee"}
                   </p>
                   {isHourly ? (
@@ -272,7 +272,7 @@ export default function AttorneyProfilePage() {
                       <p className="text-5xl font-extrabold text-white">{attorney.feePercent}%</p>
                       {savings > 0 && (
                         <>
-                          <p className="text-white/50 text-sm mt-1">{savings}% below the {attorney.avgFeePercent}% industry average</p>
+                          <p className="text-gray-200 text-sm mt-1">{savings}% below the {attorney.avgFeePercent}% industry average</p>
                           <div className="mt-3 bg-white/10 rounded-xl p-3">
                             <p className="text-white/60 text-xs">On a $300K settlement you save:</p>
                             <p className="text-2xl font-extrabold text-accent-300 mt-0.5">
