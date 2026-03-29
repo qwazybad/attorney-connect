@@ -85,9 +85,9 @@ export default function ParticleCloud() {
       if (!canvas || !ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      angleY += 0.0018;
-      angleX += 0.0008;
-      angleZ += 0.0004;
+      angleY += 0.0006;
+      angleX += 0.0003;
+      angleZ += 0.00015;
 
       const cx = canvas.width * 0.5;
       const cy = canvas.height * 0.5;
