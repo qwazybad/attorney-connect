@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
 import ParticleCloud from "@/components/shared/ParticleCloud";
 
@@ -26,6 +27,18 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
 
+
+      {/* Lady Justice — right side */}
+      <div className="absolute right-0 top-0 h-full w-[55%] pointer-events-none hidden lg:block">
+        <Image
+          src="/pineapple-diaries.jpeg"
+          alt="Lady Justice"
+          fill
+          className="object-cover object-center"
+          style={{ opacity: 0.45, maskImage: "linear-gradient(to right, transparent 0%, black 35%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 35%)" }}
+          priority
+        />
+      </div>
 
       {/* 3D rotating particle cloud */}
       <ParticleCloud />
