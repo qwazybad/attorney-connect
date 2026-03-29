@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { TrendingUp, Users, DollarSign, BarChart3, ArrowRight, CheckCircle } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
+import ParticleCloud from "@/components/shared/ParticleCloud";
 
 const benefits = [
   { icon: Users, title: "Pre-qualified leads", description: "Consumers matched to your exact practice area and state." },
@@ -16,10 +17,9 @@ export default function ForAttorneysCTA() {
 
   return (
     <section ref={ref} className="relative py-24 bg-gray-800 overflow-hidden">
-      {/* Orbs */}
-      <div className="orb orb-indigo animate-glow-pulse w-[500px] h-[500px] -top-20 -right-20 opacity-40" />
-      <div className="orb orb-blue animate-float-slow w-[400px] h-[400px] bottom-0 -left-20 opacity-30" />
-      <div className="absolute inset-0 dot-grid opacity-30" />
+      {/* Particle cloud */}
+      <ParticleCloud />
+      <div className="absolute inset-0 dot-grid opacity-20" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
