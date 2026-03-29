@@ -6,13 +6,14 @@ import Footer from "./Footer";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isPortal = pathname?.startsWith("/attorney-portal");
+  const hideChrome =
+    pathname?.startsWith("/attorney-portal") || pathname?.startsWith("/join");
 
   return (
     <>
-      {!isPortal && <Header />}
+      {!hideChrome && <Header />}
       <main>{children}</main>
-      {!isPortal && <Footer />}
+      {!hideChrome && <Footer />}
     </>
   );
 }
