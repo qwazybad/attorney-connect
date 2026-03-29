@@ -24,7 +24,7 @@ const FIRM_SIZES = ["Solo practitioner", "2–5 attorneys", "6–15 attorneys", 
 
 const STEPS = [
   { n: 1, label: "Account" },
-  { n: 2, label: "Firm Info" },
+  { n: 2, label: "Firm" },
   { n: 3, label: "Practice" },
   { n: 4, label: "Fees" },
   { n: 5, label: "Documents" },
@@ -137,12 +137,9 @@ function JoinPageInner() {
               Attorney<span className="text-blue-500">Compete</span>
             </span>
           </Link>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center mb-2">
             <Link href="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800">
               <ArrowLeft className="w-4 h-4" /> Back
-            </Link>
-            <Link href="/attorney-portal/sign-in" className="text-sm text-blue-500 hover:text-blue-600 font-semibold">
-              Already a partner? Sign in →
             </Link>
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900">Apply as a Partner Firm</h1>
@@ -150,16 +147,16 @@ function JoinPageInner() {
         </div>
 
         {/* Progress bar */}
-        <div className="flex items-center mb-8">
+        <div className="flex items-start mb-8">
           {STEPS.map(({ n, label }, i) => (
-            <div key={n} className="flex items-center flex-1">
+            <div key={n} className="flex items-start flex-1">
               <div className="flex flex-col items-center flex-1">
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${currentStep > n ? "bg-green-500 text-white" : currentStep === n ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"}`}>
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-colors shrink-0 ${currentStep > n ? "bg-green-500 text-white" : currentStep === n ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"}`}>
                   {currentStep > n ? <CheckCircle className="w-5 h-5" /> : n}
                 </div>
-                <span className={`text-xs mt-1 font-medium ${currentStep === n ? "text-blue-500" : "text-gray-400"}`}>{label}</span>
+                <span className={`text-xs mt-1 font-medium text-center whitespace-nowrap ${currentStep === n ? "text-blue-500" : "text-gray-400"}`}>{label}</span>
               </div>
-              {i < STEPS.length - 1 && <div className={`flex-1 h-px mx-2 mb-4 ${currentStep > n ? "bg-green-400" : "bg-gray-200"}`} />}
+              {i < STEPS.length - 1 && <div className={`flex-1 h-px mx-2 mt-4 ${currentStep > n ? "bg-green-400" : "bg-gray-200"}`} />}
             </div>
           ))}
         </div>
@@ -171,6 +168,7 @@ function JoinPageInner() {
               <h2 className="text-xl font-bold text-gray-900">Create your account</h2>
               <p className="text-sm text-gray-500 mt-1">First, set up your login. Then we&apos;ll collect your firm details.</p>
             </div>
+            <div className="flex justify-center">
             <SignUp
               routing="hash"
               forceRedirectUrl="/join?step=2"
@@ -198,6 +196,7 @@ function JoinPageInner() {
                 },
               }}
             />
+            </div>
           </div>
         )}
 
