@@ -64,7 +64,7 @@ export default function ForAttorneysPage() {
               leads.
             </h1>
 
-            <p className="text-lg text-gray-300 mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+            <p className="text-lg text-white mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
               AttorneyCompete sends you pre-qualified consumers actively looking for representation.
               You pay nothing until a client signs an engagement letter or retainer agreement with your firm. No wasted ad spend. Pure results.
             </p>
@@ -185,7 +185,7 @@ export default function ForAttorneysPage() {
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             Pay when the client signs
           </h2>
-          <p className="reveal reveal-delay-2 text-gray-400 mb-12 text-lg max-w-xl mx-auto">
+          <p className="reveal reveal-delay-2 text-gray-200 mb-12 text-lg max-w-xl mx-auto">
             No subscriptions. No pay-per-click. A flat referral fee due only when a client signs an engagement letter or retainer agreement.
             If you don&apos;t earn, we don&apos;t earn.
           </p>
@@ -195,7 +195,7 @@ export default function ForAttorneysPage() {
               <Zap className="w-10 h-10 text-accent-400" />
               <p className="text-7xl font-extrabold text-white">$0</p>
             </div>
-            <p className="text-gray-400 text-lg mb-8">Upfront. Always.</p>
+            <p className="text-gray-200 text-lg mb-8">Upfront. Always.</p>
 
             <ul className="space-y-3.5 text-left mb-10">
               {[
@@ -269,7 +269,7 @@ export default function ForAttorneysPage() {
           <h2 className="reveal text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             Ready to grow your caseload?
           </h2>
-          <p className="reveal reveal-delay-1 text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+          <p className="reveal reveal-delay-1 text-gray-200 text-lg mb-10 max-w-xl mx-auto">
             Join 2,800+ law firms already using AttorneyCompete to compete for high-quality cases.
           </p>
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
