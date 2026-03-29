@@ -168,14 +168,14 @@ function JoinPageInner() {
               <h2 className="text-xl font-bold text-gray-900">Create your account</h2>
               <p className="text-sm text-gray-500 mt-1">First, set up your login. Then we&apos;ll collect your firm details.</p>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center w-full">
             <SignUp
               routing="hash"
               forceRedirectUrl="/join?step=2"
               signInUrl="/attorney-portal/sign-in"
               appearance={{
                 elements: {
-                  rootBox: "w-full",
+                  rootBox: "w-full flex justify-center",
                   card: "bg-white border border-gray-200 shadow-sm rounded-2xl",
                   headerTitle: "text-gray-900 font-bold",
                   headerSubtitle: "text-gray-500",
