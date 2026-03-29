@@ -56,6 +56,8 @@ export default function AttorneySignUpPage() {
                 "bg-white border border-gray-300 text-gray-900 rounded-xl",
               otpCodeFieldInput:
                 "bg-white border border-gray-300 text-gray-900 rounded-xl",
+              identityPreviewText: "text-gray-300",
+              identityPreviewEditButtonIcon: "text-blue-400",
               formButtonPrimary:
                 "bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition-colors",
               footerActionLink: "text-blue-400 hover:text-blue-300",
