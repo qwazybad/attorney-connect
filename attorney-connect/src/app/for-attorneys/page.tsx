@@ -53,7 +53,7 @@ export default function ForAttorneysPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm text-white/70 mb-8 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
+            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm text-white mb-8 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
               <Zap className="w-3.5 h-3.5 text-accent-400" />
               <span>Performance-based · Zero upfront · 2,800+ partner firms</span>
             </div>
