@@ -16,7 +16,7 @@ type Step = 1 | 2 | 3 | 4 | 5 | 6;
 interface FormData {
   firmName: string; contactName: string; email: string; phone: string; website: string;
   practiceAreas: string[]; states: string[]; yearsExperience: string; firmSize: string;
-  feePercent: string; acceptsContingency: boolean; bio: string;
+  billingType: "contingency" | "hourly" | "flat"; feePercent: string; hourlyRate: string; bio: string;
   barLicense: string; malpracticeInsurance: string;
 }
 
@@ -42,7 +42,7 @@ function JoinPageInner() {
   const [form, setForm] = useState<FormData>({
     firmName: "", contactName: "", email: "", phone: "", website: "",
     practiceAreas: [], states: [], yearsExperience: "", firmSize: "",
-    feePercent: "", acceptsContingency: true, bio: "",
+    billingType: "contingency", feePercent: "", hourlyRate: "", bio: "",
     barLicense: "", malpracticeInsurance: "",
   });
 
@@ -96,7 +96,10 @@ function JoinPageInner() {
           licensed_states: form.states,
           years_experience: form.yearsExperience,
           firm_size: form.firmSize,
-          fee_percent: form.feePercent ? parseFloat(form.feePercent) : null,
+          billing_type: form.billingType,
+          fee_percent: form.billingType === "contingency" && form.feePercent ? parseFloat(form.feePercent) : null,
+          hourly_rate: form.billingType === "hourly" && form.hourlyRate ? parseFloat(form.hourlyRate) : null,
+          flat_fee: form.billingType === "flat" && form.feePercent ? parseFloat(form.feePercent) : null,
           bar_license: form.barLicense,
           malpractice_insurance: form.malpracticeInsurance,
           status: "pending",
@@ -272,17 +275,66 @@ function JoinPageInner() {
                 <div className="p-7 space-y-5">
                   <h2 className="text-xl font-bold text-gray-900 mb-1">Fee Structure & Bio</h2>
                   <p className="text-sm text-gray-500">This is what consumers see. Lower fees improve your placement ranking.</p>
+
+                  {/* Billing type selector */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Contingency Fee Percentage *</label>
-                    <div className="flex items-center gap-3">
-                      <input required type="number" min="1" max="50" step="0.5" value={form.feePercent} onChange={(e) => setForm({ ...form, feePercent: e.target.value })} placeholder="e.g. 28" className="w-32 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900" />
-                      <span className="text-lg font-bold text-gray-400">%</span>
-                      <span className="text-xs text-gray-500">Industry average is 34%. Lower fees rank higher.</span>
+                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">How do you charge clients? *</label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {(["contingency", "hourly", "flat"] as const).map((type) => (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => setForm({ ...form, billingType: type, feePercent: "", hourlyRate: "" })}
+                          className={`py-3 px-4 rounded-xl border text-sm font-semibold text-center transition-colors ${form.billingType === type ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}
+                        >
+                          {type === "contingency" ? "Contingency %" : type === "hourly" ? "Hourly Rate" : "Flat Fee"}
+                        </button>
+                      ))}
                     </div>
-                    {form.feePercent && parseFloat(form.feePercent) < 33 && (
-                      <p className="text-xs text-green-600 font-semibold mt-1.5 flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{(33 - parseFloat(form.feePercent)).toFixed(1)}% below average — great for placement!</p>
-                    )}
                   </div>
+
+                  {/* Contingency */}
+                  {form.billingType === "contingency" && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Contingency Fee Percentage *</label>
+                      <div className="flex items-center gap-3">
+                        <input required type="number" min="1" max="50" step="0.5" value={form.feePercent} onChange={(e) => setForm({ ...form, feePercent: e.target.value })} placeholder="e.g. 28" className="w-32 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900" />
+                        <span className="text-lg font-bold text-gray-400">%</span>
+                        <span className="text-xs text-gray-500">Industry avg is 34%. Lower fees rank higher.</span>
+                      </div>
+                      {form.feePercent && parseFloat(form.feePercent) < 33 && (
+                        <p className="text-xs text-green-600 font-semibold mt-1.5 flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{(33 - parseFloat(form.feePercent)).toFixed(1)}% below average — great for placement!</p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Hourly */}
+                  {form.billingType === "hourly" && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Hourly Rate *</label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-gray-400">$</span>
+                        <input required type="number" min="50" max="2000" step="5" value={form.hourlyRate} onChange={(e) => setForm({ ...form, hourlyRate: e.target.value })} placeholder="e.g. 300" className="w-32 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900" />
+                        <span className="text-xs text-gray-500">/ hour · Area avg is ~$350–$450/hr.</span>
+                      </div>
+                      {form.hourlyRate && parseFloat(form.hourlyRate) < 350 && (
+                        <p className="text-xs text-green-600 font-semibold mt-1.5 flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />${(350 - parseFloat(form.hourlyRate)).toFixed(0)}/hr below average — great for placement!</p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Flat fee */}
+                  {form.billingType === "flat" && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Flat Fee Amount *</label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-gray-400">$</span>
+                        <input required type="number" min="100" step="50" value={form.feePercent} onChange={(e) => setForm({ ...form, feePercent: e.target.value })} placeholder="e.g. 1500" className="w-40 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900" />
+                        <span className="text-xs text-gray-500">per case or service.</span>
+                      </div>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Attorney Bio / Profile Summary *</label>
                     <textarea required rows={5} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} placeholder="Describe your experience, your approach, and why clients choose you. This appears on your public profile." className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 resize-none text-gray-900" />
@@ -291,7 +343,7 @@ function JoinPageInner() {
                   <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-600">
                     <p className="font-semibold mb-1">Placement ranking factors:</p>
                     <ul className="space-y-1 text-xs text-blue-500">
-                      <li>• Lower fee % → higher organic ranking</li>
+                      <li>• Lower fees → higher organic ranking</li>
                       <li>• Faster average response time → better placement</li>
                       <li>• Higher client ratings → more visibility</li>
                       <li>• No paid placements — merit only</li>
