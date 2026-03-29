@@ -12,7 +12,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-accent-500 to-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-500 flex items-center justify-center">
               <Scale className="w-[18px] h-[18px] text-white" />
             </div>
             <span className="font-extrabold text-[17px] tracking-tight text-gray-900">
@@ -36,7 +36,7 @@ export default function Header() {
             <Link href="/for-attorneys" className="text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors duration-200">
               Partner With Us
             </Link>
-            <Link href="/compare" className="bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
+            <Link href="/compare" className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
               Get Free Quotes
             </Link>
           </div>
@@ -59,7 +59,7 @@ export default function Header() {
             </Link>
           ))}
           <div className="pt-3 border-t border-gray-100">
-            <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-accent-500 text-white text-sm font-semibold px-4 py-3 rounded-xl">
+            <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl">
               Get Free Quotes
             </Link>
           </div>
