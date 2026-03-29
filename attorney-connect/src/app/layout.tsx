@@ -5,14 +5,14 @@ import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "LawyerConnect — When Attorneys Compete, You Win",
-    template: "%s | LawyerConnect",
+    default: "AttorneyCompete — When Attorneys Compete, You Win",
+    template: "%s | AttorneyCompete",
   },
   description:
     "Compare attorney fees, ratings, and results. The transparent legal marketplace where attorneys compete for your case — saving you thousands.",
   keywords: ["attorney", "lawyer", "legal marketplace", "compare attorneys", "contingency fee", "personal injury lawyer"],
   openGraph: {
-    title: "LawyerConnect — When Attorneys Compete, You Win",
+    title: "AttorneyCompete — When Attorneys Compete, You Win",
     description: "Compare attorney fees, ratings, and results. The transparent legal marketplace.",
     type: "website",
     images: [{ url: "https://www.attorneycompete.com/opengraph-image", width: 1200, height: 630 }],

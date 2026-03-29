@@ -58,7 +58,7 @@ export default function AdminPage() {
       {/* Admin header bar */}
       <div className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-lg">LawyerConnect Admin</h1>
+          <h1 className="font-bold text-lg">AttorneyCompete Admin</h1>
           <p className="text-gray-400 text-xs">Internal dashboard · Not visible to consumers</p>
         </div>
         <div className="text-xs text-gray-400">

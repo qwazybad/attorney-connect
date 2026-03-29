@@ -34,7 +34,7 @@ export default function ForAttorneysCTA() {
               <span className="text-gradient">Zero upfront cost.</span>
             </h2>
             <p className="reveal reveal-delay-2 text-gray-400 text-lg mb-8 leading-relaxed">
-              LawyerConnect sends you pre-screened consumers. You pay nothing until a client signs an engagement letter or retainer agreement with your firm — no wasted ad spend.
+              AttorneyCompete sends you pre-screened consumers. You pay nothing until a client signs an engagement letter or retainer agreement with your firm — no wasted ad spend.
             </p>
 
             <ul className="reveal reveal-delay-2 space-y-2.5 mb-8">

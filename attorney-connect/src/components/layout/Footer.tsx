@@ -13,7 +13,7 @@ export default function Footer() {
                 <Scale className="w-[18px] h-[18px] text-white" />
               </div>
               <span className="font-extrabold text-[17px] text-white tracking-tight">
-                Lawyer<span className="text-gradient-blue">Connect</span>
+                Attorney<span className="text-gradient-blue">Compete</span>
               </span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed max-w-xs">
@@ -66,7 +66,7 @@ export default function Footer() {
 
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-300">
-            &copy; {new Date().getFullYear()} LawyerConnect, Inc. All rights reserved.
+            &copy; {new Date().getFullYear()} AttorneyCompete, Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-xs text-gray-300">
             {["Privacy Policy", "Terms of Use", "Attorney Disclaimer"].map((label) => (
@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
 
         <p className="mt-6 text-[11px] text-gray-300 leading-relaxed">
-          LawyerConnect is a legal marketplace, not a law firm. We do not provide legal advice.
+          AttorneyCompete is a legal marketplace, not a law firm. We do not provide legal advice.
           Contacting an attorney through this platform does not create an attorney-client relationship.
           Attorney fees and results shown are representative. Past results do not guarantee future outcomes.
         </p>

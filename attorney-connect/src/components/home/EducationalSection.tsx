@@ -37,7 +37,7 @@ export default function EducationalSection() {
               desc: "Walk into any attorney's office without comparing, and 34% is what you'll be quoted.",
             },
             {
-              label: "LawyerConnect Avg",
+              label: "AttorneyCompete Avg",
               fee: 27,
               color: "text-accent-500",
               bg: "bg-accent-50",
@@ -107,7 +107,7 @@ export default function EducationalSection() {
                   {[
                     { label: "Industry Average", fee: 33, highlight: false },
                     { label: "Typical Directory", fee: 33, highlight: false },
-                    { label: "LawyerConnect Avg", fee: 27, highlight: false },
+                    { label: "AttorneyCompete Avg", fee: 27, highlight: false },
                     { label: "Best on Platform", fee: 20, highlight: true },
                   ].map(({ label, fee, highlight }) => {
                     const youKeep = 500000 * (1 - fee / 100);

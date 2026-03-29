@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "LawyerConnect — When Attorneys Compete, You Win";
+export const alt = "AttorneyCompete — When Attorneys Compete, You Win";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -38,7 +38,7 @@ export default function Image() {
             ⚖️
           </div>
           <span style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff" }}>
-            Lawyer<span style={{ color: "#3b82f6" }}>Connect</span>
+            Attorney<span style={{ color: "#3b82f6" }}>Compete</span>
           </span>
         </div>
 

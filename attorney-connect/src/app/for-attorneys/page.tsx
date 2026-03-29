@@ -65,7 +65,7 @@ export default function ForAttorneysPage() {
             </h1>
 
             <p className="text-lg text-gray-300 mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-              LawyerConnect sends you pre-qualified consumers actively looking for representation.
+              AttorneyCompete sends you pre-qualified consumers actively looking for representation.
               You pay nothing until a client signs an engagement letter or retainer agreement with your firm. No wasted ad spend. Pure results.
             </p>
 
@@ -117,7 +117,7 @@ export default function ForAttorneysPage() {
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-2xl mx-auto text-center mb-16">
             <div className="reveal inline-flex items-center gap-2 bg-accent-50 border border-accent-100 text-accent-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
-              Why LawyerConnect
+              Why AttorneyCompete
             </div>
             <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
               Everything your firm needs to grow
@@ -270,7 +270,7 @@ export default function ForAttorneysPage() {
             Ready to grow your caseload?
           </h2>
           <p className="reveal reveal-delay-1 text-gray-400 text-lg mb-10 max-w-xl mx-auto">
-            Join 2,800+ law firms already using LawyerConnect to compete for high-quality cases.
+            Join 2,800+ law firms already using AttorneyCompete to compete for high-quality cases.
           </p>
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Link

@@ -16,7 +16,7 @@ export default function Header() {
               <Scale className="w-[18px] h-[18px] text-white" />
             </div>
             <span className="font-extrabold text-[17px] tracking-tight text-gray-900">
-              Lawyer<span className="text-gradient-blue">Connect</span>
+              Attorney<span className="text-gradient-blue">Compete</span>
             </span>
           </Link>
 

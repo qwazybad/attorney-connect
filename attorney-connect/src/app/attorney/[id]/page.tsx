@@ -358,7 +358,7 @@ export default function AttorneyProfilePage() {
 
               {/* Trust signals */}
               <div className="reveal reveal-delay-2 bg-white rounded-2xl border border-gray-100 p-4 shadow-card">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Verified by LawyerConnect</p>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Verified by AttorneyCompete</p>
                 <div className="space-y-2.5">
                   {[
                     "Bar license verified",

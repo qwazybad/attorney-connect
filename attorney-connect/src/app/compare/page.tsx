@@ -305,7 +305,7 @@ function ComparePageInner() {
         {/* Disclaimer */}
         <p className="mt-10 text-xs text-gray-400 leading-relaxed border-t border-gray-100 pt-6">
           Attorney fees and results shown are representative and may vary. Past results do not guarantee future outcomes.
-          LawyerConnect is not a law firm and does not provide legal advice. All attorneys are independently licensed.
+          AttorneyCompete is not a law firm and does not provide legal advice. All attorneys are independently licensed.
         </p>
       </div>
     </div>
