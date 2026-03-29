@@ -31,31 +31,47 @@ export default function MarketplaceResults() {
             <p className="text-gray-500 mt-2 text-sm">Sorted by our recommendation engine. Change sort to find your best match.</p>
           </div>
 
-          {/* Sort */}
+          {/* Sort — dropdown on mobile, buttons on desktop */}
           <div className="flex items-center gap-2 shrink-0">
             <ArrowUpDown className="w-4 h-4 text-gray-400" />
             <span className="text-xs text-gray-400 font-semibold mr-1">Sort:</span>
-            {(
-              [
-                { key: "recommended", label: "Recommended", icon: null },
-                { key: "lowest-fee", label: "Lowest Fee", icon: TrendingDown },
-                { key: "highest-rating", label: "Top Rated", icon: Star },
-                { key: "highest-success", label: "Success Rate", icon: Trophy },
-              ] as { key: SortKey; label: string; icon: React.ElementType | null }[]
-            ).map(({ key, label, icon: Icon }) => (
-              <button
-                key={key}
-                onClick={() => setSort(key)}
-                className={`text-xs font-semibold px-3.5 py-2 rounded-xl border transition-all duration-200 flex items-center gap-1.5 ${
-                  sort === key
-                    ? "bg-gray-900 text-white border-gray-900"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                {Icon && <Icon className="w-3 h-3" />}
-                {label}
-              </button>
-            ))}
+
+            {/* Mobile dropdown */}
+            <select
+              className="sm:hidden text-xs font-semibold px-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+            >
+              <option value="recommended">Recommended</option>
+              <option value="lowest-fee">Lowest Fee</option>
+              <option value="highest-rating">Top Rated</option>
+              <option value="highest-success">Success Rate</option>
+            </select>
+
+            {/* Desktop buttons */}
+            <div className="hidden sm:flex items-center gap-2">
+              {(
+                [
+                  { key: "recommended", label: "Recommended", icon: null },
+                  { key: "lowest-fee", label: "Lowest Fee", icon: TrendingDown },
+                  { key: "highest-rating", label: "Top Rated", icon: Star },
+                  { key: "highest-success", label: "Success Rate", icon: Trophy },
+                ] as { key: SortKey; label: string; icon: React.ElementType | null }[]
+              ).map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setSort(key)}
+                  className={`text-xs font-semibold px-3.5 py-2 rounded-xl border transition-all duration-200 flex items-center gap-1.5 ${
+                    sort === key
+                      ? "bg-gray-900 text-white border-gray-900"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  {Icon && <Icon className="w-3 h-3" />}
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
