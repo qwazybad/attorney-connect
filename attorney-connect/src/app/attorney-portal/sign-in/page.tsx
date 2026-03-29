@@ -32,7 +32,7 @@ export default function AttorneySignInPage() {
           <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
             Attorney Portal
           </h1>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-200 text-sm">
             Sign in to manage your profile, leads, and CRM integrations.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function AttorneySignInPage() {
           }}
         />
 
-        <p className="text-gray-500 text-xs text-center">
+        <p className="text-gray-200 text-xs text-center">
           Not a partner yet?{" "}
           <Link href="/join" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
             Apply to join
