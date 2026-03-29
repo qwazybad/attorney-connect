@@ -1,8 +1,41 @@
 "use client";
 
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { TrendingUp, Users, DollarSign, BarChart3, ArrowRight, CheckCircle } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
+
+function AnimatedNumber({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const start = Date.now();
+        const duration = 1800;
+        const tick = () => {
+          const elapsed = Date.now() - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 4);
+          setValue(Math.round(target * ease));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{prefix}{value.toLocaleString()}{suffix}</span>;
+}
 
 const benefits = [
   { icon: Users, title: "Pre-qualified leads", description: "Consumers matched to your exact practice area and state." },
@@ -71,13 +104,15 @@ export default function ForAttorneysCTA() {
         {/* Stats row */}
         <div className="reveal reveal-delay-3 mt-16 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: "$0", label: "Upfront cost" },
-            { value: "48,000+", label: "Cases matched" },
-            { value: "4.8★", label: "Firm satisfaction" },
-            { value: "2,800+", label: "Partner firms" },
-          ].map(({ value, label }) => (
+            { prefix: "$", target: 0, suffix: "", label: "Upfront cost" },
+            { prefix: "", target: 48000, suffix: "+", label: "Cases matched" },
+            { prefix: "", target: 48, suffix: "★", label: "Firm satisfaction", decimal: true },
+            { prefix: "", target: 2800, suffix: "+", label: "Partner firms" },
+          ].map(({ prefix, target, suffix, label, decimal }) => (
             <div key={label} className="text-center">
-              <p className="text-3xl font-extrabold text-white">{value}</p>
+              <p className="text-3xl font-extrabold text-white">
+                {target === 0 ? "$0" : decimal ? `4.8${suffix}` : <AnimatedNumber prefix={prefix} target={target} suffix={suffix} />}
+              </p>
               <p className="text-sm text-gray-300 mt-1">{label}</p>
             </div>
           ))}
