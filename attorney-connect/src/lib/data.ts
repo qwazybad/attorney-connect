@@ -24,6 +24,7 @@ export interface Attorney {
   bio: string;
   successRate: number;
   imagePosition?: string;
+  imageZoomOut?: boolean;
   billingType: "contingency" | "hourly" | "flat";
   hourlyRate?: number;
 }
@@ -279,6 +280,7 @@ export const ATTORNEYS: Attorney[] = [
     successRate: 92,
     billingType: "contingency",
     imagePosition: "center 20%",
+    imageZoomOut: true,
   },
   {
     id: "8",
