@@ -92,10 +92,10 @@ body {
   pointer-events: none;
 }
 
-.orb-blue  { background: radial-gradient(circle, rgba(5,150,105,0.5) 0%, transparent 70%); }
-.orb-purple{ background: radial-gradient(circle, rgba(91,92,246,0.4) 0%, transparent 70%); }
-.orb-teal  { background: radial-gradient(circle, rgba(6,182,212,0.35)  0%, transparent 70%); }
-.orb-indigo{ background: radial-gradient(circle, rgba(99,102,241,0.4) 0%, transparent 70%); }
+.orb-blue  { background: radial-gradient(circle, rgba(59,130,246,0.6) 0%, transparent 70%); }
+.orb-purple{ background: radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%); }
+.orb-teal  { background: radial-gradient(circle, rgba(6,182,212,0.45)  0%, transparent 70%); }
+.orb-indigo{ background: radial-gradient(circle, rgba(99,102,241,0.5) 0%, transparent 70%); }
 
 /* ── Scroll reveal — add .reveal to elements ────────────── */
 .reveal {
