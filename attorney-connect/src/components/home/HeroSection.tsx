@@ -53,7 +53,7 @@ export default function HeroSection() {
             When Attorneys{" "}
             <span className="text-white">Compete,</span>
             <br />
-            <span className="text-gradient-gold">You Win.</span>
+            <span className="text-blue-400">You Win.</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
@@ -123,7 +123,7 @@ export default function HeroSection() {
 
               <button
                 type="submit"
-                className="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] hover:shadow-[0_4px_20px_rgba(5,150,105,0.4)]"
+                className="w-full bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)]"
               >
                 <Search className="w-4.5 h-4.5 w-[18px] h-[18px]" />
                 Compare Attorneys — It&apos;s Free
