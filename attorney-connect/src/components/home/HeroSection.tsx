@@ -1,21 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
-
 export default function HeroSection() {
   const router = useRouter();
   const [legalIssue, setLegalIssue] = useState("");
   const [state, setState] = useState("");
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
   const [timeline, setTimeline] = useState("");
   const [feePreference, setFeePreference] = useState("");
 
@@ -33,22 +25,19 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
 
 
-      {/* Aurora layers */}
-      <div className="aurora">
-        <div className="aurora-layer aurora-1" style={{ transform: `translateY(${scrollY * 0.15}px)` }} />
-        <div className="aurora-layer aurora-2" style={{ transform: `translateY(${scrollY * 0.08}px)` }} />
-        <div className="aurora-layer aurora-3" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
-        <div className="aurora-layer aurora-4" style={{ transform: `translateY(${scrollY * 0.05}px)` }} />
-      </div>
+      {/* Animated gradient orbs */}
+      <div className="orb orb-blue animate-glow-pulse w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] -top-40 -left-40 opacity-60" />
+      <div className="orb orb-purple animate-glow-pulse w-[250px] h-[250px] sm:w-[500px] sm:h-[500px] top-1/3 -right-32 opacity-50" style={{ animationDelay: "1s" }} />
+      <div className="hidden sm:block orb orb-teal animate-float-slow w-[300px] h-[300px] bottom-10 left-1/3 opacity-30" />
 
       {/* Dot grid overlay */}
-      <div className="absolute inset-0 dot-grid opacity-20" />
+      <div className="absolute inset-0 dot-grid opacity-40" />
 
-      {/* Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-transparent to-gray-950/90" />
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/80" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
-        <div className="max-w-4xl mx-auto text-center" style={{ transform: `translateY(${scrollY * 0.12}px)` }}>
+        <div className="max-w-4xl mx-auto text-center">
 
           {/* Pill badge */}
           <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm text-white/70 mb-8 animate-fade-in">
