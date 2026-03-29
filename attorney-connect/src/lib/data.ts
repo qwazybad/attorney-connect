@@ -259,7 +259,7 @@ export const ATTORNEYS: Attorney[] = [
     id: "9",
     name: "Brandon Lebovitz",
     firm: "Lebovitz Law Group",
-    avatar: "/brandon lebovitz new.jpg",
+    avatar: "/NEW Brandon Lebovitz.jpeg",
     practiceAreas: ["Personal Injury", "Car Accident", "Slip & Fall"],
     states: ["Arizona"],
     city: "Phoenix",
