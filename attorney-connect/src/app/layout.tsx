@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     title: "LawyerConnect — When Attorneys Compete, You Win",
     description: "Compare attorney fees, ratings, and results. The transparent legal marketplace.",
     type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/opengraph-image"],
   },
 };
 
