@@ -139,6 +139,18 @@ function ProfileTab({
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // Sync fields when attorney data loads (it arrives after initial render)
+  useEffect(() => {
+    if (!attorney) return;
+    setName(attorney.name ?? user?.fullName ?? "");
+    setFirm(attorney.firm ?? "");
+    setBio(attorney.bio ?? "");
+    setPhone(attorney.phone ?? "");
+    setWebsite(attorney.website ?? "");
+    setPhotoUrl(attorney.photo_url ?? "");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attorney?.id]);
+
   async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file || !user) return;
