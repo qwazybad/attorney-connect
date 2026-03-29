@@ -39,7 +39,7 @@ export default function HeroSection() {
             alt="Lady Justice"
             fill
             className="object-contain object-right-bottom"
-            style={{ opacity: 0.18, maskImage: "linear-gradient(to right, transparent 0%, black 40%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)" }}
+            style={{ opacity: 0.35, mixBlendMode: "luminosity", maskImage: "linear-gradient(to right, transparent 0%, black 50%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 50%)" }}
             priority
           />
         </div>
