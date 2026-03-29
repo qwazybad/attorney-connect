@@ -698,40 +698,51 @@ export default function AttorneyPortalPage() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      // Save pending profile from join flow (if attorney just signed up)
-      const pendingRaw = localStorage.getItem("acPendingProfile");
-      if (pendingRaw) {
-        localStorage.removeItem("acPendingProfile");
-        try {
-          const pending = JSON.parse(pendingRaw);
-          await fetch("/api/attorney/profile", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(pending),
-          });
-        } catch { /* ignore */ }
-      }
-
-      // Upload pending photo from join flow
-      const photoDataUrl = localStorage.getItem("acPendingPhoto");
-      if (photoDataUrl) {
-        localStorage.removeItem("acPendingPhoto");
-        try {
-          const res = await fetch(photoDataUrl);
-          const blob = await res.blob();
-          const ext = blob.type.split("/")[1] || "jpg";
-          const file = new File([blob], `profile.${ext}`, { type: blob.type });
-          const formData = new FormData();
-          formData.append("file", file);
-          await fetch("/api/attorney/photo", { method: "POST", body: formData });
-        } catch { /* ignore */ }
-      }
-
-      // Fetch the full profile (includes any just-saved pending data)
-      const { data } = await fetch(`/api/attorney/profile?id=${user.id}`).then(
+      // Fetch existing profile first
+      const { data: existing } = await fetch(`/api/attorney/profile?id=${user.id}`).then(
         (r) => r.json()
       );
-      if (data) setAttorney(data as Attorney);
+
+      // Only apply pending join-flow data if this is a brand-new account (no profile yet)
+      if (!existing) {
+        const pendingRaw = localStorage.getItem("acPendingProfile");
+        if (pendingRaw) {
+          localStorage.removeItem("acPendingProfile");
+          try {
+            const pending = JSON.parse(pendingRaw);
+            await fetch("/api/attorney/profile", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(pending),
+            });
+          } catch { /* ignore */ }
+        }
+
+        const photoDataUrl = localStorage.getItem("acPendingPhoto");
+        if (photoDataUrl) {
+          localStorage.removeItem("acPendingPhoto");
+          try {
+            const res = await fetch(photoDataUrl);
+            const blob = await res.blob();
+            const ext = blob.type.split("/")[1] || "jpg";
+            const file = new File([blob], `profile.${ext}`, { type: blob.type });
+            const formData = new FormData();
+            formData.append("file", file);
+            await fetch("/api/attorney/photo", { method: "POST", body: formData });
+          } catch { /* ignore */ }
+        }
+
+        // Re-fetch after saving pending data
+        const { data: fresh } = await fetch(`/api/attorney/profile?id=${user.id}`).then(
+          (r) => r.json()
+        );
+        if (fresh) setAttorney(fresh as Attorney);
+      } else {
+        // Already has a profile — clear any stale pending data and use existing
+        localStorage.removeItem("acPendingProfile");
+        localStorage.removeItem("acPendingPhoto");
+        setAttorney(existing as Attorney);
+      }
     })();
   }, [user]);
 
