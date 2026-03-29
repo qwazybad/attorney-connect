@@ -305,6 +305,9 @@ function JoinPageInner() {
                       {form.feePercent && parseFloat(form.feePercent) < 33 && (
                         <p className="text-xs text-green-600 font-semibold mt-1.5 flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{(33 - parseFloat(form.feePercent)).toFixed(1)}% below average — great for placement!</p>
                       )}
+                      {form.feePercent && parseFloat(form.feePercent) >= 33 && (
+                        <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><ArrowRight className="w-3.5 h-3.5 rotate-90" />{(parseFloat(form.feePercent) - 33).toFixed(1)}% above average — lower fees rank higher.</p>
+                      )}
                     </div>
                   )}
 
@@ -319,6 +322,9 @@ function JoinPageInner() {
                       </div>
                       {form.hourlyRate && parseFloat(form.hourlyRate) < 350 && (
                         <p className="text-xs text-green-600 font-semibold mt-1.5 flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />${(350 - parseFloat(form.hourlyRate)).toFixed(0)}/hr below average — great for placement!</p>
+                      )}
+                      {form.hourlyRate && parseFloat(form.hourlyRate) >= 350 && (
+                        <p className="text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1"><ArrowRight className="w-3.5 h-3.5 rotate-90" />${(parseFloat(form.hourlyRate) - 350).toFixed(0)}/hr above average — lower rates rank higher.</p>
                       )}
                     </div>
                   )}
