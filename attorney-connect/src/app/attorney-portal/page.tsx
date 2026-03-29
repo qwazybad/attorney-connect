@@ -743,7 +743,7 @@ export default function AttorneyPortalPage() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -756,7 +756,7 @@ export default function AttorneyPortalPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       {/* Toast */}
       {toast && (
         <Toast
@@ -767,23 +767,23 @@ export default function AttorneyPortalPage() {
       )}
 
       {/* Top nav */}
-      <header className="sticky top-0 z-40 bg-gray-900/90 backdrop-blur-xl border-b border-gray-800">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-blue-500 flex items-center justify-center">
               <Scale className="w-[18px] h-[18px] text-white" />
             </div>
-            <span className="font-extrabold text-[17px] tracking-tight text-white hidden sm:block">
-              Attorney<span className="text-gradient-blue">Compete</span>
+            <span className="font-extrabold text-[17px] tracking-tight text-gray-900 hidden sm:block">
+              Attorney<span className="text-blue-500">Compete</span>
             </span>
           </Link>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400 hidden sm:block">
+            <span className="text-sm text-gray-500 hidden sm:block">
               {attorney?.firm ?? user?.primaryEmailAddress?.emailAddress}
             </span>
 
-            <div className="h-5 w-px bg-gray-700 mx-1 hidden sm:block" />
+            <div className="h-5 w-px bg-gray-200 mx-1 hidden sm:block" />
 
             <UserButton
               appearance={{
@@ -795,7 +795,7 @@ export default function AttorneyPortalPage() {
 
             <button
               onClick={() => signOut({ redirectUrl: "/" })}
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 transition-colors ml-1"
+              className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 transition-colors ml-1"
               title="Sign out"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -808,17 +808,17 @@ export default function AttorneyPortalPage() {
       <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8">
         {/* Page header */}
         <div className="mb-8">
-          <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
-            <Link href="/" className="hover:text-gray-300 transition-colors">Home</Link>
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-3">
+            <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>
             <ChevronRight className="w-3 h-3" />
-            <span className="text-gray-400">Attorney Portal</span>
+            <span className="text-gray-500">Attorney Portal</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
                 Attorney Portal
               </h1>
-              <p className="text-gray-400 text-sm mt-1">
+              <p className="text-gray-500 text-sm mt-1">
                 Manage your profile, CRM integration, and incoming leads.
               </p>
             </div>
@@ -872,13 +872,13 @@ export default function AttorneyPortalPage() {
         </div>
 
         {/* Footer links */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-600">
+        <div className="mt-12 pt-8 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-400">
           <p>© 2026 AttorneyCompete · Attorney Portal</p>
           <div className="flex items-center gap-4">
-            <Link href="/compare" className="hover:text-gray-400 transition-colors flex items-center gap-1">
+            <Link href="/compare" className="hover:text-gray-600 transition-colors flex items-center gap-1">
               View Marketplace <ExternalLink className="w-3 h-3" />
             </Link>
-            <Link href="/for-attorneys" className="hover:text-gray-400 transition-colors">
+            <Link href="/for-attorneys" className="hover:text-gray-600 transition-colors">
               Partner Docs
             </Link>
           </div>
