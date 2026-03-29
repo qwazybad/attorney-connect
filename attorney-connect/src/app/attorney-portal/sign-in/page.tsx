@@ -1,6 +1,7 @@
 import { SignIn } from "@clerk/nextjs";
 import { Scale } from "lucide-react";
 import Link from "next/link";
+import ParticleNetwork from "@/components/shared/ParticleNetwork";
 
 export const metadata = {
   title: "Sign In — Attorney Portal",
@@ -9,11 +10,12 @@ export const metadata = {
 
 export default function AttorneySignInPage() {
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
-      {/* Background orbs */}
-      <div className="orb orb-blue animate-glow-pulse w-[500px] h-[500px] -top-32 -left-32 opacity-40" />
-      <div className="orb orb-purple animate-glow-pulse w-[400px] h-[400px] bottom-0 right-0 opacity-30" style={{ animationDelay: "1.5s" }} />
-      <div className="absolute inset-0 dot-grid opacity-20" />
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
+      {/* Background — matches hero */}
+      <ParticleNetwork />
+      <div className="orb orb-blue animate-glow-pulse w-[500px] h-[500px] -top-32 -left-32 opacity-60" />
+      <div className="orb orb-purple animate-glow-pulse w-[400px] h-[400px] bottom-0 right-0 opacity-50" style={{ animationDelay: "1.5s" }} />
+      <div className="absolute inset-0 dot-grid opacity-40" />
 
       <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md">
         {/* Logo */}
