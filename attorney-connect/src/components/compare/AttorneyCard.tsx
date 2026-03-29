@@ -30,7 +30,7 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
           src={attorney.avatar}
           alt={attorney.name}
           fill
-          className={`object-cover transition-transform duration-500 ${attorney.imageZoomOut ? "scale-75 group-hover:scale-80" : "group-hover:scale-105"}`}
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
           style={{ objectPosition: attorney.imagePosition ?? "top" }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
