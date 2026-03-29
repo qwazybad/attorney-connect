@@ -8,6 +8,7 @@ interface Particle3D {
   z: number;
   radius: number;
   opacity: number;
+  green: boolean;
 }
 
 export default function ParticleCloud() {
@@ -24,8 +25,9 @@ export default function ParticleCloud() {
     let angleY = 0;
     let angleZ = 0;
 
-    const COUNT = 500;
-    const SPREAD = 0.6; // fraction of canvas width for cloud radius
+    const isMobile = () => window.innerWidth < 768;
+    const COUNT = isMobile() ? 220 : 500;
+    const SPREAD = isMobile() ? 0.48 : 0.6;
     const particles: Particle3D[] = [];
 
     function resize() {
@@ -37,10 +39,11 @@ export default function ParticleCloud() {
     function init() {
       if (!canvas) return;
       particles.length = 0;
-      const r = Math.min(canvas.width, canvas.height) * SPREAD;
+      const count = isMobile() ? 220 : 500;
+      const spread = isMobile() ? 0.48 : 0.6;
+      const r = Math.min(canvas.width, canvas.height) * spread;
 
-      for (let i = 0; i < COUNT; i++) {
-        // Random point inside a sphere using rejection sampling
+      for (let i = 0; i < count; i++) {
         let x, y, z;
         do {
           x = (Math.random() * 2 - 1) * r;
@@ -48,10 +51,14 @@ export default function ParticleCloud() {
           z = (Math.random() * 2 - 1) * r;
         } while (x * x + y * y + z * z > r * r);
 
+        // ~20% green particles
+        const green = Math.random() < 0.2;
+
         particles.push({
           x, y, z,
           radius: Math.random() * 1.8 + 0.4,
           opacity: Math.random() * 0.5 + 0.3,
+          green,
         });
       }
     }
@@ -103,12 +110,11 @@ export default function ParticleCloud() {
         const sx = cx + x * scale;
         const sy = cy + y * scale;
 
-        // Depth-based brightness: closer = brighter
         const depthFactor = (z + fov) / (fov * 2);
         const finalOpacity = p.opacity * (0.3 + depthFactor * 0.7);
         const finalRadius = p.radius * scale;
 
-        return { sx, sy, z, finalOpacity, finalRadius };
+        return { sx, sy, z, finalOpacity, finalRadius, green: p.green };
       });
 
       // Sort back-to-front
@@ -118,7 +124,11 @@ export default function ParticleCloud() {
         if (p.finalRadius < 0.1) continue;
         ctx.beginPath();
         ctx.arc(p.sx, p.sy, p.finalRadius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${Math.min(p.finalOpacity, 1)})`;
+        // Green particles use brand green #25BE87, white particles use white
+        const color = p.green
+          ? `rgba(37,190,135,${Math.min(p.finalOpacity * 1.2, 1)})`
+          : `rgba(255,255,255,${Math.min(p.finalOpacity, 1)})`;
+        ctx.fillStyle = color;
         ctx.fill();
       }
 
@@ -129,7 +139,7 @@ export default function ParticleCloud() {
     init();
     draw();
 
-    const ro = new ResizeObserver(() => { resize(); init(); });
+    const ro = new ResizeObserver(() => { resize(); init(); draw(); });
     ro.observe(canvas);
 
     return () => {
