@@ -31,7 +31,7 @@ export default function AttorneySignUpPage() {
             Create Your Account
           </h1>
           <p className="text-gray-400 text-sm">
-            Set up your attorney portal to manage leads and CRM integrations.
+            Verify your email to complete your application and access your attorney portal.
           </p>
         </div>
 

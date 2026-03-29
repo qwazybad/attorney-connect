@@ -682,10 +682,40 @@ export default function AttorneyPortalPage() {
     message: string;
   } | null>(null);
 
-  // Load attorney profile on mount
+  // Load attorney profile on mount — also hydrate from join-flow localStorage if present
   useEffect(() => {
     if (!user) return;
     (async () => {
+      // Save pending profile from join flow (if attorney just signed up)
+      const pendingRaw = localStorage.getItem("acPendingProfile");
+      if (pendingRaw) {
+        localStorage.removeItem("acPendingProfile");
+        try {
+          const pending = JSON.parse(pendingRaw);
+          await fetch("/api/attorney/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(pending),
+          });
+        } catch { /* ignore */ }
+      }
+
+      // Upload pending photo from join flow
+      const photoDataUrl = localStorage.getItem("acPendingPhoto");
+      if (photoDataUrl) {
+        localStorage.removeItem("acPendingPhoto");
+        try {
+          const res = await fetch(photoDataUrl);
+          const blob = await res.blob();
+          const ext = blob.type.split("/")[1] || "jpg";
+          const file = new File([blob], `profile.${ext}`, { type: blob.type });
+          const formData = new FormData();
+          formData.append("file", file);
+          await fetch("/api/attorney/photo", { method: "POST", body: formData });
+        } catch { /* ignore */ }
+      }
+
+      // Fetch the full profile (includes any just-saved pending data)
       const { data } = await fetch(`/api/attorney/profile?id=${user.id}`).then(
         (r) => r.json()
       );
