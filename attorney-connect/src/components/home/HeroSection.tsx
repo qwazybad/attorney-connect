@@ -132,9 +132,9 @@ export default function HeroSection() {
             </form>
 
             <div className="mt-3 flex flex-wrap items-center justify-center gap-5 text-xs text-white font-semibold">
-              <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-green-400" /> No obligation</span>
-              <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 text-yellow-300" /> Verified reviews</span>
-              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-blue-400" /> Avg response 1.8 hrs</span>
+              <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-green-400 fill-green-400" /> No obligation</span>
+              <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-yellow-300 fill-yellow-300" /> Verified reviews</span>
+              <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-blue-400 fill-blue-400" /> Avg response 1.8 hrs</span>
             </div>
           </div>
 
