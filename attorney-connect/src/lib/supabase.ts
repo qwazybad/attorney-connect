@@ -1,14 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-// Client for browser-side usage (anon key)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Admin client for server-side usage (service role key — never expose to browser)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+// Browser-safe client (anon key only)
+export const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export type Attorney = {
   id: string; // Clerk user ID

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 // GET /api/attorney/leads?attorney_id=<clerk_user_id>
 export async function GET(req: NextRequest) {
