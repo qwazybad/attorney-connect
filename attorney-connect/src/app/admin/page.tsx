@@ -1,357 +1,338 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth, useUser, UserButton } from "@clerk/nextjs";
 import {
-  Users,
-  FileCheck,
-  DollarSign,
-  BarChart3,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  XCircle,
-  TrendingUp,
-  Eye,
-  Search,
-  Filter,
+  Scale, Users, CheckCircle, Clock, XCircle, Inbox,
+  ChevronDown, ChevronUp, Search, Plus, Save, Trash2,
+  LogOut, Phone, Globe, Mail, FileText, Star,
+  AlertCircle, X, ExternalLink,
 } from "lucide-react";
-import { ATTORNEYS } from "@/lib/data";
+import Link from "next/link";
 
-type Tab = "overview" | "attorneys" | "cases" | "billing";
+type Status = "active" | "pending" | "suspended";
 
-const MOCK_CASES = [
-  { id: "C001", client: "John Martinez", attorney: "Sarah Chen", area: "Car Accident", status: "Active", value: "$280K est.", submitted: "Mar 20" },
-  { id: "C002", client: "Patricia Lee", attorney: "Marcus Williams", area: "Medical Malpractice", status: "Settled", value: "$1.2M", submitted: "Feb 14" },
-  { id: "C003", client: "Robert Davis", attorney: "Jennifer Ramirez", area: "Employment", status: "Active", value: "$95K est.", submitted: "Mar 22" },
-  { id: "C004", client: "Maria Santos", attorney: "David Park", area: "Slip & Fall", status: "Pending", value: "$60K est.", submitted: "Mar 24" },
-  { id: "C005", client: "Thomas Brown", attorney: "Amanda Foster", area: "Product Liability", status: "Settled", value: "$420K", submitted: "Jan 8" },
-  { id: "C006", client: "Angela White", attorney: "Lisa Nguyen", area: "Car Accident", status: "Active", value: "$180K est.", submitted: "Mar 19" },
-];
+type AdminAttorney = {
+  id: string; name: string | null; firm: string | null; bio: string | null;
+  phone: string | null; website: string | null; email: string | null;
+  photo_url: string | null; webhook_url: string | null; status: Status;
+  notes: string | null; practice_areas: string[] | null; licensed_states: string[] | null;
+  years_experience: string | null; firm_size: string | null; fee_percent: number | null;
+  bar_license: string | null; malpractice_insurance: string | null;
+  created_at: string; lead_count: number;
+};
 
-const MOCK_INVOICES = [
-  { id: "INV-2401", firm: "Chen & Associates", case: "Martinez v. Driver", amount: "$7,000", dueDate: "Apr 15", status: "Pending" },
-  { id: "INV-2399", firm: "Williams Law Group", case: "Lee v. Hospital", amount: "$36,000", dueDate: "Mar 30", status: "Paid" },
-  { id: "INV-2395", firm: "Ramirez & Partners", case: "Davis v. Corp", amount: "$2,850", dueDate: "Apr 1", status: "Overdue" },
-  { id: "INV-2388", firm: "Foster Trial Lawyers", case: "Brown v. Manufacturer", amount: "$12,600", dueDate: "Mar 10", status: "Paid" },
-];
+type AdminLead = {
+  id: string; attorney_id: string; attorney_name: string | null; attorney_firm: string | null;
+  first_name: string; last_name: string; email: string; phone: string | null;
+  legal_issue: string; state: string; message: string | null; sent_to_webhook: boolean; created_at: string;
+};
 
-const PENDING_ATTORNEYS = [
-  { name: "Kevin O'Brien", firm: "O'Brien Law", submitted: "Mar 24", state: "Massachusetts", area: "Personal Injury" },
-  { name: "Diana Flores", firm: "Flores Legal Group", submitted: "Mar 23", state: "Colorado", area: "Employment" },
-  { name: "James Wu", firm: "Wu & Huang LLP", submitted: "Mar 22", state: "California", area: "Medical Malpractice" },
-];
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+function fmtFull(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+
+function StatusPill({ status }: { status: Status }) {
+  const map: Record<Status, string> = { active: "bg-green-100 text-green-700", pending: "bg-yellow-100 text-yellow-700", suspended: "bg-red-100 text-red-600" };
+  const icons: Record<Status, React.ReactNode> = { active: <CheckCircle className="w-3 h-3" />, pending: <Clock className="w-3 h-3" />, suspended: <XCircle className="w-3 h-3" /> };
+  return <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${map[status]}`}>{icons[status]} {status}</span>;
+}
+
+function StatCard({ label, value, icon: Icon, color }: { label: string; value: number; icon: React.ElementType; color: string }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center gap-4">
+      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color}`}><Icon className="w-5 h-5" /></div>
+      <div><p className="text-2xl font-extrabold text-gray-900">{value}</p><p className="text-xs text-gray-500 font-medium">{label}</p></div>
+    </div>
+  );
+}
+
+function AddAttorneyModal({ onClose, onAdded }: { onClose: () => void; onAdded: (a: AdminAttorney) => void }) {
+  const [form, setForm] = useState({ name: "", firm: "", email: "", phone: "", website: "", status: "active" });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault(); setSaving(true); setError("");
+    const res = await fetch("/api/admin/attorneys", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    const json = await res.json(); setSaving(false);
+    if (!res.ok) { setError(json.error ?? "Failed"); return; }
+    onAdded({ ...json.data, lead_count: 0 }); onClose();
+  }
+  return (
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-900">Add Attorney Manually</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+        </div>
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {[{ key: "name", label: "Full Name", placeholder: "Jane Smith", required: true }, { key: "firm", label: "Law Firm", placeholder: "Smith & Associates", required: true }, { key: "email", label: "Email", placeholder: "jane@firm.com", required: false }, { key: "phone", label: "Phone", placeholder: "(555) 000-0000", required: false }, { key: "website", label: "Website", placeholder: "yourfirm.com", required: false }].map(({ key, label, placeholder, required }) => (
+            <div key={key}>
+              <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">{label}</label>
+              <input required={required} value={(form as Record<string, string>)[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+          ))}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Status</label>
+            <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
+            </select>
+          </div>
+          {error && <p className="text-xs text-red-500">{error}</p>}
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={onClose} className="flex-1 border border-gray-200 text-gray-600 font-semibold py-2.5 rounded-xl text-sm hover:bg-gray-50">Cancel</button>
+            <button type="submit" disabled={saving} className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm disabled:opacity-60">{saving ? "Adding…" : "Add Attorney"}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorney: AdminAttorney; leads: AdminLead[]; onUpdate: (u: AdminAttorney) => void; onDelete: (id: string) => void; onClose: () => void }) {
+  const [fields, setFields] = useState({ name: attorney.name ?? "", firm: attorney.firm ?? "", email: attorney.email ?? "", phone: attorney.phone ?? "", website: attorney.website ?? "", bio: attorney.bio ?? "", status: attorney.status, notes: attorney.notes ?? "", fee_percent: attorney.fee_percent?.toString() ?? "", bar_license: attorney.bar_license ?? "", malpractice_insurance: attorney.malpractice_insurance ?? "" });
+  const [saving, setSaving] = useState(false); const [saved, setSaved] = useState(false); const [confirmDelete, setConfirmDelete] = useState(false); const [deleting, setDeleting] = useState(false);
+
+  async function handleSave() {
+    setSaving(true);
+    const res = await fetch(`/api/admin/attorneys/${attorney.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...fields, fee_percent: fields.fee_percent ? parseFloat(fields.fee_percent) : null }) });
+    setSaving(false);
+    if (res.ok) { const { data } = await res.json(); onUpdate({ ...attorney, ...data }); setSaved(true); setTimeout(() => setSaved(false), 2000); }
+  }
+  async function handleDelete() { setDeleting(true); await fetch(`/api/admin/attorneys/${attorney.id}`, { method: "DELETE" }); onDelete(attorney.id); }
+
+  const myLeads = leads.filter((l) => l.attorney_id === attorney.id);
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
+        <div className="flex items-center gap-3">
+          {attorney.photo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={attorney.photo_url} alt="" className="w-10 h-10 rounded-xl object-cover border border-gray-200" />
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center"><span className="text-blue-600 font-bold text-sm">{(attorney.name ?? attorney.firm ?? "?")[0].toUpperCase()}</span></div>
+          )}
+          <div><p className="font-bold text-gray-900 text-sm">{attorney.name ?? "—"}</p><p className="text-xs text-gray-500">{attorney.firm ?? "No firm"}</p></div>
+        </div>
+        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"><X className="w-4 h-4" /></button>
+      </div>
+      <div className="p-6 space-y-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Status</label>
+            <select value={fields.status} onChange={(e) => setFields({ ...fields, status: e.target.value as Status })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Fee %</label>
+            <input type="number" value={fields.fee_percent} onChange={(e) => setFields({ ...fields, fee_percent: e.target.value })} placeholder="e.g. 28" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[{ key: "name", label: "Full Name", icon: FileText }, { key: "firm", label: "Law Firm", icon: FileText }, { key: "email", label: "Email", icon: Mail }, { key: "phone", label: "Phone", icon: Phone }, { key: "website", label: "Website", icon: Globe }, { key: "bar_license", label: "Bar License", icon: Star }, { key: "malpractice_insurance", label: "Malpractice Insurance", icon: AlertCircle }].map(({ key, label, icon: Icon }) => (
+            <div key={key}>
+              <label className="flex items-center gap-1 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5"><Icon className="w-3 h-3" />{label}</label>
+              <input value={(fields as Record<string, string>)[key]} onChange={(e) => setFields({ ...fields, [key]: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+          ))}
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Bio</label>
+          <textarea rows={3} value={fields.bio} onChange={(e) => setFields({ ...fields, bio: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+        </div>
+        {(attorney.practice_areas?.length || attorney.licensed_states?.length) ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {attorney.practice_areas?.length ? <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Practice Areas</p><div className="flex flex-wrap gap-1.5">{attorney.practice_areas.map((a) => <span key={a} className="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2 py-0.5 rounded-full">{a}</span>)}</div></div> : null}
+            {attorney.licensed_states?.length ? <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Licensed States</p><div className="flex flex-wrap gap-1.5">{attorney.licensed_states.map((s) => <span key={s} className="text-xs bg-gray-100 text-gray-600 border border-gray-200 px-2 py-0.5 rounded-full">{s}</span>)}</div></div> : null}
+          </div>
+        ) : null}
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Admin Notes</label>
+          <textarea rows={2} value={fields.notes} onChange={(e) => setFields({ ...fields, notes: e.target.value })} placeholder="Internal notes about this attorney…" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+        </div>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors"><Save className="w-4 h-4" />{saved ? "Saved!" : saving ? "Saving…" : "Save Changes"}</button>
+          {!confirmDelete ? <button onClick={() => setConfirmDelete(true)} className="flex items-center gap-2 border border-red-200 text-red-500 hover:bg-red-50 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"><Trash2 className="w-4 h-4" />Delete</button> : <div className="flex items-center gap-2"><span className="text-xs text-red-500 font-semibold">Confirm delete?</span><button onClick={handleDelete} disabled={deleting} className="text-xs bg-red-500 text-white font-bold px-3 py-1.5 rounded-lg">{deleting ? "Deleting…" : "Yes, delete"}</button><button onClick={() => setConfirmDelete(false)} className="text-xs text-gray-500 px-2">Cancel</button></div>}
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Leads Sent ({myLeads.length})</p>
+          {myLeads.length === 0 ? <p className="text-sm text-gray-400 italic">No leads sent to this attorney yet.</p> : (
+            <div className="border border-gray-200 rounded-xl overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-gray-200"><tr>{["Date", "Client", "Issue", "State", "Webhook"].map((h) => <th key={h} className="text-left text-xs font-semibold text-gray-500 px-4 py-2.5 uppercase tracking-wide">{h}</th>)}</tr></thead>
+                <tbody className="divide-y divide-gray-100">
+                  {myLeads.map((lead) => (
+                    <tr key={lead.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">{fmt(lead.created_at)}</td>
+                      <td className="px-4 py-3 font-medium text-gray-900 text-sm">{lead.first_name} {lead.last_name}</td>
+                      <td className="px-4 py-3 text-gray-600 text-sm">{lead.legal_issue}</td>
+                      <td className="px-4 py-3 text-gray-600 text-sm">{lead.state}</td>
+                      <td className="px-4 py-3"><span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${lead.sent_to_webhook ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>{lead.sent_to_webhook ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}{lead.sent_to_webhook ? "Sent" : "Pending"}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AttorneysTab({ attorneys, leads, onUpdate, onDelete, onAdded }: { attorneys: AdminAttorney[]; leads: AdminLead[]; onUpdate: (a: AdminAttorney) => void; onDelete: (id: string) => void; onAdded: (a: AdminAttorney) => void }) {
+  const [search, setSearch] = useState(""); const [statusFilter, setStatusFilter] = useState<"all" | Status>("all"); const [selected, setSelected] = useState<AdminAttorney | null>(null); const [showAdd, setShowAdd] = useState(false);
+  const filtered = attorneys.filter((a) => { const q = search.toLowerCase(); return (!q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q) || (a.email ?? "").toLowerCase().includes(q)) && (statusFilter === "all" || a.status === statusFilter); });
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name, firm, or email…" className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" /></div>
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as "all" | Status)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="all">All statuses</option><option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option></select>
+        <button onClick={() => setShowAdd(true)} className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap"><Plus className="w-4 h-4" />Add Attorney</button>
+      </div>
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-200"><tr>{["Attorney", "Status", "Leads", "Fee %", "Joined", ""].map((h) => <th key={h} className="text-left text-xs font-semibold text-gray-500 px-5 py-3.5 uppercase tracking-wide">{h}</th>)}</tr></thead>
+          <tbody className="divide-y divide-gray-100">
+            {filtered.length === 0 ? <tr><td colSpan={6} className="text-center py-12 text-gray-400 text-sm">No attorneys found.</td></tr> : filtered.map((a) => (
+              <tr key={a.id} onClick={() => setSelected(selected?.id === a.id ? null : a)} className={`cursor-pointer transition-colors ${selected?.id === a.id ? "bg-blue-50" : "hover:bg-gray-50"}`}>
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-3">
+                    {a.photo_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={a.photo_url} alt="" className="w-9 h-9 rounded-xl object-cover border border-gray-200 shrink-0" />
+                    ) : <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center shrink-0"><span className="text-blue-600 font-bold text-sm">{(a.name ?? a.firm ?? "?")[0].toUpperCase()}</span></div>}
+                    <div><p className="font-semibold text-gray-900 text-sm">{a.name ?? <span className="text-gray-400 italic">No name</span>}</p><p className="text-xs text-gray-500">{a.firm ?? "—"}</p></div>
+                  </div>
+                </td>
+                <td className="px-5 py-4"><StatusPill status={a.status} /></td>
+                <td className="px-5 py-4"><span className="inline-flex items-center gap-1 text-sm font-semibold text-gray-700"><Inbox className="w-3.5 h-3.5 text-gray-400" />{a.lead_count}</span></td>
+                <td className="px-5 py-4 text-sm text-gray-600">{a.fee_percent != null ? `${a.fee_percent}%` : <span className="text-gray-300">—</span>}</td>
+                <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">{fmt(a.created_at)}</td>
+                <td className="px-5 py-4 text-gray-400">{selected?.id === a.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {selected && <DetailPanel attorney={selected} leads={leads} onUpdate={(u) => { onUpdate(u); setSelected(u); }} onDelete={(id) => { onDelete(id); setSelected(null); }} onClose={() => setSelected(null)} />}
+      {showAdd && <AddAttorneyModal onClose={() => setShowAdd(false)} onAdded={(a) => { onAdded(a); setShowAdd(false); }} />}
+    </div>
+  );
+}
+
+function LeadsTab({ leads, attorneys }: { leads: AdminLead[]; attorneys: AdminAttorney[] }) {
+  const [search, setSearch] = useState(""); const [attorneyFilter, setAttorneyFilter] = useState("all"); const [expanded, setExpanded] = useState<string | null>(null);
+  const filtered = leads.filter((l) => { const q = search.toLowerCase(); return (!q || `${l.first_name} ${l.last_name}`.toLowerCase().includes(q) || l.email.toLowerCase().includes(q) || l.legal_issue.toLowerCase().includes(q)) && (attorneyFilter === "all" || l.attorney_id === attorneyFilter); });
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by client name, email, or legal issue…" className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" /></div>
+        <select value={attorneyFilter} onChange={(e) => setAttorneyFilter(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="all">All attorneys</option>{attorneys.map((a) => <option key={a.id} value={a.id}>{a.name ?? a.firm ?? a.id}</option>)}</select>
+      </div>
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-200"><tr>{["Date", "Client", "Legal Issue", "State", "Attorney", "Webhook", ""].map((h) => <th key={h} className="text-left text-xs font-semibold text-gray-500 px-5 py-3.5 uppercase tracking-wide">{h}</th>)}</tr></thead>
+          <tbody className="divide-y divide-gray-100">
+            {filtered.length === 0 ? <tr><td colSpan={7} className="text-center py-12 text-gray-400 text-sm">No leads found.</td></tr> : filtered.map((lead) => (
+              <>
+                <tr key={lead.id} onClick={() => setExpanded(expanded === lead.id ? null : lead.id)} className={`cursor-pointer transition-colors ${expanded === lead.id ? "bg-blue-50" : "hover:bg-gray-50"}`}>
+                  <td className="px-5 py-4 text-xs text-gray-500 whitespace-nowrap">{fmtFull(lead.created_at)}</td>
+                  <td className="px-5 py-4"><p className="font-semibold text-gray-900 text-sm">{lead.first_name} {lead.last_name}</p><p className="text-xs text-gray-500">{lead.email}</p></td>
+                  <td className="px-5 py-4 text-sm text-gray-700">{lead.legal_issue}</td>
+                  <td className="px-5 py-4 text-sm text-gray-600">{lead.state}</td>
+                  <td className="px-5 py-4 text-sm text-gray-700">{lead.attorney_name ?? <span className="text-gray-400 italic">Unknown</span>}</td>
+                  <td className="px-5 py-4"><span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${lead.sent_to_webhook ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>{lead.sent_to_webhook ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}{lead.sent_to_webhook ? "Sent" : "Pending"}</span></td>
+                  <td className="px-5 py-4 text-gray-400">{expanded === lead.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}</td>
+                </tr>
+                {expanded === lead.id && (
+                  <tr key={`${lead.id}-detail`} className="bg-blue-50/50">
+                    <td colSpan={7} className="px-8 py-5">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                        <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Phone</p><p className="text-gray-900">{lead.phone ?? "—"}</p></div>
+                        <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Attorney Firm</p><p className="text-gray-900">{lead.attorney_firm ?? "—"}</p></div>
+                        <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Lead ID</p><p className="text-gray-500 font-mono text-xs">{lead.id}</p></div>
+                        {lead.message && <div className="sm:col-span-3"><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Message</p><p className="text-gray-700 leading-relaxed">{lead.message}</p></div>}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+type Tab = "attorneys" | "leads";
 
 export default function AdminPage() {
-  const [tab, setTab] = useState<Tab>("overview");
-  const [search, setSearch] = useState("");
+  const { user } = useUser(); const { signOut } = useAuth();
+  const [tab, setTab] = useState<Tab>("attorneys");
+  const [attorneys, setAttorneys] = useState<AdminAttorney[]>([]);
+  const [leads, setLeads] = useState<AdminLead[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const statusColor: Record<string, string> = {
-    Active: "bg-accent-100 text-accent-600",
-    Settled: "bg-green-100 text-green-800",
-    Pending: "bg-yellow-100 text-yellow-800",
-    Paid: "bg-green-100 text-green-800",
-    Overdue: "bg-red-100 text-red-800",
-  };
+  useEffect(() => {
+    Promise.all([fetch("/api/admin/attorneys").then((r) => r.json()), fetch("/api/admin/leads").then((r) => r.json())]).then(([aRes, lRes]) => { setAttorneys(aRes.data ?? []); setLeads(lRes.data ?? []); setLoading(false); });
+  }, []);
+
+  const stats = { total: attorneys.length, active: attorneys.filter((a) => a.status === "active").length, pending: attorneys.filter((a) => a.status === "pending").length, suspended: attorneys.filter((a) => a.status === "suspended").length, leads: leads.length };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin header bar */}
-      <div className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="font-bold text-lg">AttorneyCompete Admin</h1>
-          <p className="text-gray-400 text-xs">Internal dashboard · Not visible to consumers</p>
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-blue-500 flex items-center justify-center"><Scale className="w-[18px] h-[18px] text-white" /></div>
+              <span className="font-extrabold text-[17px] tracking-tight text-gray-900 hidden sm:block">Attorney<span className="text-blue-500">Compete</span></span>
+            </Link>
+            <span className="bg-blue-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wide">Admin</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-500 hidden sm:block">{user?.primaryEmailAddress?.emailAddress}</span>
+            <div className="h-5 w-px bg-gray-200 hidden sm:block" />
+            <UserButton appearance={{ elements: { avatarBox: "w-8 h-8 rounded-xl" } }} />
+            <button onClick={() => signOut({ redirectUrl: "/" })} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 transition-colors"><LogOut className="w-3.5 h-3.5" /><span className="hidden sm:block">Sign out</span></button>
+          </div>
         </div>
-        <div className="text-xs text-gray-400">
-          Logged in as: <span className="text-white font-medium">admin@lawyerconnect.com</span>
-        </div>
-      </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1 mb-8 w-fit">
-          {(["overview", "attorneys", "cases", "billing"] as Tab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`capitalize px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                tab === t ? "bg-accent-500 text-white" : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              {t}
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
+        <div className="mb-8"><h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">CRM Dashboard</h1><p className="text-gray-500 text-sm mt-1">Manage attorneys, view leads, and track your platform.</p></div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+          <StatCard label="Total Attorneys" value={stats.total} icon={Users} color="bg-blue-100 text-blue-600" />
+          <StatCard label="Active" value={stats.active} icon={CheckCircle} color="bg-green-100 text-green-600" />
+          <StatCard label="Pending" value={stats.pending} icon={Clock} color="bg-yellow-100 text-yellow-600" />
+          <StatCard label="Suspended" value={stats.suspended} icon={XCircle} color="bg-red-100 text-red-500" />
+          <StatCard label="Total Leads" value={stats.leads} icon={Inbox} color="bg-purple-100 text-purple-600" />
+        </div>
+        <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-6 w-fit">
+          {([{ id: "attorneys" as Tab, label: "Attorneys", count: stats.total }, { id: "leads" as Tab, label: "Leads", count: stats.leads }]).map(({ id, label, count }) => (
+            <button key={id} onClick={() => setTab(id)} className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold transition-all ${tab === id ? "bg-blue-500 text-white shadow" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
+              {label}<span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tab === id ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`}>{count}</span>
             </button>
           ))}
         </div>
-
-        {/* OVERVIEW */}
-        {tab === "overview" && (
-          <div className="space-y-8">
-            {/* KPI cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { icon: Users, label: "Active Attorneys", value: "2,847", change: "+23 this week", color: "text-accent-500", bg: "bg-accent-50" },
-                { icon: FileCheck, label: "Total Cases", value: "48,293", change: "+312 this month", color: "text-green-600", bg: "bg-green-50" },
-                { icon: DollarSign, label: "Invoiced (MTD)", value: "$284,100", change: "8 pending", color: "text-purple-600", bg: "bg-purple-50" },
-                { icon: Clock, label: "Pending Applications", value: "14", change: "3 require action", color: "text-amber-600", bg: "bg-amber-50" },
-              ].map(({ icon: Icon, label, value, change, color, bg }) => (
-                <div key={label} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                  <div className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center mb-3`}>
-                    <Icon className={`w-5 h-5 ${color}`} />
-                  </div>
-                  <p className="text-2xl font-extrabold text-gray-900">{value}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{label}</p>
-                  <p className="text-xs text-gray-400 mt-1">{change}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Pending attorney approvals */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-amber-500" />
-                  <h2 className="font-bold text-gray-900">Pending Attorney Approvals</h2>
-                  <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-full">
-                    {PENDING_ATTORNEYS.length}
-                  </span>
-                </div>
-              </div>
-              <div className="divide-y divide-gray-100">
-                {PENDING_ATTORNEYS.map((att) => (
-                  <div key={att.name} className="flex items-center justify-between p-5">
-                    <div>
-                      <p className="font-semibold text-gray-900 text-sm">{att.name}</p>
-                      <p className="text-xs text-gray-500">{att.firm} · {att.state} · {att.area}</p>
-                      <p className="text-xs text-gray-400">Applied {att.submitted}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button className="flex items-center gap-1 text-xs font-semibold text-gray-600 border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50">
-                        <Eye className="w-3.5 h-3.5" /> Review
-                      </button>
-                      <button className="flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg hover:bg-green-100">
-                        <CheckCircle className="w-3.5 h-3.5" /> Approve
-                      </button>
-                      <button className="flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-100">
-                        <XCircle className="w-3.5 h-3.5" /> Reject
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Revenue chart placeholder */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-bold text-gray-900">Revenue Overview</h2>
-                <TrendingUp className="w-5 h-5 text-green-500" />
-              </div>
-              <div className="grid grid-cols-4 gap-3">
-                {[
-                  { month: "Jan", amount: 48200 },
-                  { month: "Feb", amount: 61400 },
-                  { month: "Mar", amount: 79800 },
-                  { month: "Apr (proj)", amount: 92000 },
-                ].map(({ month, amount }) => (
-                  <div key={month} className="text-center">
-                    <div className="bg-gray-50 rounded-lg p-3 mb-2 flex items-end justify-center" style={{ height: "80px" }}>
-                      <div
-                        className="w-8 bg-accent-500 rounded-t"
-                        style={{ height: `${(amount / 92000) * 60}px` }}
-                      />
-                    </div>
-                    <p className="text-xs font-bold text-gray-900">${(amount / 1000).toFixed(1)}K</p>
-                    <p className="text-xs text-gray-400">{month}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        {loading ? (
+          <div className="flex items-center justify-center py-24"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>
+        ) : tab === "attorneys" ? (
+          <AttorneysTab attorneys={attorneys} leads={leads} onUpdate={(u) => setAttorneys((p) => p.map((a) => a.id === u.id ? { ...a, ...u } : a))} onDelete={(id) => setAttorneys((p) => p.filter((a) => a.id !== id))} onAdded={(a) => setAttorneys((p) => [a, ...p])} />
+        ) : (
+          <LeadsTab leads={leads} attorneys={attorneys} />
         )}
-
-        {/* ATTORNEYS TAB */}
-        {tab === "attorneys" && (
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-3">
-              <h2 className="font-bold text-gray-900">Attorney Management</h2>
-              <div className="flex items-center gap-2">
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search attorneys..."
-                    className="pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 w-48"
-                  />
-                </div>
-                <button className="flex items-center gap-1.5 text-xs font-semibold border border-gray-200 px-3 py-1.5 rounded-lg text-gray-600 hover:bg-gray-50">
-                  <Filter className="w-3.5 h-3.5" /> Filter
-                </button>
-              </div>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    {["Attorney", "Firm", "Location", "Fee %", "Rating", "Cases", "Status", "Actions"].map((h) => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {ATTORNEYS.filter((a) =>
-                    search === "" ||
-                    a.name.toLowerCase().includes(search.toLowerCase()) ||
-                    a.firm.toLowerCase().includes(search.toLowerCase())
-                  ).map((a) => (
-                    <tr key={a.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">{a.name}</td>
-                      <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{a.firm}</td>
-                      <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{a.city}, {a.state}</td>
-                      <td className="px-4 py-3">
-                        <span className="font-bold text-gray-900">{a.feePercent}%</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="font-semibold">{a.rating}</span>
-                        <span className="text-gray-400 text-xs ml-1">({a.reviewCount})</span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{a.totalCases}</td>
-                      <td className="px-4 py-3">
-                        <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">
-                          Active
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-1.5">
-                          <button className="text-xs text-accent-500 hover:underline font-medium">View</button>
-                          <button className="text-xs text-gray-400 hover:underline">Edit</button>
-                          <button className="text-xs text-red-400 hover:underline">Suspend</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* CASES TAB */}
-        {tab === "cases" && (
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="p-5 border-b border-gray-100">
-              <h2 className="font-bold text-gray-900">Case Management</h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    {["Case ID", "Client", "Attorney", "Practice Area", "Est. Value", "Status", "Submitted", "Actions"].map((h) => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {MOCK_CASES.map((c) => (
-                    <tr key={c.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3 font-mono text-xs text-gray-500">{c.id}</td>
-                      <td className="px-4 py-3 font-medium text-gray-900">{c.client}</td>
-                      <td className="px-4 py-3 text-accent-500 font-medium">{c.attorney}</td>
-                      <td className="px-4 py-3 text-gray-600">{c.area}</td>
-                      <td className="px-4 py-3 font-semibold text-gray-900">{c.value}</td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusColor[c.status] ?? "bg-gray-100 text-gray-600"}`}>
-                          {c.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">{c.submitted}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <button className="text-xs text-accent-500 hover:underline font-medium">View</button>
-                          {c.status === "Settled" && (
-                            <button className="text-xs text-green-600 hover:underline font-medium">Invoice</button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* BILLING TAB */}
-        {tab === "billing" && (
-          <div className="space-y-6">
-            {/* Summary */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { label: "Total Invoiced (YTD)", value: "$284,100", color: "text-gray-900" },
-                { label: "Collected", value: "$248,600", color: "text-green-600" },
-                { label: "Outstanding", value: "$35,500", color: "text-red-500" },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                  <p className="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">{label}</p>
-                  <p className={`text-3xl font-extrabold ${color}`}>{value}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Invoices table */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                <h2 className="font-bold text-gray-900">Invoices</h2>
-                <button className="text-xs font-semibold bg-accent-500 text-white px-3 py-1.5 rounded-lg hover:bg-accent-600 transition-colors">
-                  + New Invoice
-                </button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b border-gray-100">
-                    <tr>
-                      {["Invoice #", "Law Firm", "Case", "Amount", "Due Date", "Status", ""].map((h) => (
-                        <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {MOCK_INVOICES.map((inv) => (
-                      <tr key={inv.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 font-mono text-xs text-gray-500">{inv.id}</td>
-                        <td className="px-4 py-3 font-medium text-gray-900">{inv.firm}</td>
-                        <td className="px-4 py-3 text-gray-600">{inv.case}</td>
-                        <td className="px-4 py-3 font-bold text-gray-900">{inv.amount}</td>
-                        <td className="px-4 py-3 text-gray-500 text-xs">{inv.dueDate}</td>
-                        <td className="px-4 py-3">
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusColor[inv.status] ?? "bg-gray-100 text-gray-700"}`}>
-                            {inv.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex gap-2">
-                            <button className="text-xs text-accent-500 hover:underline">View</button>
-                            {inv.status === "Pending" && (
-                              <button className="text-xs text-green-600 hover:underline">Mark Paid</button>
-                            )}
-                            {inv.status === "Overdue" && (
-                              <button className="text-xs text-red-500 hover:underline">Send Reminder</button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
+        <div className="mt-12 pt-8 border-t border-gray-200 flex items-center justify-between text-xs text-gray-400">
+          <p>© 2026 AttorneyCompete · Admin</p>
+          <Link href="/attorney-portal" className="hover:text-gray-600 flex items-center gap-1">Attorney Portal <ExternalLink className="w-3 h-3" /></Link>
+        </div>
       </div>
     </div>
   );

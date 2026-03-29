@@ -7,7 +7,9 @@ import Footer from "./Footer";
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const hideChrome =
-    pathname?.startsWith("/attorney-portal") || pathname?.startsWith("/join");
+    pathname?.startsWith("/attorney-portal") ||
+    pathname?.startsWith("/join") ||
+    pathname?.startsWith("/admin");
 
   return (
     <>
