@@ -58,10 +58,6 @@ export default function AttorneyProfilePage() {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative bg-gray-800 overflow-hidden">
-        {/* Orbs */}
-        <div className="orb orb-blue animate-glow-pulse w-[500px] h-[500px] -top-40 -left-40 opacity-40" />
-        <div className="orb orb-purple animate-glow-pulse w-[400px] h-[400px] top-1/2 -right-20 opacity-30" style={{ animationDelay: "1.2s" }} />
-        <div className="orb orb-teal animate-float-slow w-[250px] h-[250px] bottom-0 left-1/3 opacity-20" />
         <div className="dot-grid absolute inset-0 opacity-30" />
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-8 pb-0">
