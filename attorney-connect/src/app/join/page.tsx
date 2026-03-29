@@ -293,10 +293,10 @@ export default function JoinPage() {
                       Website
                     </label>
                     <input
-                      type="url"
+                      type="text"
                       value={form.website}
                       onChange={(e) => setForm({ ...form, website: e.target.value })}
-                      placeholder="https://yourfirm.com"
+                      placeholder="yourfirm.com"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900"
                     />
                   </div>

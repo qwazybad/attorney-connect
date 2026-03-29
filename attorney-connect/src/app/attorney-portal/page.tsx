@@ -290,8 +290,8 @@ function ProfileTab({
             label="Website"
             value={website}
             onChange={setWebsite}
-            placeholder="https://yourfirm.com"
-            type="url"
+            placeholder="yourfirm.com"
+            type="text"
           />
         </div>
 
