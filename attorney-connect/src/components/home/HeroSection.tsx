@@ -30,10 +30,6 @@ export default function HeroSection() {
       {/* 3D rotating particle cloud */}
       <ParticleCloud />
 
-      {/* Animated gradient orbs */}
-      <div className="orb orb-blue animate-glow-pulse w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] -top-40 -left-40 opacity-60" />
-      <div className="orb orb-teal animate-glow-pulse w-[250px] h-[250px] sm:w-[500px] sm:h-[500px] top-1/3 -right-32 opacity-60" style={{ animationDelay: "1s" }} />
-      <div className="hidden sm:block orb orb-teal animate-float-slow w-[300px] h-[300px] bottom-10 left-1/3 opacity-30" />
 
       {/* Dot grid overlay */}
       <div className="absolute inset-0 dot-grid opacity-40" />

@@ -24,8 +24,8 @@ export default function ParticleCloud() {
     let angleY = 0;
     let angleZ = 0;
 
-    const COUNT = 350;
-    const SPREAD = 0.38; // fraction of canvas width for cloud radius
+    const COUNT = 500;
+    const SPREAD = 0.6; // fraction of canvas width for cloud radius
     const particles: Particle3D[] = [];
 
     function resize() {
