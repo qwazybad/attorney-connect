@@ -41,7 +41,7 @@ export default function AttorneySignInPage() {
         <SignIn
           routing="hash"
           forceRedirectUrl="/attorney-portal"
-          signUpUrl="/attorney-portal/sign-up"
+          signUpUrl="/join"
           appearance={{
             elements: {
               rootBox: "w-full",
