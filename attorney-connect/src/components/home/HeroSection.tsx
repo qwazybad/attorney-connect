@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
-import FloatingParticles from "@/components/shared/FloatingParticles";
+import ParticleCloud from "@/components/shared/ParticleCloud";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -27,8 +27,8 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
 
 
-      {/* Floating white particles */}
-      <FloatingParticles />
+      {/* 3D rotating particle cloud */}
+      <ParticleCloud />
 
       {/* Animated gradient orbs */}
       <div className="orb orb-blue animate-glow-pulse w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] -top-40 -left-40 opacity-60" />
