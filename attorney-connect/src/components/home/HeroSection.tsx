@@ -59,7 +59,7 @@ export default function HeroSection() {
           <p className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
             Compare fees, ratings, and results from top attorneys — transparently.
             The average contingency fee is{" "}
-            <span className="text-white font-semibold">34%</span>. Many attorneys on our platform charge significantly less.
+            <span className="text-white font-semibold underline">34%</span>. Many attorneys on our platform charge significantly less.
           </p>
 
           {/* Glass search form */}
