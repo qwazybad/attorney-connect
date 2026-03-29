@@ -77,7 +77,7 @@ export default function EducationalSection() {
                 On a $500,000 settlement,<br />
                 <span className="text-gradient">a 10% savings is $50,000</span>
               </h3>
-              <p className="text-gray-400 mb-6 leading-relaxed">
+              <p className="text-gray-200 mb-6 leading-relaxed">
                 That&apos;s a car. A year of tuition. A down payment. Our platform helps you keep it.
               </p>
               <ul className="space-y-3">
@@ -87,7 +87,7 @@ export default function EducationalSection() {
                   "See your savings vs. market average",
                   "All attorneys bar-verified before listing",
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                  <li key={item} className="flex items-center gap-3 text-sm text-white">
                     <div className="w-5 h-5 rounded-full bg-accent-500/20 flex items-center justify-center shrink-0">
                       <div className="w-1.5 h-1.5 rounded-full bg-accent-400" />
                     </div>
@@ -116,10 +116,10 @@ export default function EducationalSection() {
                     return (
                       <div key={label} className={`p-3.5 rounded-xl ${highlight ? "bg-white/10 border border-white/20" : ""}`}>
                         <div className="flex items-center justify-between mb-1.5">
-                          <span className={`text-sm font-medium ${highlight ? "text-white" : "text-gray-400"}`}>{label}</span>
+                          <span className={`text-sm font-medium ${highlight ? "text-white" : "text-gray-200"}`}>{label}</span>
                           <div className="flex items-center gap-3">
-                            <span className={`text-xs font-semibold ${highlight ? "text-accent-400" : "text-gray-500"}`}>{fee}%</span>
-                            <span className={`text-sm font-bold ${highlight ? "text-white" : "text-gray-300"}`}>${youKeep.toLocaleString()}</span>
+                            <span className={`text-xs font-semibold ${highlight ? "text-accent-400" : "text-gray-300"}`}>{fee}%</span>
+                            <span className={`text-sm font-bold ${highlight ? "text-white" : "text-white"}`}>${youKeep.toLocaleString()}</span>
                           </div>
                         </div>
                         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -133,7 +133,7 @@ export default function EducationalSection() {
                   })}
                 </div>
                 <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                  <span className="text-xs text-gray-500">Max savings vs. average</span>
+                  <span className="text-xs text-gray-300">Max savings vs. average</span>
                   <span className="text-xl font-extrabold text-emerald-400">+$65,000</span>
                 </div>
               </div>

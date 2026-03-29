@@ -33,13 +33,13 @@ export default function ForAttorneysCTA() {
               Performance-based leads.{" "}
               <span className="text-gradient">Zero upfront cost.</span>
             </h2>
-            <p className="reveal reveal-delay-2 text-gray-400 text-lg mb-8 leading-relaxed">
+            <p className="reveal reveal-delay-2 text-gray-200 text-lg mb-8 leading-relaxed">
               AttorneyCompete sends you pre-screened consumers. You pay nothing until a client signs an engagement letter or retainer agreement with your firm — no wasted ad spend.
             </p>
 
             <ul className="reveal reveal-delay-2 space-y-2.5 mb-8">
               {["Apply in under 10 minutes", "Bar license verification included", "Set your own competitive fee", "Cancel anytime — no contracts"].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                <li key={item} className="flex items-center gap-3 text-sm text-white">
                   <CheckCircle className="w-4 h-4 text-accent-400 shrink-0" />
                   {item}
                 </li>
@@ -65,7 +65,7 @@ export default function ForAttorneysCTA() {
                   <Icon className="w-5 h-5 text-accent-400" />
                 </div>
                 <h4 className="font-bold text-white text-sm mb-1">{title}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">{description}</p>
+                <p className="text-xs text-gray-300 leading-relaxed">{description}</p>
               </div>
             ))}
           </div>
@@ -81,7 +81,7 @@ export default function ForAttorneysCTA() {
           ].map(({ value, label }) => (
             <div key={label} className="text-center">
               <p className="text-3xl font-extrabold text-white">{value}</p>
-              <p className="text-sm text-gray-500 mt-1">{label}</p>
+              <p className="text-sm text-gray-300 mt-1">{label}</p>
             </div>
           ))}
         </div>
