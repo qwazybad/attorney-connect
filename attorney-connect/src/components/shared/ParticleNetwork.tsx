@@ -41,7 +41,7 @@ export default function ParticleNetwork() {
           vx: (Math.random() - 0.5) * 0.4,
           vy: (Math.random() - 0.5) * 0.4,
           radius: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.5 + 0.2,
+          opacity: Math.random() * 0.4 + 0.6,
         });
       }
     }
@@ -71,7 +71,7 @@ export default function ParticleNetwork() {
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < MAX_DIST) {
-            const alpha = (1 - dist / MAX_DIST) * 0.18;
+            const alpha = (1 - dist / MAX_DIST) * 0.4;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -102,7 +102,7 @@ export default function ParticleNetwork() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 1 }}
     />
   );
 }

@@ -3,7 +3,7 @@ import { Scale } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-gray-300">
+    <footer className="bg-gray-950 text-gray-300">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}

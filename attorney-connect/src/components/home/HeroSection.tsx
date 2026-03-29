@@ -24,7 +24,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-800">
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
       {/* Particle network */}
       <ParticleNetwork />
 
@@ -37,7 +37,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 dot-grid opacity-40" />
 
       {/* Subtle vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-800/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/80" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
         <div className="max-w-4xl mx-auto text-center">
