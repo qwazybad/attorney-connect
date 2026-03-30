@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 export function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    const el = ref.current;
+  const ref = useCallback((el: HTMLDivElement | null) => {
+    // Disconnect any previous observer
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
     if (!el) return;
 
     const observer = new IntersectionObserver(
@@ -25,7 +29,12 @@ export function useReveal() {
     reveals.forEach((r) => observer.observe(r));
     if (el.classList.contains("reveal")) observer.observe(el);
 
-    return () => observer.disconnect();
+    observerRef.current = observer;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => observerRef.current?.disconnect();
   }, []);
 
   return ref;
