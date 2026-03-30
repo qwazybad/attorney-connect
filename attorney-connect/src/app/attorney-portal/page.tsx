@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { Attorney, Lead } from "@/lib/supabase";
+import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -181,8 +182,8 @@ function ProfileTab({
   const [website, setWebsite] = useState(attorney?.website ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
   const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
-  const [practiceAreas, setPracticeAreas] = useState((attorney?.practice_areas ?? []).join(", "));
-  const [licensedStates, setLicensedStates] = useState((attorney?.licensed_states ?? []).join(", "));
+  const [practiceAreas, setPracticeAreas] = useState<string[]>(attorney?.practice_areas ?? []);
+  const [licensedStates, setLicensedStates] = useState<string[]>(attorney?.licensed_states ?? []);
   const [casesWon, setCasesWon] = useState(String(attorney?.cases_won ?? ""));
   const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
@@ -201,8 +202,8 @@ function ProfileTab({
     setWebsite(attorney.website ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
     setImagePosition(attorney.image_position ?? "center 15%");
-    setPracticeAreas((attorney.practice_areas ?? []).join(", "));
-    setLicensedStates((attorney.licensed_states ?? []).join(", "));
+    setPracticeAreas(attorney.practice_areas ?? []);
+    setLicensedStates(attorney.licensed_states ?? []);
     setCasesWon(String(attorney.cases_won ?? ""));
     setTotalCases(String(attorney.total_cases ?? ""));
     setRecentResult(attorney.recent_result ?? "");
@@ -243,8 +244,8 @@ function ProfileTab({
       website: website.trim() || null,
       photo_url: photoUrl || null,
       image_position: imagePosition || null,
-      practice_areas: practiceAreas.trim() ? practiceAreas.split(",").map((s) => s.trim()).filter(Boolean) : null,
-      licensed_states: licensedStates.trim() ? licensedStates.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      practice_areas: practiceAreas.length > 0 ? practiceAreas : null,
+      licensed_states: licensedStates.length > 0 ? licensedStates : null,
       cases_won: casesWon !== "" ? parseInt(casesWon) : null,
       total_cases: totalCases !== "" ? parseInt(totalCases) : null,
       recent_result: recentResult.trim() || null,
@@ -411,28 +412,57 @@ function ProfileTab({
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="mt-4 space-y-4">
+          {/* Practice Areas */}
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Practice Areas</label>
-            <input
-              type="text"
-              value={practiceAreas}
-              onChange={(e) => setPracticeAreas(e.target.value)}
-              placeholder="Personal Injury, Car Accident, Slip & Fall"
-              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-            <p className="text-[10px] text-gray-400 mt-1">Comma-separated</p>
+            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+              Practice Areas <span className="text-gray-400 normal-case font-normal">({practiceAreas.length} selected)</span>
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              {LEGAL_ISSUES.map((issue) => (
+                <button
+                  key={issue.value}
+                  type="button"
+                  onClick={() => setPracticeAreas((prev) =>
+                    prev.includes(issue.label) ? prev.filter((a) => a !== issue.label) : [...prev, issue.label]
+                  )}
+                  className={`text-xs px-3 py-2 rounded-lg border font-medium text-left transition-colors ${
+                    practiceAreas.includes(issue.label)
+                      ? "bg-blue-500 text-white border-blue-500"
+                      : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"
+                  }`}
+                >
+                  {issue.label}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* Licensed States */}
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Licensed States</label>
-            <input
-              type="text"
-              value={licensedStates}
-              onChange={(e) => setLicensedStates(e.target.value)}
-              placeholder="CA, TX, NY"
-              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-            <p className="text-[10px] text-gray-400 mt-1">Comma-separated</p>
+            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+              Licensed States <span className="text-gray-400 normal-case font-normal">({licensedStates.length} selected)</span>
+            </label>
+            <div className="h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-gray-50">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                {US_STATES.map((state) => (
+                  <button
+                    key={state}
+                    type="button"
+                    onClick={() => setLicensedStates((prev) =>
+                      prev.includes(state) ? prev.filter((s) => s !== state) : [...prev, state]
+                    )}
+                    className={`text-xs px-2.5 py-1.5 rounded border font-medium transition-colors text-left ${
+                      licensedStates.includes(state)
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-600 border-gray-200 hover:border-blue-300"
+                    }`}
+                  >
+                    {state}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </SectionCard>
