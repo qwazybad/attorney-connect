@@ -10,7 +10,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     pathname?.startsWith("/attorney-portal") ||
     pathname?.startsWith("/join") ||
     pathname?.startsWith("/admin") ||
-    pathname?.startsWith("/pitch");
+    pathname?.startsWith("/pitch") ||
+    pathname?.startsWith("/maintenance");
 
   return (
     <>
