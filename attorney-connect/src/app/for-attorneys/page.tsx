@@ -45,9 +45,9 @@ export default function ForAttorneysPage() {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gray-800">
         {/* Orbs */}
-        <div className="orb orb-blue animate-glow-pulse w-[550px] h-[550px] -top-32 -left-32 opacity-50" />
-        <div className="orb orb-purple animate-glow-pulse w-[450px] h-[450px] top-1/2 -right-20 opacity-40" style={{ animationDelay: "1.2s" }} />
-        <div className="orb orb-teal animate-float-slow w-[300px] h-[300px] bottom-0 left-1/2 opacity-25" />
+        <div className="orb orb-white animate-glow-pulse w-[550px] h-[550px] -top-32 -left-32 opacity-50" />
+        <div className="orb orb-white animate-glow-pulse w-[450px] h-[450px] top-1/2 -right-20 opacity-40" style={{ animationDelay: "1.2s" }} />
+        <div className="orb orb-white animate-float-slow w-[300px] h-[300px] bottom-0 left-1/2 opacity-25" />
         <div className="absolute inset-0 dot-grid opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-800/60" />
 
@@ -174,8 +174,8 @@ export default function ForAttorneysPage() {
 
       {/* ── Pricing ───────────────────────────────────────────── */}
       <section id="pricing" ref={pricingRef} className="relative py-24 bg-gray-800 overflow-hidden">
-        <div className="orb orb-blue animate-glow-pulse w-[400px] h-[400px] -top-20 -right-20 opacity-40" />
-        <div className="orb orb-teal animate-float-slow w-[300px] h-[300px] bottom-0 -left-10 opacity-30" />
+        <div className="orb orb-white animate-glow-pulse w-[400px] h-[400px] -top-20 -right-20 opacity-40" />
+        <div className="orb orb-white animate-float-slow w-[300px] h-[300px] bottom-0 -left-10 opacity-30" />
         <div className="absolute inset-0 dot-grid opacity-25" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center">
@@ -262,7 +262,7 @@ export default function ForAttorneysPage() {
 
       {/* ── Bottom CTA ────────────────────────────────────────── */}
       <section ref={ctaRef} className="relative py-24 bg-gray-800 overflow-hidden">
-        <div className="orb orb-blue animate-glow-pulse w-[500px] h-[500px] -top-20 left-1/2 -translate-x-1/2 opacity-40" />
+        <div className="orb orb-white animate-glow-pulse w-[500px] h-[500px] -top-20 left-1/2 -translate-x-1/2 opacity-40" />
         <div className="absolute inset-0 dot-grid opacity-25" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 text-center">

@@ -257,7 +257,7 @@ export default function AttorneyProfilePage() {
 
               {/* Fee highlight */}
               <div className="reveal bg-gray-800 rounded-2xl p-5 relative overflow-hidden">
-                <div className="orb orb-blue w-40 h-40 -top-10 -right-10 opacity-40" />
+                <div className="orb orb-white w-40 h-40 -top-10 -right-10 opacity-40" />
                 <div className="relative">
                   <p className="text-gray-200 text-xs font-semibold uppercase tracking-widest mb-1">
                     {isHourly ? "Hourly Rate" : "Contingency Fee"}
