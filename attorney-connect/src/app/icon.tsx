@@ -17,6 +17,7 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           fontSize: "20px",
+          filter: "grayscale(1) brightness(10)",
         }}
       >
         ⚖️
