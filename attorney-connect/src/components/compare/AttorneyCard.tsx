@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Star, Clock, MapPin, TrendingDown, Trophy, ArrowRight, CheckCircle, Zap } from "lucide-react";
+import { Star, Clock, MapPin, TrendingDown, TrendingUp, Trophy, ArrowRight, CheckCircle, Zap } from "lucide-react";
 import { Attorney, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import Badge from "@/components/shared/Badge";
 
@@ -90,7 +90,7 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
           <div className="bg-gray-50 rounded-xl p-2.5 text-center">
             {attorney.billingType === "hourly" ? (
               <>
-                <p className="text-lg font-extrabold text-gray-900 leading-none">${attorney.hourlyRate}<span className="text-xs font-semibold">/hr</span></p>
+                <p className={`text-lg font-extrabold leading-none ${hourlySavings < 0 ? "text-red-500" : "text-gray-900"}`}>${attorney.hourlyRate}<span className="text-xs font-semibold">/hr</span></p>
                 <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Hourly</p>
                 {hourlySavings > 0 && (
                   <div className="flex items-center justify-center gap-0.5 text-emerald-600 mt-1">
@@ -98,15 +98,27 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
                     <span className="text-[10px] font-bold">-{hourlySavings}%</span>
                   </div>
                 )}
+                {hourlySavings < 0 && (
+                  <div className="flex items-center justify-center gap-0.5 text-red-500 mt-1">
+                    <TrendingUp className="w-2.5 h-2.5" />
+                    <span className="text-[10px] font-bold">+{Math.abs(hourlySavings)}%</span>
+                  </div>
+                )}
               </>
             ) : (
               <>
-                <p className="text-xl font-extrabold text-gray-900 leading-none">{attorney.feePercent}%</p>
+                <p className={`text-xl font-extrabold leading-none ${savings < 0 ? "text-red-500" : "text-gray-900"}`}>{attorney.feePercent}%</p>
                 <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Fee</p>
                 {savings > 0 && (
                   <div className="flex items-center justify-center gap-0.5 text-emerald-600 mt-1">
                     <TrendingDown className="w-2.5 h-2.5" />
                     <span className="text-[10px] font-bold">-{savings}%</span>
+                  </div>
+                )}
+                {savings < 0 && (
+                  <div className="flex items-center justify-center gap-0.5 text-red-500 mt-1">
+                    <TrendingUp className="w-2.5 h-2.5" />
+                    <span className="text-[10px] font-bold">+{Math.abs(savings)}%</span>
                   </div>
                 )}
               </>
