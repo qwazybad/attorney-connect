@@ -180,6 +180,7 @@ function ProfileTab({
   const [bio, setBio] = useState(attorney?.bio ?? "");
   const [phone, setPhone] = useState(attorney?.phone ?? "");
   const [website, setWebsite] = useState(attorney?.website ?? "");
+  const [city, setCity] = useState(attorney?.city ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
   const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
   const [practiceAreas, setPracticeAreas] = useState<string[]>(attorney?.practice_areas ?? []);
@@ -206,6 +207,7 @@ function ProfileTab({
     setBio(attorney.bio ?? "");
     setPhone(attorney.phone ?? "");
     setWebsite(attorney.website ?? "");
+    setCity(attorney.city ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
     setImagePosition(attorney.image_position ?? "center 15%");
     setPracticeAreas(attorney.practice_areas ?? []);
@@ -254,6 +256,7 @@ function ProfileTab({
       website: website.trim() || null,
       photo_url: photoUrl || null,
       image_position: imagePosition || null,
+      city: city.trim() || null,
       practice_areas: practiceAreas.length > 0 ? practiceAreas : null,
       licensed_states: licensedStates.length > 0 ? licensedStates : null,
       billing_type: billingType,
@@ -391,6 +394,14 @@ function ProfileTab({
             value={firm}
             onChange={setFirm}
             placeholder="Smith & Associates"
+          />
+          <Field
+            icon={MapPin}
+            label="City"
+            value={city}
+            onChange={setCity}
+            placeholder="e.g. Los Angeles"
+            type="text"
           />
           <Field
             icon={Phone}
