@@ -20,6 +20,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Clerk phone input mobile fix */
+.cl-phoneInputBox {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.cl-phoneInputBox input {
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
 body {
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background: var(--background);
