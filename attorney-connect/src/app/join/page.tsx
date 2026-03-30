@@ -91,7 +91,7 @@ function JoinPageInner() {
           bio: form.bio,
           phone: form.phone,
           website: form.website,
-          email: form.email,
+          email: user?.primaryEmailAddress?.emailAddress ?? form.email,
           practice_areas: form.practiceAreas,
           licensed_states: form.states,
           years_experience: form.yearsExperience,
