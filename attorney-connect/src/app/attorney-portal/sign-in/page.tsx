@@ -13,8 +13,6 @@ export default function AttorneySignInPage() {
     <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
       {/* Background — matches hero */}
       <ParticleNetwork />
-      <div className="orb orb-white animate-glow-pulse w-[500px] h-[500px] -top-32 -left-32 opacity-80" />
-      <div className="orb orb-green animate-glow-pulse w-[400px] h-[400px] bottom-0 right-0 opacity-70" style={{ animationDelay: "1.5s" }} />
       <div className="absolute inset-0 dot-grid opacity-40" />
 
       <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md">
