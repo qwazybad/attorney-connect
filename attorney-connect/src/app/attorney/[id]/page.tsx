@@ -38,6 +38,7 @@ function mapRow(row: Record<string, unknown>): Attorney {
     badges: [],
     phone: (row.phone as string) || undefined,
     website: (row.website as string) || undefined,
+    imagePosition: (row.image_position as string) || undefined,
   };
 }
 
@@ -230,24 +231,34 @@ export default function AttorneyProfilePage() {
           <div ref={mainRef} className="lg:col-span-2 space-y-6">
 
             {/* Practice areas */}
-            <div className="reveal bg-white rounded-2xl border border-gray-100 p-6 shadow-card">
-              <h2 className="font-extrabold text-gray-900 text-lg mb-4">Practice Areas</h2>
-              <div className="flex flex-wrap gap-2 mb-5">
-                {attorney.practiceAreas.map((area) => (
-                  <span key={area} className="bg-accent-50 text-accent-600 text-sm px-3 py-1.5 rounded-xl font-semibold border border-accent-100">
-                    {area}
-                  </span>
-                ))}
+            {(attorney.practiceAreas.length > 0 || attorney.states.length > 0) && (
+              <div className="reveal bg-white rounded-2xl border border-gray-100 p-6 shadow-card">
+                {attorney.practiceAreas.length > 0 && (
+                  <>
+                    <h2 className="font-extrabold text-gray-900 text-lg mb-4">Practice Areas</h2>
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {attorney.practiceAreas.map((area) => (
+                        <span key={area} className="bg-accent-50 text-accent-600 text-sm px-3 py-1.5 rounded-xl font-semibold border border-accent-100">
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {attorney.states.length > 0 && (
+                  <>
+                    <h3 className="font-semibold text-gray-500 text-xs uppercase tracking-widest mb-2">Licensed In</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {attorney.states.map((s) => (
+                        <span key={s} className="bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-lg font-medium">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-              <h3 className="font-semibold text-gray-500 text-xs uppercase tracking-widest mb-2">Licensed In</h3>
-              <div className="flex flex-wrap gap-2">
-                {attorney.states.map((s) => (
-                  <span key={s} className="bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-lg font-medium">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Recent results — only shown if attorney has entered data */}
             {(attorney.recentResult || attorney.casesWon > 0) && (

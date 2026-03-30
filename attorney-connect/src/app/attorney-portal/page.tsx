@@ -181,6 +181,8 @@ function ProfileTab({
   const [website, setWebsite] = useState(attorney?.website ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
   const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
+  const [practiceAreas, setPracticeAreas] = useState((attorney?.practice_areas ?? []).join(", "));
+  const [licensedStates, setLicensedStates] = useState((attorney?.licensed_states ?? []).join(", "));
   const [casesWon, setCasesWon] = useState(String(attorney?.cases_won ?? ""));
   const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
@@ -199,6 +201,8 @@ function ProfileTab({
     setWebsite(attorney.website ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
     setImagePosition(attorney.image_position ?? "center 15%");
+    setPracticeAreas((attorney.practice_areas ?? []).join(", "));
+    setLicensedStates((attorney.licensed_states ?? []).join(", "));
     setCasesWon(String(attorney.cases_won ?? ""));
     setTotalCases(String(attorney.total_cases ?? ""));
     setRecentResult(attorney.recent_result ?? "");
@@ -239,6 +243,8 @@ function ProfileTab({
       website: website.trim() || null,
       photo_url: photoUrl || null,
       image_position: imagePosition || null,
+      practice_areas: practiceAreas.trim() ? practiceAreas.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      licensed_states: licensedStates.trim() ? licensedStates.split(",").map((s) => s.trim()).filter(Boolean) : null,
       cases_won: casesWon !== "" ? parseInt(casesWon) : null,
       total_cases: totalCases !== "" ? parseInt(totalCases) : null,
       recent_result: recentResult.trim() || null,
@@ -403,6 +409,31 @@ function ProfileTab({
             placeholder="Tell potential clients about your experience, practice areas, and approach..."
             className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
           />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Practice Areas</label>
+            <input
+              type="text"
+              value={practiceAreas}
+              onChange={(e) => setPracticeAreas(e.target.value)}
+              placeholder="Personal Injury, Car Accident, Slip & Fall"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+            <p className="text-[10px] text-gray-400 mt-1">Comma-separated</p>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Licensed States</label>
+            <input
+              type="text"
+              value={licensedStates}
+              onChange={(e) => setLicensedStates(e.target.value)}
+              placeholder="CA, TX, NY"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+            <p className="text-[10px] text-gray-400 mt-1">Comma-separated</p>
+          </div>
         </div>
       </SectionCard>
 
