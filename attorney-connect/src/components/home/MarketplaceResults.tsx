@@ -34,7 +34,7 @@ function mapRow(row: Record<string, unknown>): Attorney {
     practiceAreas: (row.practice_areas as string[]) || [],
     states,
     city: (row.city as string) || undefined,
-    state: states[0] || undefined,
+    state: (row.state as string) || states[0] || undefined,
     billingType: ((row.billing_type as string) || "contingency") as Attorney["billingType"],
     feePercent: (row.fee_percent as number) || 33,
     avgFeePercent: 34,

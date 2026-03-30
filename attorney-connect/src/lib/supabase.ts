@@ -16,6 +16,7 @@ export type Attorney = {
   photo_url: string | null;
   image_position: string | null;
   city: string | null;
+  state: string | null;
   webhook_url: string | null;
   field_mapping: Record<string, string> | null;
   status: "pending" | "active" | "suspended" | null;

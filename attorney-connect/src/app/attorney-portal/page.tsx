@@ -181,6 +181,7 @@ function ProfileTab({
   const [phone, setPhone] = useState(attorney?.phone ?? "");
   const [website, setWebsite] = useState(attorney?.website ?? "");
   const [city, setCity] = useState(attorney?.city ?? "");
+  const [displayState, setDisplayState] = useState(attorney?.state ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
   const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
   const [practiceAreas, setPracticeAreas] = useState<string[]>(attorney?.practice_areas ?? []);
@@ -208,6 +209,7 @@ function ProfileTab({
     setPhone(attorney.phone ?? "");
     setWebsite(attorney.website ?? "");
     setCity(attorney.city ?? "");
+    setDisplayState(attorney.state ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
     setImagePosition(attorney.image_position ?? "center 15%");
     setPracticeAreas(attorney.practice_areas ?? []);
@@ -257,6 +259,7 @@ function ProfileTab({
       photo_url: photoUrl || null,
       image_position: imagePosition || null,
       city: city.trim() || null,
+      state: displayState || null,
       practice_areas: practiceAreas.length > 0 ? practiceAreas : null,
       licensed_states: licensedStates.length > 0 ? licensedStates : null,
       billing_type: billingType,
@@ -403,6 +406,19 @@ function ProfileTab({
             placeholder="e.g. Los Angeles"
             type="text"
           />
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">State</label>
+            <select
+              value={displayState}
+              onChange={(e) => setDisplayState(e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="">Select state</option>
+              {US_STATES.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
           <Field
             icon={Phone}
             label="Phone"
