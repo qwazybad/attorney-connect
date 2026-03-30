@@ -90,7 +90,7 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
           <div className="bg-gray-50 rounded-xl p-2.5 text-center">
             {attorney.billingType === "hourly" ? (
               <>
-                <p className={`text-lg font-extrabold leading-none ${hourlySavings < 0 ? "text-red-500" : "text-gray-900"}`}>${attorney.hourlyRate}<span className="text-xs font-semibold">/hr</span></p>
+                <p className="text-lg font-extrabold leading-none text-gray-900">${attorney.hourlyRate}<span className="text-xs font-semibold">/hr</span></p>
                 <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Hourly</p>
                 {hourlySavings > 0 && (
                   <div className="flex items-center justify-center gap-0.5 text-emerald-600 mt-1">
@@ -107,18 +107,12 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
               </>
             ) : (
               <>
-                <p className={`text-xl font-extrabold leading-none ${savings < 0 ? "text-red-500" : "text-gray-900"}`}>{attorney.feePercent}%</p>
+                <p className="text-xl font-extrabold leading-none text-gray-900">{attorney.feePercent}%</p>
                 <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Fee</p>
                 {savings > 0 && (
                   <div className="flex items-center justify-center gap-0.5 text-emerald-600 mt-1">
                     <TrendingDown className="w-2.5 h-2.5" />
                     <span className="text-[10px] font-bold">-{savings}%</span>
-                  </div>
-                )}
-                {savings < 0 && (
-                  <div className="flex items-center justify-center gap-0.5 text-red-500 mt-1">
-                    <TrendingUp className="w-2.5 h-2.5" />
-                    <span className="text-[10px] font-bold">+{Math.abs(savings)}%</span>
                   </div>
                 )}
               </>
@@ -182,11 +176,21 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
             View Profile & Connect
             <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
           </Link>
-          <p className={`text-center text-[11px] font-semibold mt-1.5 ${(savings > 0 && attorney.billingType === "contingency") || hourlySavings > 0 ? "text-emerald-600" : "invisible"}`}>
+          <p className={`text-center text-[11px] font-semibold mt-1.5 ${
+            (savings > 0 && attorney.billingType === "contingency") || hourlySavings > 0
+              ? "text-emerald-600"
+              : (savings < 0 && attorney.billingType === "contingency") || hourlySavings < 0
+              ? "text-red-500"
+              : "invisible"
+          }`}>
             {savings > 0 && attorney.billingType === "contingency"
               ? `Save ${savings}% vs. avg · ~$${(300000 * savings / 100).toLocaleString()} on a $300K case`
+              : savings < 0 && attorney.billingType === "contingency"
+              ? `${Math.abs(savings)}% above avg · ~$${(300000 * Math.abs(savings) / 100).toLocaleString()} more on a $300K case`
               : hourlySavings > 0 && attorney.avgHourlyRate
               ? `$${attorney.avgHourlyRate - attorney.hourlyRate!}/hr below avg · save $${((attorney.avgHourlyRate - attorney.hourlyRate!) * 10).toLocaleString()} on 10 hrs`
+              : hourlySavings < 0 && attorney.avgHourlyRate
+              ? `$${attorney.hourlyRate! - attorney.avgHourlyRate}/hr above avg · ~$${((attorney.hourlyRate! - attorney.avgHourlyRate) * 10).toLocaleString()} more on 10 hrs`
               : "placeholder"}
           </p>
         </div>
