@@ -17,6 +17,17 @@ export type Attorney = {
   webhook_url: string | null;
   field_mapping: Record<string, string> | null;
   status: "pending" | "active" | "suspended" | null;
+  practice_areas: string[] | null;
+  licensed_states: string[] | null;
+  billing_type: string | null;
+  fee_percent: number | null;
+  hourly_rate: number | null;
+  flat_fee: number | null;
+  years_experience: number | null;
+  cases_won: number | null;
+  total_cases: number | null;
+  recent_result: string | null;
+  recent_result_amount: string | null;
   created_at: string;
 };
 

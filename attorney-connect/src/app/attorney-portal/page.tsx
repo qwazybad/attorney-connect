@@ -180,6 +180,10 @@ function ProfileTab({
   const [phone, setPhone] = useState(attorney?.phone ?? "");
   const [website, setWebsite] = useState(attorney?.website ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
+  const [casesWon, setCasesWon] = useState(String(attorney?.cases_won ?? ""));
+  const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
+  const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
+  const [recentResultAmount, setRecentResultAmount] = useState(attorney?.recent_result_amount ?? "");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -193,6 +197,10 @@ function ProfileTab({
     setPhone(attorney.phone ?? "");
     setWebsite(attorney.website ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
+    setCasesWon(String(attorney.cases_won ?? ""));
+    setTotalCases(String(attorney.total_cases ?? ""));
+    setRecentResult(attorney.recent_result ?? "");
+    setRecentResultAmount(attorney.recent_result_amount ?? "");
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attorney?.id]);
 
@@ -228,6 +236,10 @@ function ProfileTab({
       phone: phone.trim() || null,
       website: website.trim() || null,
       photo_url: photoUrl || null,
+      cases_won: casesWon !== "" ? parseInt(casesWon) : null,
+      total_cases: totalCases !== "" ? parseInt(totalCases) : null,
+      recent_result: recentResult.trim() || null,
+      recent_result_amount: recentResultAmount.trim() || null,
     };
 
     // Use service-role key via API route or upsert directly
@@ -355,6 +367,65 @@ function ProfileTab({
             className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
           />
         </div>
+      </SectionCard>
+
+      {/* Case Results */}
+      <SectionCard>
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+          Case Results
+        </h3>
+        <p className="text-xs text-gray-400 mb-5">
+          Displayed on your public profile and attorney card. Enter your track record to build client trust.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Cases Won</label>
+            <input
+              type="number"
+              min="0"
+              value={casesWon}
+              onChange={(e) => setCasesWon(e.target.value)}
+              placeholder="e.g. 298"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Total Cases</label>
+            <input
+              type="number"
+              min="0"
+              value={totalCases}
+              onChange={(e) => setTotalCases(e.target.value)}
+              placeholder="e.g. 321"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Notable Result</label>
+            <input
+              type="text"
+              value={recentResult}
+              onChange={(e) => setRecentResult(e.target.value)}
+              placeholder="e.g. Largest jury verdict in Arizona (2020)"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Amount / Outcome</label>
+            <input
+              type="text"
+              value={recentResultAmount}
+              onChange={(e) => setRecentResultAmount(e.target.value)}
+              placeholder="e.g. $10M+"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+        {casesWon && totalCases && parseInt(totalCases) > 0 && (
+          <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3 text-sm text-emerald-700 font-semibold">
+            {Math.round((parseInt(casesWon) / parseInt(totalCases)) * 100)}% success rate · will display on your profile
+          </div>
+        )}
       </SectionCard>
 
       <div className="flex justify-end">

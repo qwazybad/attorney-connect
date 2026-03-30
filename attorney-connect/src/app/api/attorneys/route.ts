@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   let query = supabaseAdmin
     .from("attorneys")
     .select(
-      "id, name, firm, bio, phone, website, photo_url, practice_areas, licensed_states, billing_type, fee_percent, hourly_rate, flat_fee, years_experience, firm_size, created_at"
+      "id, name, firm, bio, phone, website, photo_url, practice_areas, licensed_states, billing_type, fee_percent, hourly_rate, flat_fee, years_experience, firm_size, cases_won, total_cases, recent_result, recent_result_amount, created_at"
     )
     .eq("status", "active")
     .order("created_at", { ascending: false });

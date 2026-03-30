@@ -1,15 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
   Star, Clock, MapPin, CheckCircle, Trophy, Phone, Mail,
-  ArrowLeft, TrendingDown, Scale, Shield, FileText, Zap,
+  ArrowLeft, TrendingDown, Scale, Shield, Zap,
 } from "lucide-react";
-import { ATTORNEYS, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
+import { ATTORNEYS, Attorney, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import { useReveal } from "@/hooks/useInView";
+
+function mapRow(row: Record<string, unknown>): Attorney {
+  return {
+    id: row.id as string,
+    name: (row.name as string) || "Attorney",
+    firm: (row.firm as string) || "",
+    avatar: (row.photo_url as string) || "",
+    bio: (row.bio as string) || "",
+    practiceAreas: (row.practice_areas as string[]) || [],
+    states: (row.licensed_states as string[]) || [],
+    billingType: ((row.billing_type as string) || "contingency") as Attorney["billingType"],
+    feePercent: (row.fee_percent as number) || 33,
+    avgFeePercent: 34,
+    hourlyRate: (row.hourly_rate as number) || undefined,
+    avgHourlyRate: 400,
+    flatFee: (row.flat_fee as number) || undefined,
+    yearsExperience: (row.years_experience as number) || 0,
+    rating: 0,
+    reviewCount: 0,
+    responseTimeHours: 24,
+    casesWon: (row.cases_won as number) || 0,
+    totalCases: (row.total_cases as number) || 0,
+    recentResult: (row.recent_result as string) || undefined,
+    recentResultAmount: (row.recent_result_amount as string) || undefined,
+    successRate: 0,
+    badges: [],
+    phone: (row.phone as string) || undefined,
+    website: (row.website as string) || undefined,
+  };
+}
 
 const MOCK_REVIEWS = [
   { name: "Michael R.", rating: 5, date: "2 weeks ago", text: "Absolutely phenomenal attorney. Handled everything professionally and settled for more than I expected. Highly recommend." },
@@ -21,14 +51,39 @@ const MOCK_REVIEWS = [
 export default function AttorneyProfilePage() {
   const { id } = useParams();
   const router = useRouter();
-  const attorney = ATTORNEYS.find((a) => a.id === id);
+
+  const staticMatch = ATTORNEYS.find((a) => a.id === id);
+  const [attorney, setAttorney] = useState<Attorney | null>(staticMatch ?? null);
+  const [loading, setLoading] = useState(!staticMatch);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    if (staticMatch) return;
+    fetch(`/api/attorneys/${id}`)
+      .then((r) => r.json())
+      .then(({ data, error }) => {
+        if (error || !data) setNotFound(true);
+        else setAttorney(mapRow(data));
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [id, staticMatch]);
+
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
   const mainRef = useReveal();
   const sidebarRef = useReveal();
 
-  if (!attorney) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (notFound || !attorney) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -45,7 +100,7 @@ export default function AttorneyProfilePage() {
   const hourlySavings = attorney.billingType === "hourly" && attorney.hourlyRate && attorney.avgHourlyRate
     ? getHourlySavingsPercent(attorney.hourlyRate, attorney.avgHourlyRate)
     : 0;
-  const winRate = Math.round((attorney.casesWon / attorney.totalCases) * 100);
+  const winRate = attorney.totalCases > 0 ? Math.round((attorney.casesWon / attorney.totalCases) * 100) : null;
   const isHourly = attorney.billingType === "hourly";
 
   function handleSubmit(e: React.FormEvent) {
@@ -96,9 +151,15 @@ export default function AttorneyProfilePage() {
 
               {/* Meta */}
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-200 mb-6" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-                <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{attorney.city}, {attorney.state}</span>
-                <span className="flex items-center gap-1.5"><Scale className="w-4 h-4" />{attorney.yearsExperience} yrs experience</span>
-                <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent-400" />Bar: {attorney.barNumber}</span>
+                {(attorney.city || attorney.state) && (
+                  <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{[attorney.city, attorney.state].filter(Boolean).join(", ")}</span>
+                )}
+                {attorney.yearsExperience > 0 && (
+                  <span className="flex items-center gap-1.5"><Scale className="w-4 h-4" />{attorney.yearsExperience} yrs experience</span>
+                )}
+                {attorney.barNumber && (
+                  <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent-400" />Bar: {attorney.barNumber}</span>
+                )}
               </div>
 
               {/* Bio */}
@@ -128,28 +189,32 @@ export default function AttorneyProfilePage() {
                   <p className="text-2xl font-extrabold text-white">{getResponseLabel(attorney.responseTimeHours)}</p>
                   <p className="text-[10px] text-white/50 mt-0.5 font-medium">Response</p>
                 </div>
-                <div className="glass rounded-2xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-white">{winRate}%</p>
-                  <p className="text-[10px] text-white/50 mt-0.5 font-medium">Success</p>
-                </div>
+                {winRate !== null && (
+                  <div className="glass rounded-2xl p-3 text-center">
+                    <p className="text-2xl font-extrabold text-white">{winRate}%</p>
+                    <p className="text-[10px] text-white/50 mt-0.5 font-medium">Success</p>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Right: Photo */}
-            <div className="opacity-0 animate-slide-up hidden lg:flex justify-end items-end" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-              <div className="relative w-72 h-80 rounded-t-3xl overflow-hidden shadow-2xl">
-                <Image
-                  src={attorney.avatar}
-                  alt={attorney.name}
-                  fill
-                  className="object-cover"
-                  style={{ objectPosition: attorney.imagePosition ?? "top" }}
-                  sizes="288px"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-800/60 via-transparent to-transparent" />
+            {attorney.avatar && (
+              <div className="opacity-0 animate-slide-up hidden lg:flex justify-end items-end" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+                <div className="relative w-72 h-80 rounded-t-3xl overflow-hidden shadow-2xl">
+                  <Image
+                    src={attorney.avatar}
+                    alt={attorney.name}
+                    fill
+                    className="object-cover"
+                    style={{ objectPosition: attorney.imagePosition ?? "top" }}
+                    sizes="288px"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-800/60 via-transparent to-transparent" />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -184,38 +249,46 @@ export default function AttorneyProfilePage() {
               </div>
             </div>
 
-            {/* Recent results */}
-            <div className="reveal reveal-delay-1 bg-white rounded-2xl border border-gray-100 p-6 shadow-card">
-              <h2 className="font-extrabold text-gray-900 text-lg mb-4 flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-yellow-500" />
-                Case Results
-              </h2>
-              <div className="bg-gradient-to-r from-accent-50 to-emerald-50 border border-accent-100 rounded-2xl p-5 mb-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="font-bold text-gray-800 text-base">{attorney.recentResult}</p>
-                    <p className="text-xs text-gray-400 mt-0.5 font-medium">Most recent result</p>
+            {/* Recent results — only shown if attorney has entered data */}
+            {(attorney.recentResult || attorney.casesWon > 0) && (
+              <div className="reveal reveal-delay-1 bg-white rounded-2xl border border-gray-100 p-6 shadow-card">
+                <h2 className="font-extrabold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-yellow-500" />
+                  Case Results
+                </h2>
+                {attorney.recentResult && (
+                  <div className="bg-gradient-to-r from-accent-50 to-emerald-50 border border-accent-100 rounded-2xl p-5 mb-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-bold text-gray-800 text-base">{attorney.recentResult}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 font-medium">Most recent result</p>
+                      </div>
+                      {attorney.recentResultAmount && (
+                        <p className="text-3xl font-extrabold text-accent-500 shrink-0">{attorney.recentResultAmount}</p>
+                      )}
+                    </div>
                   </div>
-                  {attorney.recentResultAmount && (
-                    <p className="text-3xl font-extrabold text-accent-500 shrink-0">{attorney.recentResultAmount}</p>
-                  )}
-                </div>
+                )}
+                {attorney.casesWon > 0 && (
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-gray-50 rounded-xl p-3 text-center">
+                      <p className="text-2xl font-extrabold text-gray-900">{attorney.casesWon}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 font-medium">Cases Won</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-xl p-3 text-center">
+                      <p className="text-2xl font-extrabold text-gray-900">{attorney.totalCases}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 font-medium">Total Cases</p>
+                    </div>
+                    {winRate !== null && (
+                      <div className="bg-gray-50 rounded-xl p-3 text-center">
+                        <p className="text-2xl font-extrabold text-accent-500">{winRate}%</p>
+                        <p className="text-xs text-gray-400 mt-0.5 font-medium">Success Rate</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
-                <div className="bg-gray-50 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-gray-900">{attorney.casesWon}</p>
-                  <p className="text-xs text-gray-400 mt-0.5 font-medium">Cases Won</p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-gray-900">{attorney.totalCases}</p>
-                  <p className="text-xs text-gray-400 mt-0.5 font-medium">Total Cases</p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-accent-500">{winRate}%</p>
-                  <p className="text-xs text-gray-400 mt-0.5 font-medium">Success Rate</p>
-                </div>
-              </div>
-            </div>
+            )}
 
             {/* Reviews */}
             <div className="reveal reveal-delay-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-card">

@@ -73,7 +73,11 @@ ALTER TABLE attorneys
   ADD COLUMN IF NOT EXISTS malpractice_insurance TEXT,
   ADD COLUMN IF NOT EXISTS years_experience     INTEGER,
   ADD COLUMN IF NOT EXISTS firm_size            TEXT,
-  ADD COLUMN IF NOT EXISTS notes                TEXT;
+  ADD COLUMN IF NOT EXISTS notes                TEXT,
+  ADD COLUMN IF NOT EXISTS cases_won            INTEGER DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS total_cases          INTEGER DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS recent_result        TEXT,
+  ADD COLUMN IF NOT EXISTS recent_result_amount TEXT;
 
 -- Fast index for public queries that filter by status
 CREATE INDEX IF NOT EXISTS attorneys_status_idx ON attorneys (status);
