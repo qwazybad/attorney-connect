@@ -24,10 +24,19 @@ html {
 .cl-phoneInputBox {
   width: 100% !important;
   max-width: 100% !important;
+  overflow: hidden !important;
 }
 .cl-phoneInputBox input {
   min-width: 0 !important;
   flex: 1 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.cl-phoneInputBox input::placeholder {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 body {
