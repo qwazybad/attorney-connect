@@ -16,11 +16,24 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: "20px",
-          filter: "grayscale(1) brightness(10)",
         }}
       >
-        ⚖️
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 3v18" />
+          <path d="M3 9h18" />
+          <path d="M5 21h14" />
+          <path d="M3 9l4 8H3" />
+          <path d="M21 9l-4 8h4" />
+        </svg>
       </div>
     ),
     { ...size }
