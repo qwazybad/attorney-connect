@@ -150,16 +150,16 @@ function JoinPageInner() {
         </div>
 
         {/* Progress bar */}
-        <div className="flex items-start mb-8">
+        <div className="flex items-start mb-8 w-full overflow-hidden">
           {STEPS.map(({ n, label }, i) => (
-            <div key={n} className="flex items-start flex-1">
-              <div className="flex flex-col items-center flex-1">
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-colors shrink-0 ${currentStep > n ? "bg-green-500 text-white" : currentStep === n ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"}`}>
-                  {currentStep > n ? <CheckCircle className="w-5 h-5" /> : n}
+            <div key={n} className="flex items-start flex-1 min-w-0">
+              <div className="flex flex-col items-center flex-1 min-w-0">
+                <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-colors shrink-0 ${currentStep > n ? "bg-green-500 text-white" : currentStep === n ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"}`}>
+                  {currentStep > n ? <CheckCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5" /> : n}
                 </div>
-                <span className={`text-xs mt-1 font-medium text-center whitespace-nowrap ${currentStep === n ? "text-blue-500" : "text-gray-400"}`}>{label}</span>
+                <span className={`text-[10px] sm:text-xs mt-1 font-medium text-center truncate w-full px-0.5 ${currentStep === n ? "text-blue-500" : "text-gray-400"}`}>{label}</span>
               </div>
-              {i < STEPS.length - 1 && <div className={`flex-1 h-px mx-2 mt-4 ${currentStep > n ? "bg-green-400" : "bg-gray-200"}`} />}
+              {i < STEPS.length - 1 && <div className={`flex-1 h-px mx-1 mt-3.5 sm:mt-4 ${currentStep > n ? "bg-green-400" : "bg-gray-200"}`} />}
             </div>
           ))}
         </div>
