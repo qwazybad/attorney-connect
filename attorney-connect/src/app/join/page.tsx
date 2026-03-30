@@ -279,13 +279,13 @@ function JoinPageInner() {
                   {/* Billing type selector */}
                   <div>
                     <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">How do you charge clients? *</label>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                       {(["contingency", "hourly", "flat"] as const).map((type) => (
                         <button
                           key={type}
                           type="button"
                           onClick={() => setForm({ ...form, billingType: type, feePercent: "", hourlyRate: "" })}
-                          className={`py-3 px-4 rounded-xl border text-sm font-semibold text-center transition-colors ${form.billingType === type ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}
+                          className={`flex-1 py-3 px-4 rounded-xl border text-sm font-semibold text-center transition-colors ${form.billingType === type ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}
                         >
                           {type === "contingency" ? "Contingency %" : type === "hourly" ? "Hourly Rate" : "Flat Fee"}
                         </button>
