@@ -197,6 +197,7 @@ function ProfileTab({
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
   const [recentResultAmount, setRecentResultAmount] = useState(attorney?.recent_result_amount ?? "");
   const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"success" | "error" | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -289,8 +290,12 @@ function ProfileTab({
 
     setSaving(false);
     if (res.ok) {
+      setSaveStatus("success");
       onSaved(payload);
+    } else {
+      setSaveStatus("error");
     }
+    setTimeout(() => setSaveStatus(null), 4000);
   }
 
   return (
@@ -674,11 +679,24 @@ function ProfileTab({
         )}
       </SectionCard>
 
-      <div className="flex justify-end">
+      {/* Sticky save bar */}
+      <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-4 py-3 flex items-center justify-between gap-3 z-30 -mx-4 sm:-mx-6 rounded-b-2xl">
+        <div className="text-sm font-medium">
+          {saveStatus === "success" && (
+            <span className="flex items-center gap-1.5 text-emerald-600">
+              <CheckCircle className="w-4 h-4" /> Profile saved!
+            </span>
+          )}
+          {saveStatus === "error" && (
+            <span className="flex items-center gap-1.5 text-red-500">
+              <AlertCircle className="w-4 h-4" /> Save failed — please try again
+            </span>
+          )}
+        </div>
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-60 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-60 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm min-w-[130px] justify-center"
         >
           <Save className="w-4 h-4" />
           {saving ? "Saving…" : "Save Profile"}
