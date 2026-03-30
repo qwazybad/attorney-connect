@@ -184,6 +184,12 @@ function ProfileTab({
   const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
   const [practiceAreas, setPracticeAreas] = useState<string[]>(attorney?.practice_areas ?? []);
   const [licensedStates, setLicensedStates] = useState<string[]>(attorney?.licensed_states ?? []);
+  const [billingType, setBillingType] = useState<"contingency" | "hourly" | "flat">(
+    (attorney?.billing_type as "contingency" | "hourly" | "flat") ?? "contingency"
+  );
+  const [feePercent, setFeePercent] = useState(String(attorney?.fee_percent ?? ""));
+  const [hourlyRate, setHourlyRate] = useState(String(attorney?.hourly_rate ?? ""));
+  const [flatFee, setFlatFee] = useState(String(attorney?.flat_fee ?? ""));
   const [casesWon, setCasesWon] = useState(String(attorney?.cases_won ?? ""));
   const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
@@ -204,6 +210,10 @@ function ProfileTab({
     setImagePosition(attorney.image_position ?? "center 15%");
     setPracticeAreas(attorney.practice_areas ?? []);
     setLicensedStates(attorney.licensed_states ?? []);
+    setBillingType((attorney.billing_type as "contingency" | "hourly" | "flat") ?? "contingency");
+    setFeePercent(String(attorney.fee_percent ?? ""));
+    setHourlyRate(String(attorney.hourly_rate ?? ""));
+    setFlatFee(String(attorney.flat_fee ?? ""));
     setCasesWon(String(attorney.cases_won ?? ""));
     setTotalCases(String(attorney.total_cases ?? ""));
     setRecentResult(attorney.recent_result ?? "");
@@ -246,6 +256,10 @@ function ProfileTab({
       image_position: imagePosition || null,
       practice_areas: practiceAreas.length > 0 ? practiceAreas : null,
       licensed_states: licensedStates.length > 0 ? licensedStates : null,
+      billing_type: billingType,
+      fee_percent: billingType === "contingency" && feePercent !== "" ? parseFloat(feePercent) : null,
+      hourly_rate: billingType === "hourly" && hourlyRate !== "" ? parseFloat(hourlyRate) : null,
+      flat_fee: billingType === "flat" && flatFee !== "" ? parseFloat(flatFee) : null,
       cases_won: casesWon !== "" ? parseInt(casesWon) : null,
       total_cases: totalCases !== "" ? parseInt(totalCases) : null,
       recent_result: recentResult.trim() || null,
@@ -465,6 +479,79 @@ function ProfileTab({
             </div>
           </div>
         </div>
+      </SectionCard>
+
+      {/* Fee Structure */}
+      <SectionCard>
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Fee Structure</h3>
+        <p className="text-xs text-gray-400 mb-5">Update your fees at any time. Lower fees improve your ranking on the marketplace.</p>
+
+        {/* Billing type */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-5">
+          {(["contingency", "hourly", "flat"] as const).map((type) => (
+            <button
+              key={type}
+              type="button"
+              onClick={() => { setBillingType(type); setFeePercent(""); setHourlyRate(""); setFlatFee(""); }}
+              className={`flex-1 py-2.5 px-4 rounded-xl border text-sm font-semibold text-center transition-colors ${
+                billingType === type ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"
+              }`}
+            >
+              {type === "contingency" ? "Contingency %" : type === "hourly" ? "Hourly Rate" : "Flat Fee"}
+            </button>
+          ))}
+        </div>
+
+        {billingType === "contingency" && (
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Contingency Fee %</label>
+            <div className="flex items-center gap-3">
+              <input
+                type="number" min="1" max="50" step="0.5"
+                value={feePercent}
+                onChange={(e) => setFeePercent(e.target.value)}
+                placeholder="e.g. 28"
+                className="w-28 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
+              <span className="text-lg font-bold text-gray-400">%</span>
+              <span className="text-xs text-gray-400">Industry avg is 34%</span>
+            </div>
+          </div>
+        )}
+
+        {billingType === "hourly" && (
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Hourly Rate</label>
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-bold text-gray-400">$</span>
+              <input
+                type="number" min="50" max="2000" step="5"
+                value={hourlyRate}
+                onChange={(e) => setHourlyRate(e.target.value)}
+                placeholder="e.g. 300"
+                className="w-28 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
+              <span className="text-xs text-gray-400">/ hour · Area avg ~$400/hr</span>
+            </div>
+          </div>
+        )}
+
+        {billingType === "flat" && (
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Flat Fee Amount</label>
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-bold text-gray-400">$</span>
+              <input
+                type="number" min="100" step="50"
+                value={flatFee}
+                onChange={(e) => setFlatFee(e.target.value)}
+                placeholder="e.g. 1500"
+                className="w-32 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
+              <span className="text-xs text-gray-400">per case</span>
+            </div>
+          </div>
+        )}
       </SectionCard>
 
       {/* Case Results */}
