@@ -38,7 +38,7 @@ export default function AttorneySignInPage() {
         {/* Clerk SignIn component */}
         <SignIn
           routing="hash"
-          forceRedirectUrl="/attorney-portal"
+          fallbackRedirectUrl="/attorney-portal"
           signUpUrl="/join"
           appearance={{
             elements: {

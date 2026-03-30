@@ -8,7 +8,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .map((s) => s.trim())
     .filter(Boolean);
 
-  if (!userId || !adminIds.includes(userId)) {
+  if (!userId) {
+    redirect("/attorney-portal/sign-in?redirect_url=%2Fadmin");
+  }
+
+  if (!adminIds.includes(userId)) {
     redirect("/");
   }
 
