@@ -1,13 +1,42 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { ChevronDown, SlidersHorizontal, X, TrendingDown, Star, ArrowUpDown, Trophy } from "lucide-react";
-import { ATTORNEYS, LEGAL_ISSUES, US_STATES } from "@/lib/data";
+import { ATTORNEYS, LEGAL_ISSUES, US_STATES, Attorney } from "@/lib/data";
 import AttorneyCard from "@/components/compare/AttorneyCard";
 
 type SortKey = "recommended" | "lowest-fee" | "highest-rating" | "fastest-response" | "highest-success";
+
+// Map a raw Supabase attorney row to the Attorney shape used by AttorneyCard
+function mapSupabaseAttorney(row: Record<string, unknown>): Attorney {
+  return {
+    id: row.id as string,
+    name: (row.name as string) || "Attorney",
+    firm: (row.firm as string) || "",
+    avatar: (row.photo_url as string) || "",
+    bio: (row.bio as string) || "",
+    practiceAreas: (row.practice_areas as string[]) || [],
+    states: (row.licensed_states as string[]) || [],
+    billingType: ((row.billing_type as string) || "contingency") as Attorney["billingType"],
+    feePercent: (row.fee_percent as number) || 33,
+    avgFeePercent: 34,
+    hourlyRate: (row.hourly_rate as number) || undefined,
+    avgHourlyRate: 400,
+    flatFee: (row.flat_fee as number) || undefined,
+    yearsExperience: (row.years_experience as number) || 0,
+    rating: 0,
+    reviewCount: 0,
+    responseTimeHours: 24,
+    casesWon: 0,
+    totalCases: 0,
+    successRate: 0,
+    badges: [],
+    phone: (row.phone as string) || undefined,
+    website: (row.website as string) || undefined,
+  };
+}
 
 function ComparePageInner() {
   const searchParams = useSearchParams();
@@ -20,8 +49,28 @@ function ComparePageInner() {
   const [filterBilling, setFilterBilling] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
+  const [liveAttorneys, setLiveAttorneys] = useState<Attorney[] | null>(null);
+  const [loadingLive, setLoadingLive] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/attorneys")
+      .then((r) => r.json())
+      .then(({ data }) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setLiveAttorneys(data.map(mapSupabaseAttorney));
+        } else {
+          setLiveAttorneys([]);
+        }
+      })
+      .catch(() => setLiveAttorneys([]))
+      .finally(() => setLoadingLive(false));
+  }, []);
+
+  // Use live Supabase attorneys if any exist, otherwise fall back to demo data
+  const baseAttorneys = liveAttorneys && liveAttorneys.length > 0 ? liveAttorneys : ATTORNEYS;
+
   const filtered = useMemo(() => {
-    return ATTORNEYS.filter((a) => {
+    return baseAttorneys.filter((a) => {
       if (filterState && !a.states.includes(filterState)) return false;
       if (filterArea) {
         const issue = LEGAL_ISSUES.find((i) => i.value === filterArea);
@@ -67,7 +116,7 @@ function ComparePageInner() {
             {filterState ? ` in ${filterState}` : ""}
           </h1>
           <p className="text-white text-sm">
-            {sorted.length} attorneys available · Sort by fee, rating, success rate, or response time
+            {loadingLive ? "Loading attorneys…" : `${sorted.length} attorneys available`} · Sort by fee, rating, success rate, or response time
           </p>
         </div>
       </div>

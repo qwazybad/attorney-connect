@@ -22,21 +22,27 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
   const hourlySavings = attorney.billingType === "hourly" && attorney.hourlyRate && attorney.avgHourlyRate
     ? getHourlySavingsPercent(attorney.hourlyRate, attorney.avgHourlyRate)
     : 0;
-  const winRate = Math.round((attorney.casesWon / attorney.totalCases) * 100);
+  const winRate = attorney.totalCases > 0 ? Math.round((attorney.casesWon / attorney.totalCases) * 100) : null;
   const primaryBadge = attorney.badges[0];
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-gray-100/80 flex flex-col">
       {/* Image header */}
       <div className="relative h-40 sm:h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-        <Image
-          src={attorney.avatar}
-          alt={attorney.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-          style={{ objectPosition: attorney.imagePosition ?? "top" }}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {attorney.avatar ? (
+          <Image
+            src={attorney.avatar}
+            alt={attorney.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            style={{ objectPosition: attorney.imagePosition ?? "top" }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-gray-300 flex items-center justify-center">
+            <span className="text-5xl font-extrabold text-white/40">{attorney.name.charAt(0)}</span>
+          </div>
+        )}
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -73,7 +79,7 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
         <div className="flex items-center justify-between mb-3 text-xs text-gray-400 font-medium">
           <div className="flex items-center gap-1">
             <MapPin className="w-3 h-3" />
-            {attorney.city}, {attorney.state}
+            {[attorney.city, attorney.state].filter(Boolean).join(", ") || "Licensed Attorney"}
           </div>
           <span>{attorney.yearsExperience} yrs exp</span>
         </div>
@@ -135,22 +141,26 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
         </div>
 
         {/* Recent result */}
-        <div className="flex items-center gap-2 bg-emerald-50 rounded-xl px-3 py-2 mb-3">
-          <Trophy className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-          <span className="text-[11px] text-gray-600 font-medium truncate">{attorney.recentResult}</span>
-          {attorney.recentResultAmount && (
-            <span className="text-[11px] text-emerald-700 font-extrabold ml-auto shrink-0">{attorney.recentResultAmount}</span>
-          )}
-        </div>
+        {attorney.recentResult && (
+          <div className="flex items-center gap-2 bg-emerald-50 rounded-xl px-3 py-2 mb-3">
+            <Trophy className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span className="text-[11px] text-gray-600 font-medium truncate">{attorney.recentResult}</span>
+            {attorney.recentResultAmount && (
+              <span className="text-[11px] text-emerald-700 font-extrabold ml-auto shrink-0">{attorney.recentResultAmount}</span>
+            )}
+          </div>
+        )}
 
         {/* Win rate */}
-        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-4">
-          <div className="flex items-center gap-1">
-            <CheckCircle className="w-3 h-3 text-accent-400" />
-            {winRate}% success rate
+        {winRate !== null && (
+          <div className="flex items-center justify-between text-[11px] text-gray-400 mb-4">
+            <div className="flex items-center gap-1">
+              <CheckCircle className="w-3 h-3 text-accent-400" />
+              {winRate}% success rate
+            </div>
+            <span>{attorney.casesWon} wins</span>
           </div>
-          <span>{attorney.casesWon} wins</span>
-        </div>
+        )}
 
         <div className="mt-auto">
           <Link

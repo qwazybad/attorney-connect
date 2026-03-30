@@ -57,6 +57,32 @@ CREATE POLICY "leads_select_own" ON leads
 -- so it can insert leads and read attorney webhook config freely.
 
 
+-- ─── Migration: add missing columns to existing attorneys table ───────────────
+-- Run this block if the table already exists (e.g. in production).
+-- Safe to re-run — IF NOT EXISTS / IF NOT COLUMN guards every statement.
+ALTER TABLE attorneys
+  ADD COLUMN IF NOT EXISTS status               TEXT    DEFAULT 'pending'
+                                                        CHECK (status IN ('pending','active','suspended')),
+  ADD COLUMN IF NOT EXISTS practice_areas       TEXT[]  DEFAULT '{}',
+  ADD COLUMN IF NOT EXISTS licensed_states      TEXT[]  DEFAULT '{}',
+  ADD COLUMN IF NOT EXISTS billing_type         TEXT    DEFAULT 'contingency',
+  ADD COLUMN IF NOT EXISTS fee_percent          INTEGER,
+  ADD COLUMN IF NOT EXISTS hourly_rate          INTEGER,
+  ADD COLUMN IF NOT EXISTS flat_fee             INTEGER,
+  ADD COLUMN IF NOT EXISTS bar_license          TEXT,
+  ADD COLUMN IF NOT EXISTS malpractice_insurance TEXT,
+  ADD COLUMN IF NOT EXISTS years_experience     INTEGER,
+  ADD COLUMN IF NOT EXISTS firm_size            TEXT,
+  ADD COLUMN IF NOT EXISTS notes                TEXT;
+
+-- Fast index for public queries that filter by status
+CREATE INDEX IF NOT EXISTS attorneys_status_idx ON attorneys (status);
+
+-- RLS: allow anyone to read active attorney profiles (public marketplace)
+CREATE POLICY IF NOT EXISTS "attorneys_select_active" ON attorneys
+  FOR SELECT USING (status = 'active');
+
+
 -- ─── Storage bucket for profile photos ────────────────────────────────────────
 -- Run in SQL editor or via the Supabase dashboard Storage UI:
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('attorney-photos', 'attorney-photos', true)

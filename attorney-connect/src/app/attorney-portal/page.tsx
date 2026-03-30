@@ -22,6 +22,9 @@ import {
   MapPin,
   Clock,
   ExternalLink,
+  ShieldCheck,
+  ShieldAlert,
+  Hourglass,
 } from "lucide-react";
 import Link from "next/link";
 import type { Attorney, Lead } from "@/lib/supabase";
@@ -113,6 +116,48 @@ function Toast({
         <AlertCircle className="w-4 h-4 shrink-0" />
       )}
       {message}
+    </div>
+  );
+}
+
+// ─── Approval Status Banner ───────────────────────────────────────────────────
+
+function ApprovalBanner({ status }: { status: "pending" | "active" | "suspended" | null }) {
+  if (!status || status === "active") {
+    if (status === "active") {
+      return (
+        <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl px-5 py-3.5 mb-8">
+          <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+          <div>
+            <p className="font-bold text-sm">Your profile is live</p>
+            <p className="text-xs text-emerald-700 mt-0.5">Clients can find and contact you on AttorneyCompete.</p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  if (status === "suspended") {
+    return (
+      <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 rounded-2xl px-5 py-3.5 mb-8">
+        <ShieldAlert className="w-5 h-5 text-red-500 shrink-0" />
+        <div>
+          <p className="font-bold text-sm">Account suspended</p>
+          <p className="text-xs text-red-700 mt-0.5">Your profile is not visible. Please contact support for assistance.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // pending (default)
+  return (
+    <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl px-5 py-3.5 mb-8">
+      <Hourglass className="w-5 h-5 text-amber-500 shrink-0" />
+      <div>
+        <p className="font-bold text-sm">Application under review</p>
+        <p className="text-xs text-amber-800 mt-0.5">Our team is verifying your credentials. You&apos;ll be notified within 2 business days once approved.</p>
+      </div>
     </div>
   );
 }
@@ -808,6 +853,9 @@ export default function AttorneyPortalPage() {
             </div>
           </div>
         </div>
+
+        {/* Approval status banner */}
+        <ApprovalBanner status={attorney?.status ?? "pending"} />
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-8 overflow-x-auto">

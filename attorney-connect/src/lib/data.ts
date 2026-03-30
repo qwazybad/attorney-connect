@@ -7,19 +7,19 @@ export interface Attorney {
   avatar: string;
   practiceAreas: string[];
   states: string[];
-  city: string;
-  state: string;
+  city?: string;
+  state?: string;
   rating: number;
   reviewCount: number;
   feePercent: number;
   avgFeePercent: number;
   responseTimeHours: number;
-  recentResult: string;
+  recentResult?: string;
   recentResultAmount?: string;
   casesWon: number;
   totalCases: number;
   yearsExperience: number;
-  barNumber: string;
+  barNumber?: string;
   badges: Badge[];
   bio: string;
   successRate: number;
@@ -28,6 +28,9 @@ export interface Attorney {
   billingType: "contingency" | "hourly" | "flat";
   hourlyRate?: number;
   avgHourlyRate?: number;
+  flatFee?: number;
+  phone?: string;
+  website?: string;
 }
 
 export interface LegalIssue {
