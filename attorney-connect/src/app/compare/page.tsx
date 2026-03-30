@@ -93,7 +93,7 @@ function ComparePageInner() {
       if (filterBilling && a.billingType !== filterBilling) return false;
       return true;
     });
-  }, [filterState, filterArea, filterMaxFee, filterMinSuccess, filterBilling]);
+  }, [baseAttorneys, filterState, filterArea, filterMaxFee, filterMinSuccess, filterBilling]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
