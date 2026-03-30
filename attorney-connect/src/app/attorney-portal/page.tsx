@@ -180,6 +180,7 @@ function ProfileTab({
   const [phone, setPhone] = useState(attorney?.phone ?? "");
   const [website, setWebsite] = useState(attorney?.website ?? "");
   const [photoUrl, setPhotoUrl] = useState(attorney?.photo_url ?? "");
+  const [imagePosition, setImagePosition] = useState(attorney?.image_position ?? "center 15%");
   const [casesWon, setCasesWon] = useState(String(attorney?.cases_won ?? ""));
   const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
@@ -197,6 +198,7 @@ function ProfileTab({
     setPhone(attorney.phone ?? "");
     setWebsite(attorney.website ?? "");
     setPhotoUrl(attorney.photo_url ?? "");
+    setImagePosition(attorney.image_position ?? "center 15%");
     setCasesWon(String(attorney.cases_won ?? ""));
     setTotalCases(String(attorney.total_cases ?? ""));
     setRecentResult(attorney.recent_result ?? "");
@@ -236,6 +238,7 @@ function ProfileTab({
       phone: phone.trim() || null,
       website: website.trim() || null,
       photo_url: photoUrl || null,
+      image_position: imagePosition || null,
       cases_won: casesWon !== "" ? parseInt(casesWon) : null,
       total_cases: totalCases !== "" ? parseInt(totalCases) : null,
       recent_result: recentResult.trim() || null,
@@ -305,6 +308,40 @@ function ProfileTab({
             </button>
           </div>
         </div>
+        {/* Photo position adjuster */}
+        {photoUrl && (
+          <div className="mt-5">
+            <p className="text-xs font-semibold text-gray-500 mb-2">Adjust Photo Position <span className="font-normal text-gray-400">(drag to reposition how it appears on your card)</span></p>
+            <div className="flex gap-4 items-start">
+              {/* Live preview */}
+              <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photoUrl}
+                  alt="Preview"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ objectPosition: imagePosition }}
+                />
+              </div>
+              {/* Slider */}
+              <div className="flex flex-col gap-1 flex-1 pt-1">
+                <div className="flex justify-between text-[10px] text-gray-400 font-medium">
+                  <span>Top</span>
+                  <span>Bottom</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={parseInt(imagePosition.split(" ")[1] ?? "15")}
+                  onChange={(e) => setImagePosition(`center ${e.target.value}%`)}
+                  className="w-full accent-blue-500"
+                />
+                <p className="text-[10px] text-gray-400">Move the slider until your face is centered in the preview.</p>
+              </div>
+            </div>
+          </div>
+        )}
         <input
           ref={fileRef}
           type="file"

@@ -37,6 +37,7 @@ function mapSupabaseAttorney(row: Record<string, unknown>): Attorney {
     badges: [],
     phone: (row.phone as string) || undefined,
     website: (row.website as string) || undefined,
+    imagePosition: (row.image_position as string) || undefined,
   };
 }
 
