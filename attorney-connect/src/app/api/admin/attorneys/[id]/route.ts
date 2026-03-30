@@ -30,7 +30,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // Send approval email to the attorney
   if (body.status === "active" && data.email) {
     await resend.emails.send({
-      from: "AttorneyCompete <onboarding@resend.dev>",
+      from: "AttorneyCompete <noreply@attorneycompete.com>",
       to: data.email,
       subject: "Your profile is live — AttorneyCompete",
       html: `

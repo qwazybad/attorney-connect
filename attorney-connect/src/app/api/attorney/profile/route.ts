@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
   // Send confirmation email to the attorney when they submit their application
   if (body.status === "pending" && body.email) {
     await resend.emails.send({
-      from: "AttorneyCompete <onboarding@resend.dev>",
+      from: "AttorneyCompete <noreply@attorneycompete.com>",
       to: body.email,
       subject: "We received your application — AttorneyCompete",
       html: `
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
   // Send admin notification when a new application is submitted
   if (body.status === "pending") {
     await resend.emails.send({
-      from: "AttorneyCompete <onboarding@resend.dev>",
+      from: "AttorneyCompete <noreply@attorneycompete.com>",
       to: "Jackhumphres.jh@gmail.com",
       subject: "New Attorney Application — AttorneyCompete",
       html: `
