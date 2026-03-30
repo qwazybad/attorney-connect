@@ -11,7 +11,17 @@ import {
 import { ATTORNEYS, Attorney, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import { useReveal } from "@/hooks/useInView";
 
+function parseYears(val: unknown): number {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") {
+    const m = val.match(/(\d+)/);
+    return m ? parseInt(m[1]) : 0;
+  }
+  return 0;
+}
+
 function mapRow(row: Record<string, unknown>): Attorney {
+  const states = (row.licensed_states as string[]) || [];
   return {
     id: row.id as string,
     name: (row.name as string) || "Attorney",
@@ -19,14 +29,15 @@ function mapRow(row: Record<string, unknown>): Attorney {
     avatar: (row.photo_url as string) || "",
     bio: (row.bio as string) || "",
     practiceAreas: (row.practice_areas as string[]) || [],
-    states: (row.licensed_states as string[]) || [],
+    states,
+    state: states[0] || undefined,
     billingType: ((row.billing_type as string) || "contingency") as Attorney["billingType"],
     feePercent: (row.fee_percent as number) || 33,
     avgFeePercent: 34,
     hourlyRate: (row.hourly_rate as number) || undefined,
     avgHourlyRate: 400,
     flatFee: (row.flat_fee as number) || undefined,
-    yearsExperience: (row.years_experience as number) || 0,
+    yearsExperience: parseYears(row.years_experience),
     rating: 0,
     reviewCount: 0,
     responseTimeHours: 24,
