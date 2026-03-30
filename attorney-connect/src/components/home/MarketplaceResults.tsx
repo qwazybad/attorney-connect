@@ -63,7 +63,7 @@ export default function MarketplaceResults() {
       .catch(() => setLiveAttorneys([]));
   }, []);
 
-  const baseAttorneys = liveAttorneys && liveAttorneys.length > 0 ? liveAttorneys : ATTORNEYS;
+  const baseAttorneys = [...ATTORNEYS, ...(liveAttorneys ?? [])];
 
   const filtered = useMemo(() => {
     if (!specialty) return baseAttorneys;

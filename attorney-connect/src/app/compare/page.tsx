@@ -68,8 +68,7 @@ function ComparePageInner() {
       .finally(() => setLoadingLive(false));
   }, []);
 
-  // Use live Supabase attorneys if any exist, otherwise fall back to demo data
-  const baseAttorneys = liveAttorneys && liveAttorneys.length > 0 ? liveAttorneys : ATTORNEYS;
+  const baseAttorneys = [...ATTORNEYS, ...(liveAttorneys ?? [])];
 
   const filtered = useMemo(() => {
     return baseAttorneys.filter((a) => {
