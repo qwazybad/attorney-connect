@@ -679,8 +679,7 @@ function ProfileTab({
         )}
       </SectionCard>
 
-      {/* Sticky save bar */}
-      <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-4 py-3 flex items-center justify-between gap-3 z-30 -mx-4 sm:-mx-6 rounded-b-2xl">
+      <div className="flex items-center justify-between gap-3 pt-2">
         <div className="text-sm font-medium">
           {saveStatus === "success" && (
             <span className="flex items-center gap-1.5 text-emerald-600">
@@ -696,7 +695,7 @@ function ProfileTab({
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-60 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm min-w-[130px] justify-center"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-60 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm"
         >
           <Save className="w-4 h-4" />
           {saving ? "Saving…" : "Save Profile"}
