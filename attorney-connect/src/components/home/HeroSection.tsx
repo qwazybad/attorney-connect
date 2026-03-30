@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
-import LadyJusticeSVG from "@/components/home/LadyJusticeSVG";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -27,8 +27,18 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
 
 
-      {/* Lady Justice */}
-      <LadyJusticeSVG />
+      {/* Lady Justice — right side */}
+      <div className="absolute right-0 top-0 h-full w-[55%] pointer-events-none hidden lg:block">
+        <Image
+          src="/pineapple-diaries.jpeg"
+          alt="Lady Justice"
+          fill
+          className="object-cover object-center"
+          style={{ opacity: 0.45, maskImage: "linear-gradient(to right, transparent 0%, black 35%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 35%)" }}
+          priority
+        />
+      </div>
+
 
       {/* Dot grid overlay */}
       <div className="absolute inset-0 dot-grid opacity-40" />
