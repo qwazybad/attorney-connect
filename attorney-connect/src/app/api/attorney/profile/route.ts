@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // GET /api/attorney/profile?id=<clerk_user_id>
 export async function GET(req: NextRequest) {
@@ -47,6 +50,30 @@ export async function POST(req: NextRequest) {
   if (error) {
     console.error("Profile upsert error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Send admin notification when a new application is submitted
+  if (body.status === "pending") {
+    await resend.emails.send({
+      from: "AttorneyCompete <onboarding@resend.dev>",
+      to: "Jackhumphres.jh@gmail.com",
+      subject: "New Attorney Application — AttorneyCompete",
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #111;">New Attorney Application</h2>
+          <p>A new attorney has applied to join AttorneyCompete and is pending approval.</p>
+          <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+            <tr><td style="padding: 8px; color: #555; font-weight: bold;">Name</td><td style="padding: 8px;">${body.name ?? "—"}</td></tr>
+            <tr style="background:#f9f9f9"><td style="padding: 8px; color: #555; font-weight: bold;">Firm</td><td style="padding: 8px;">${body.firm ?? "—"}</td></tr>
+            <tr><td style="padding: 8px; color: #555; font-weight: bold;">Phone</td><td style="padding: 8px;">${body.phone ?? "—"}</td></tr>
+            <tr style="background:#f9f9f9"><td style="padding: 8px; color: #555; font-weight: bold;">Email</td><td style="padding: 8px;">${body.email ?? "—"}</td></tr>
+            <tr><td style="padding: 8px; color: #555; font-weight: bold;">Billing</td><td style="padding: 8px;">${body.billing_type ?? "—"}</td></tr>
+            <tr style="background:#f9f9f9"><td style="padding: 8px; color: #555; font-weight: bold;">States</td><td style="padding: 8px;">${(body.licensed_states ?? []).join(", ") || "—"}</td></tr>
+          </table>
+          <a href="https://www.attorneycompete.com/admin" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Review in Admin Panel</a>
+        </div>
+      `,
+    }).catch((err) => console.error("Email send error:", err));
   }
 
   return NextResponse.json({ data });
