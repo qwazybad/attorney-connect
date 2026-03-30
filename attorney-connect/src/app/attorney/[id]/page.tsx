@@ -164,9 +164,11 @@ export default function AttorneyProfilePage() {
               </div>
 
               {/* Bio */}
-              <p className="opacity-0 animate-slide-up text-white leading-relaxed text-sm max-w-lg" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
-                {attorney.bio}
-              </p>
+              {attorney.bio && (
+                <p className="opacity-0 animate-slide-up text-white leading-relaxed text-sm max-w-lg" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
+                  {attorney.bio}
+                </p>
+              )}
 
               {/* Stats bar */}
               <div className="opacity-0 animate-slide-up grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
@@ -179,13 +181,15 @@ export default function AttorneyProfilePage() {
                     <p className="text-[10px] text-accent-300 font-bold mt-0.5">-{savings}% avg</p>
                   )}
                 </div>
-                <div className="glass rounded-2xl p-3 text-center">
-                  <div className="flex items-center justify-center gap-0.5">
-                    <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                    <p className="text-2xl font-extrabold text-white">{formatRating(attorney.rating)}</p>
+                {attorney.rating > 0 && (
+                  <div className="glass rounded-2xl p-3 text-center">
+                    <div className="flex items-center justify-center gap-0.5">
+                      <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                      <p className="text-2xl font-extrabold text-white">{formatRating(attorney.rating)}</p>
+                    </div>
+                    <p className="text-[10px] text-white/50 mt-0.5 font-medium">{attorney.reviewCount} reviews</p>
                   </div>
-                  <p className="text-[10px] text-white/50 mt-0.5 font-medium">{attorney.reviewCount} reviews</p>
-                </div>
+                )}
                 <div className="glass rounded-2xl p-3 text-center">
                   <p className="text-2xl font-extrabold text-white">{getResponseLabel(attorney.responseTimeHours)}</p>
                   <p className="text-[10px] text-white/50 mt-0.5 font-medium">Response</p>
@@ -305,11 +309,13 @@ export default function AttorneyProfilePage() {
             <div className="reveal reveal-delay-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-card">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="font-extrabold text-gray-900 text-lg">Client Reviews</h2>
-                <div className="flex items-center gap-1.5">
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-xl font-extrabold text-gray-900">{formatRating(attorney.rating)}</span>
-                  <span className="text-sm text-gray-400 font-medium">({attorney.reviewCount})</span>
-                </div>
+                {attorney.rating > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    <span className="text-xl font-extrabold text-gray-900">{formatRating(attorney.rating)}</span>
+                    <span className="text-sm text-gray-400 font-medium">({attorney.reviewCount})</span>
+                  </div>
+                )}
               </div>
               <div className="space-y-4">
                 {MOCK_REVIEWS.map((review, i) => (
