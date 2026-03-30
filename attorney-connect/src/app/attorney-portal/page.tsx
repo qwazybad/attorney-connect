@@ -543,6 +543,23 @@ function ProfileTab({
               <span className="text-lg font-bold text-gray-400">%</span>
               <span className="text-xs text-gray-400">Industry avg is 34%</span>
             </div>
+            {(() => {
+              const pct = parseFloat(feePercent);
+              if (!feePercent || isNaN(pct)) return null;
+              const diff = Math.abs(pct - 34);
+              const savings = Math.round(300000 * diff / 100);
+              if (pct < 34) return (
+                <p className="text-emerald-600 text-xs font-semibold mt-2">
+                  {diff.toFixed(1)}% below avg · clients save ~${savings.toLocaleString()} on a $300K case
+                </p>
+              );
+              if (pct > 34) return (
+                <p className="text-red-500 text-xs font-semibold mt-2">
+                  {diff.toFixed(1)}% above avg · ~${savings.toLocaleString()} more than avg on a $300K case
+                </p>
+              );
+              return <p className="text-gray-400 text-xs font-semibold mt-2">At industry average</p>;
+            })()}
           </div>
         )}
 
@@ -560,6 +577,23 @@ function ProfileTab({
               />
               <span className="text-xs text-gray-400">/ hour · Area avg ~$400/hr</span>
             </div>
+            {(() => {
+              const rate = parseFloat(hourlyRate);
+              if (!hourlyRate || isNaN(rate)) return null;
+              const diff = Math.abs(rate - 400);
+              const savings = Math.round(diff * 10);
+              if (rate < 400) return (
+                <p className="text-emerald-600 text-xs font-semibold mt-2">
+                  ${diff}/hr below avg · clients save ~${savings.toLocaleString()} on 10 hrs
+                </p>
+              );
+              if (rate > 400) return (
+                <p className="text-red-500 text-xs font-semibold mt-2">
+                  ${diff}/hr above avg · ~${savings.toLocaleString()} more than avg on 10 hrs
+                </p>
+              );
+              return <p className="text-gray-400 text-xs font-semibold mt-2">At area average</p>;
+            })()}
           </div>
         )}
 
