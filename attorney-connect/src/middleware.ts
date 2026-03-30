@@ -17,6 +17,11 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
   const maintenance = process.env.MAINTENANCE_MODE === "true";
   const pathname = req.nextUrl.pathname;
 
+  // Protect admin and attorney-portal — redirect to sign-in if not authenticated
+  if (pathname.startsWith("/admin") || pathname.startsWith("/attorney-portal")) {
+    await auth.protect();
+  }
+
   // Allow admin, portal, api, and the maintenance page itself through always
   const exempt =
     pathname.startsWith("/admin") ||
