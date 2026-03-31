@@ -108,14 +108,19 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Floating button */}
-      <button
-        onClick={() => setOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 ${open ? "opacity-0 pointer-events-none scale-90" : "opacity-100 scale-100"}`}
-        aria-label="Open legal assistant"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </button>
+      {/* Floating button + label */}
+      <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 transition-all duration-200 ${open ? "opacity-0 pointer-events-none scale-90" : "opacity-100 scale-100"}`}>
+        <div className="bg-white text-gray-800 text-xs font-semibold px-3 py-2 rounded-xl shadow-md border border-gray-200 whitespace-nowrap">
+          Find Your Attorney
+        </div>
+        <button
+          onClick={() => setOpen(true)}
+          className="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+          aria-label="Open legal assistant"
+        >
+          <MessageCircle className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* Chat panel */}
       <div
