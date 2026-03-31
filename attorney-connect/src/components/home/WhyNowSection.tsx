@@ -44,8 +44,8 @@ export default function WhyNowSection() {
             Why This Didn't Exist Before
           </div>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
-            The Legal Industry's Best Kept Secret —{" "}
-            <span className="text-blue-500">Attorney Fees Are Negotiable</span>
+            You've Been Comparison Shopping Everything{" "}
+            <span className="text-blue-500">Except Your Attorney</span>
           </h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-lg leading-relaxed">
             For decades, finding an attorney meant calling around, getting vague quotes, and hoping you weren't overpaying. There was never a centralized place to compare — until now. AttorneyCompete is the first live marketplace where attorney fees are public, competitive, and searchable in real time. Like LendingTree did for mortgages, we're bringing transparency to legal services.
