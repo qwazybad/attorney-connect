@@ -37,6 +37,7 @@ export default function Footer() {
                 { href: "/for-attorneys", label: "Partner With Us" },
                 { href: "/join", label: "Apply Now" },
                 { href: "/for-attorneys#pricing", label: "Pricing Model" },
+                { href: "/attorney-portal/sign-in", label: "Attorney Login" },
               ],
             },
             {
