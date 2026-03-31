@@ -40,7 +40,7 @@ function mapSupabaseAttorney(row: Record<string, unknown>): Attorney {
     yearsExperience: parseYears(row.years_experience),
     rating: 0,
     reviewCount: 0,
-    responseTimeHours: 24,
+    responseTimeHours: (row.response_time_hours as number) || 24,
     casesWon: (row.cases_won as number) || 0,
     totalCases: (row.total_cases as number) || 0,
     recentResult: (row.recent_result as string) || undefined,

@@ -23,6 +23,7 @@ type AdminAttorney = {
   cases_won: number | null; total_cases: number | null;
   recent_result: string | null; recent_result_amount: string | null;
   bar_license: string | null; malpractice_insurance: string | null;
+  response_time_hours: number | null;
   created_at: string; lead_count: number;
 };
 
@@ -112,6 +113,7 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
     recent_result_amount: attorney.recent_result_amount ?? "",
     bar_license: attorney.bar_license ?? "",
     malpractice_insurance: attorney.malpractice_insurance ?? "",
+    response_time_hours: attorney.response_time_hours?.toString() ?? "",
   });
   const [saving, setSaving] = useState(false); const [saved, setSaved] = useState(false); const [confirmDelete, setConfirmDelete] = useState(false); const [deleting, setDeleting] = useState(false);
 
@@ -124,6 +126,7 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
       flat_fee: fields.flat_fee ? parseFloat(fields.flat_fee) : null,
       cases_won: fields.cases_won ? parseInt(fields.cases_won) : null,
       total_cases: fields.total_cases ? parseInt(fields.total_cases) : null,
+      response_time_hours: fields.response_time_hours ? parseFloat(fields.response_time_hours) : null,
     }) });
     setSaving(false);
     if (res.ok) { const { data } = await res.json(); onUpdate({ ...attorney, ...data }); setSaved(true); setTimeout(() => setSaved(false), 2000); }
@@ -227,6 +230,19 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Recent Result Amount</label>
               <input value={fields.recent_result_amount} onChange={(e) => setFields({ ...fields, recent_result_amount: e.target.value })} placeholder="e.g. $1.2M" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
+          </div>
+        </div>
+
+        {/* Response Time */}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Response Time</p>
+          <div className="flex flex-wrap gap-2">
+            {[{ label: "Under 1 hr", value: "0.5" }, { label: "1–2 hrs", value: "1" }, { label: "Same day", value: "4" }, { label: "24 hrs", value: "24" }, { label: "1–2 days", value: "48" }].map(({ label, value }) => (
+              <button key={value} type="button" onClick={() => setFields({ ...fields, response_time_hours: value })}
+                className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${fields.response_time_hours === value ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}>
+                {label}
+              </button>
+            ))}
           </div>
         </div>
 

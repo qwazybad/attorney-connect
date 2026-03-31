@@ -196,6 +196,7 @@ function ProfileTab({
   const [totalCases, setTotalCases] = useState(String(attorney?.total_cases ?? ""));
   const [recentResult, setRecentResult] = useState(attorney?.recent_result ?? "");
   const [recentResultAmount, setRecentResultAmount] = useState(attorney?.recent_result_amount ?? "");
+  const [responseTime, setResponseTime] = useState(String(attorney?.response_time_hours ?? ""));
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"success" | "error" | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -223,6 +224,7 @@ function ProfileTab({
     setTotalCases(String(attorney.total_cases ?? ""));
     setRecentResult(attorney.recent_result ?? "");
     setRecentResultAmount(attorney.recent_result_amount ?? "");
+    setResponseTime(String(attorney.response_time_hours ?? ""));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attorney?.id]);
 
@@ -271,6 +273,7 @@ function ProfileTab({
       total_cases: totalCases !== "" ? parseInt(totalCases) : null,
       recent_result: recentResult.trim() || null,
       recent_result_amount: recentResultAmount.trim() || null,
+      response_time_hours: responseTime !== "" ? parseFloat(responseTime) : null,
     };
 
     // Use service-role key via API route or upsert directly
@@ -617,6 +620,39 @@ function ProfileTab({
               <span className="text-xs text-gray-400">per case</span>
             </div>
           </div>
+        )}
+      </SectionCard>
+
+      {/* Response Time */}
+      <SectionCard>
+        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Typical Response Time</h3>
+        <p className="text-xs text-gray-400 mb-5">How quickly do you typically respond to new client inquiries? Faster response times improve your ranking.</p>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "Under 1 hour", value: "0.5" },
+            { label: "1–2 hours", value: "1" },
+            { label: "Same day", value: "4" },
+            { label: "Within 24 hours", value: "24" },
+            { label: "1–2 business days", value: "48" },
+          ].map(({ label, value }) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setResponseTime(value)}
+              className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-colors ${
+                responseTime === value
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {responseTime && (
+          <p className="text-xs text-gray-400 mt-3">
+            This will display as your response time on your attorney card and profile.
+          </p>
         )}
       </SectionCard>
 
