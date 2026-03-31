@@ -17,7 +17,11 @@ type AdminAttorney = {
   phone: string | null; website: string | null; email: string | null;
   photo_url: string | null; webhook_url: string | null; status: Status;
   notes: string | null; practice_areas: string[] | null; licensed_states: string[] | null;
-  years_experience: string | null; firm_size: string | null; fee_percent: number | null;
+  years_experience: string | null; firm_size: string | null;
+  billing_type: string | null; fee_percent: number | null; hourly_rate: number | null; flat_fee: number | null;
+  city: string | null; state: string | null;
+  cases_won: number | null; total_cases: number | null;
+  recent_result: string | null; recent_result_amount: string | null;
   bar_license: string | null; malpractice_insurance: string | null;
   created_at: string; lead_count: number;
 };
@@ -93,12 +97,34 @@ function AddAttorneyModal({ onClose, onAdded }: { onClose: () => void; onAdded: 
 }
 
 function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorney: AdminAttorney; leads: AdminLead[]; onUpdate: (u: AdminAttorney) => void; onDelete: (id: string) => void; onClose: () => void }) {
-  const [fields, setFields] = useState({ name: attorney.name ?? "", firm: attorney.firm ?? "", email: attorney.email ?? "", phone: attorney.phone ?? "", website: attorney.website ?? "", bio: attorney.bio ?? "", status: attorney.status, notes: attorney.notes ?? "", fee_percent: attorney.fee_percent?.toString() ?? "", bar_license: attorney.bar_license ?? "", malpractice_insurance: attorney.malpractice_insurance ?? "" });
+  const [fields, setFields] = useState({
+    name: attorney.name ?? "", firm: attorney.firm ?? "", email: attorney.email ?? "",
+    phone: attorney.phone ?? "", website: attorney.website ?? "", bio: attorney.bio ?? "",
+    status: attorney.status, notes: attorney.notes ?? "",
+    billing_type: attorney.billing_type ?? "contingency",
+    fee_percent: attorney.fee_percent?.toString() ?? "",
+    hourly_rate: attorney.hourly_rate?.toString() ?? "",
+    flat_fee: attorney.flat_fee?.toString() ?? "",
+    city: attorney.city ?? "", state: attorney.state ?? "",
+    cases_won: attorney.cases_won?.toString() ?? "",
+    total_cases: attorney.total_cases?.toString() ?? "",
+    recent_result: attorney.recent_result ?? "",
+    recent_result_amount: attorney.recent_result_amount ?? "",
+    bar_license: attorney.bar_license ?? "",
+    malpractice_insurance: attorney.malpractice_insurance ?? "",
+  });
   const [saving, setSaving] = useState(false); const [saved, setSaved] = useState(false); const [confirmDelete, setConfirmDelete] = useState(false); const [deleting, setDeleting] = useState(false);
 
   async function handleSave() {
     setSaving(true);
-    const res = await fetch(`/api/admin/attorneys/${attorney.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...fields, fee_percent: fields.fee_percent ? parseFloat(fields.fee_percent) : null }) });
+    const res = await fetch(`/api/admin/attorneys/${attorney.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+      ...fields,
+      fee_percent: fields.fee_percent ? parseFloat(fields.fee_percent) : null,
+      hourly_rate: fields.hourly_rate ? parseFloat(fields.hourly_rate) : null,
+      flat_fee: fields.flat_fee ? parseFloat(fields.flat_fee) : null,
+      cases_won: fields.cases_won ? parseInt(fields.cases_won) : null,
+      total_cases: fields.total_cases ? parseInt(fields.total_cases) : null,
+    }) });
     setSaving(false);
     if (res.ok) { const { data } = await res.json(); onUpdate({ ...attorney, ...data }); setSaved(true); setTimeout(() => setSaved(false), 2000); }
   }
@@ -121,36 +147,98 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
         <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"><X className="w-4 h-4" /></button>
       </div>
       <div className="p-6 space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Status</label>
-            <select value={fields.status} onChange={(e) => setFields({ ...fields, status: e.target.value as Status })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Fee %</label>
-            <input type="number" value={fields.fee_percent} onChange={(e) => setFields({ ...fields, fee_percent: e.target.value })} placeholder="e.g. 28" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        {/* Status */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Status</label>
+          <select value={fields.status} onChange={(e) => setFields({ ...fields, status: e.target.value as Status })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
+          </select>
+        </div>
+
+        {/* Basic info */}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Basic Info</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {([{ key: "name", label: "Full Name" }, { key: "firm", label: "Law Firm" }, { key: "email", label: "Email" }, { key: "phone", label: "Phone" }, { key: "website", label: "Website" }, { key: "city", label: "City" }, { key: "state", label: "Display State" }, { key: "bar_license", label: "Bar License" }, { key: "malpractice_insurance", label: "Malpractice Insurance" }] as { key: string; label: string }[]).map(({ key, label }) => (
+              <div key={key}>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">{label}</label>
+                <input value={(fields as Record<string, string>)[key]} onChange={(e) => setFields({ ...fields, [key]: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[{ key: "name", label: "Full Name", icon: FileText }, { key: "firm", label: "Law Firm", icon: FileText }, { key: "email", label: "Email", icon: Mail }, { key: "phone", label: "Phone", icon: Phone }, { key: "website", label: "Website", icon: Globe }, { key: "bar_license", label: "Bar License", icon: Star }, { key: "malpractice_insurance", label: "Malpractice Insurance", icon: AlertCircle }].map(({ key, label, icon: Icon }) => (
-            <div key={key}>
-              <label className="flex items-center gap-1 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5"><Icon className="w-3 h-3" />{label}</label>
-              <input value={(fields as Record<string, string>)[key]} onChange={(e) => setFields({ ...fields, [key]: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-          ))}
-        </div>
+
+        {/* Bio */}
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Bio</label>
           <textarea rows={3} value={fields.bio} onChange={(e) => setFields({ ...fields, bio: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
         </div>
+
+        {/* Fee Structure */}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Fee Structure</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Billing Type</label>
+              <select value={fields.billing_type} onChange={(e) => setFields({ ...fields, billing_type: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="contingency">Contingency</option>
+                <option value="hourly">Hourly</option>
+                <option value="flat">Flat Fee</option>
+              </select>
+            </div>
+            {fields.billing_type === "contingency" && (
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Fee % (e.g. 28)</label>
+                <input type="number" value={fields.fee_percent} onChange={(e) => setFields({ ...fields, fee_percent: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            )}
+            {fields.billing_type === "hourly" && (
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Hourly Rate ($)</label>
+                <input type="number" value={fields.hourly_rate} onChange={(e) => setFields({ ...fields, hourly_rate: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            )}
+            {fields.billing_type === "flat" && (
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Flat Fee ($)</label>
+                <input type="number" value={fields.flat_fee} onChange={(e) => setFields({ ...fields, flat_fee: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Case Results */}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Case Results</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Cases Won</label>
+              <input type="number" value={fields.cases_won} onChange={(e) => setFields({ ...fields, cases_won: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Total Cases</label>
+              <input type="number" value={fields.total_cases} onChange={(e) => setFields({ ...fields, total_cases: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Recent Result</label>
+              <input value={fields.recent_result} onChange={(e) => setFields({ ...fields, recent_result: e.target.value })} placeholder="e.g. Personal Injury Settlement" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Recent Result Amount</label>
+              <input value={fields.recent_result_amount} onChange={(e) => setFields({ ...fields, recent_result_amount: e.target.value })} placeholder="e.g. $1.2M" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Practice areas & states (read + display) */}
         {(attorney.practice_areas?.length || attorney.licensed_states?.length) ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {attorney.practice_areas?.length ? <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Practice Areas</p><div className="flex flex-wrap gap-1.5">{attorney.practice_areas.map((a) => <span key={a} className="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2 py-0.5 rounded-full">{a}</span>)}</div></div> : null}
             {attorney.licensed_states?.length ? <div><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Licensed States</p><div className="flex flex-wrap gap-1.5">{attorney.licensed_states.map((s) => <span key={s} className="text-xs bg-gray-100 text-gray-600 border border-gray-200 px-2 py-0.5 rounded-full">{s}</span>)}</div></div> : null}
           </div>
         ) : null}
+
+        {/* Admin Notes */}
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Admin Notes</label>
           <textarea rows={2} value={fields.notes} onChange={(e) => setFields({ ...fields, notes: e.target.value })} placeholder="Internal notes about this attorney…" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
