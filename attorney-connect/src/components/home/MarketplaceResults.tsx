@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpDown, TrendingDown, Star, Trophy } from "lucide-react";
-import { ATTORNEYS, Attorney, LEGAL_ISSUES } from "@/lib/data";
+import { ATTORNEYS, Attorney, LEGAL_ISSUES, US_STATES } from "@/lib/data";
 import AttorneyCard from "@/components/compare/AttorneyCard";
 import { useReveal } from "@/hooks/useInView";
 
@@ -60,6 +60,7 @@ function mapRow(row: Record<string, unknown>): Attorney {
 export default function MarketplaceResults() {
   const [sort, setSort] = useState<SortKey>("recommended");
   const [specialty, setSpecialty] = useState("");
+  const [stateFilter, setStateFilter] = useState("");
   const [liveAttorneys, setLiveAttorneys] = useState<Attorney[] | null>(null);
   const ref = useReveal();
 
@@ -79,14 +80,23 @@ export default function MarketplaceResults() {
   const baseAttorneys = [...ATTORNEYS, ...(liveAttorneys ?? [])];
 
   const filtered = useMemo(() => {
-    if (!specialty) return baseAttorneys;
-    const issue = LEGAL_ISSUES.find((i) => i.value === specialty);
-    if (!issue) return baseAttorneys;
-    const keyword = issue.label.split(" ")[0].toLowerCase();
-    return baseAttorneys.filter((a) =>
-      a.practiceAreas.some((p) => p.toLowerCase().includes(keyword))
-    );
-  }, [baseAttorneys, specialty]);
+    let results = baseAttorneys;
+    if (specialty) {
+      const issue = LEGAL_ISSUES.find((i) => i.value === specialty);
+      if (issue) {
+        const keyword = issue.label.split(" ")[0].toLowerCase();
+        results = results.filter((a) =>
+          a.practiceAreas.some((p) => p.toLowerCase().includes(keyword))
+        );
+      }
+    }
+    if (stateFilter) {
+      results = results.filter((a) =>
+        a.states?.includes(stateFilter) || a.state === stateFilter
+      );
+    }
+    return results;
+  }, [baseAttorneys, specialty, stateFilter]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
@@ -119,6 +129,18 @@ export default function MarketplaceResults() {
           >
             {SPECIALTIES.map(({ value, label }) => (
               <option key={value} value={value}>{value === "" ? "All Specialties" : label}</option>
+            ))}
+          </select>
+
+          {/* State dropdown */}
+          <select
+            value={stateFilter}
+            onChange={(e) => setStateFilter(e.target.value)}
+            className="text-sm font-semibold px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          >
+            <option value="">All States</option>
+            {US_STATES.map((s) => (
+              <option key={s} value={s}>{s}</option>
             ))}
           </select>
 
