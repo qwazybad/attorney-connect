@@ -32,6 +32,9 @@ export default function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <Link href="/for-attorneys" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200">
+              Are you an attorney?
+            </Link>
             <Link href="/compare" className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
               Get Free Quotes
             </Link>
@@ -53,6 +56,9 @@ export default function Header() {
               {label}
             </Link>
           ))}
+          <Link href="/for-attorneys" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+            Are you an attorney? Partner with us →
+          </Link>
           <div className="pt-3 border-t border-gray-100">
             <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl">
               Get Free Quotes
