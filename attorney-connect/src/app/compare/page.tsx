@@ -125,6 +125,7 @@ function ComparePageInner() {
       {/* Page header */}
       <div className="bg-gray-950 text-white pt-24 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs text-emerald-400 font-semibold uppercase tracking-widest mb-2">Live Marketplace</p>
           <h1 className="text-3xl font-extrabold mb-1">
             {areaLabel ? `${areaLabel} Attorneys` : "Compare Attorneys"}
             {filterState ? ` in ${filterState}` : ""}
