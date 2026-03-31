@@ -51,7 +51,7 @@ export default function HeroSection() {
 
           {/* Pill badge */}
           <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm text-white/70 mb-8 animate-fade-in">
-            <Zap className="w-3.5 h-3.5 text-accent-400" />
+            <Zap className="w-3.5 h-3.5 text-accent-400 shrink-0 self-center" />
             <span>AI-powered matching · 2,847 verified firms · Free for consumers</span>
           </div>
 
