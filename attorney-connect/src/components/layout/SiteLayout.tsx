@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
+import ChatWidget from "@/components/shared/ChatWidget";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -18,6 +19,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       {!hideChrome && <Header />}
       <main>{children}</main>
       {!hideChrome && <Footer />}
+      <ChatWidget />
     </>
   );
 }

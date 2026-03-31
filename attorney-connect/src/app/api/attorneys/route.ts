@@ -6,6 +6,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 export async function GET(req: NextRequest) {
   const state = req.nextUrl.searchParams.get("state");
   const area = req.nextUrl.searchParams.get("area");
+  const ids = req.nextUrl.searchParams.get("ids");
 
   let query = supabaseAdmin
     .from("attorneys")
@@ -15,11 +16,13 @@ export async function GET(req: NextRequest) {
     .eq("status", "active")
     .order("created_at", { ascending: false });
 
+  if (ids) {
+    query = query.in("id", ids.split(","));
+  }
   if (state) {
     query = query.contains("licensed_states", [state]);
   }
   if (area) {
-    // area is a slug like "personal-injury" — do a loose keyword match against practice_areas
     const keyword = area.replace(/-/g, " ");
     query = query.ilike("practice_areas::text", `%${keyword}%`);
   }
