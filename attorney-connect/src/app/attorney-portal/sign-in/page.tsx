@@ -43,24 +43,24 @@ export default function AttorneySignInPage() {
           appearance={{
             elements: {
               rootBox: "w-full flex justify-center",
-              card: "bg-gray-800 border border-gray-700 shadow-2xl rounded-2xl",
-              headerTitle: "text-white font-bold",
-              headerSubtitle: "text-gray-400",
+              card: "bg-white border border-gray-200 shadow-2xl rounded-2xl",
+              headerTitle: "text-gray-900 font-bold",
+              headerSubtitle: "text-gray-500",
               socialButtonsBlockButton:
-                "bg-gray-700 border border-gray-600 text-white hover:bg-gray-600 transition-colors",
-              socialButtonsBlockButtonText: "text-white font-medium",
-              dividerLine: "bg-gray-600",
+                "bg-gray-50 border border-gray-200 text-gray-800 hover:bg-gray-100 transition-colors",
+              socialButtonsBlockButtonText: "text-gray-800 font-medium",
+              dividerLine: "bg-gray-200",
               dividerText: "text-gray-400",
-              formFieldLabel: "text-gray-300 font-medium text-sm",
+              formFieldLabel: "text-gray-700 font-medium text-sm",
               formFieldInput:
-                "bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
+                "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
               formButtonPrimary:
                 "bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition-colors",
-              footerActionLink: "text-blue-400 hover:text-blue-300",
-              identityPreviewText: "text-gray-300",
-              identityPreviewEditButton: "text-blue-400",
-              alertText: "text-red-400",
-              formResendCodeLink: "text-blue-400",
+              footerActionLink: "text-blue-500 hover:text-blue-600",
+              identityPreviewText: "text-gray-700",
+              identityPreviewEditButton: "text-blue-500",
+              alertText: "text-red-500",
+              formResendCodeLink: "text-blue-500",
             },
           }}
         />
