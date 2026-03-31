@@ -15,11 +15,11 @@ export default function EducationalSection() {
             Know Before You Sign
           </div>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
-            Most people overpay by{" "}
-            <span className="text-red-500">10%</span>
+            Most people overpay on{" "}
+            <span className="text-red-500">legal fees</span>
           </h2>
           <p className="reveal reveal-delay-2 mt-4 text-gray-500 text-lg leading-relaxed">
-            Attorney fees are negotiable. Our marketplace creates competition so firms offer their best rate — not a default 34%.
+            Attorney fees are negotiable — whether hourly, contingency, or flat fee. Our marketplace creates competition so firms offer their best rate, not a default quote.
           </p>
         </div>
 
@@ -28,33 +28,33 @@ export default function EducationalSection() {
           {[
             {
               label: "Industry Default",
-              fee: 33,
+              fee: "$400/hr or 33%",
               color: "text-red-500",
               bg: "bg-red-50",
               border: "border-red-100",
               badge: "What most people pay",
               badgeBg: "bg-red-100 text-red-600",
-              desc: "Walk into any attorney's office without comparing, and 34% is what you'll be quoted.",
+              desc: "Walk into any attorney's office without comparing and you'll be quoted the default rate — every time.",
             },
             {
               label: "AttorneyCompete Avg",
-              fee: 27,
+              fee: "$290/hr or 27%",
               color: "text-accent-500",
               bg: "bg-accent-50",
               border: "border-accent-100",
               badge: "Our platform average",
               badgeBg: "bg-accent-100 text-accent-600",
-              desc: "Because our attorneys compete for your case, fees trend significantly below market.",
+              desc: "Because our attorneys compete for your case, fees trend significantly below market — hourly or contingency.",
             },
             {
               label: "Best Available",
-              fee: 20,
+              fee: "$150/hr or 20%",
               color: "text-emerald-600",
               bg: "bg-emerald-50",
               border: "border-emerald-100",
               badge: "Lowest fee on platform",
               badgeBg: "bg-emerald-100 text-emerald-700",
-              desc: "For some practice areas, attorneys charge as low as 20% — keeping more in your pocket.",
+              desc: "The most competitive attorneys on our platform — keeping significantly more money in your pocket.",
             },
           ].map(({ label, fee, color, bg, border, badge, badgeBg, desc }, i) => (
             <div
@@ -62,7 +62,7 @@ export default function EducationalSection() {
               className={`reveal reveal-delay-${i + 1} card-lift bg-white rounded-2xl border ${border} p-6 shadow-card`}
             >
               <div className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${badgeBg} mb-4`}>{badge}</div>
-              <div className={`text-6xl font-extrabold ${color} mb-1`}>{fee}%</div>
+              <div className={`text-3xl font-extrabold ${color} mb-1 leading-tight`}>{fee}</div>
               <div className="text-sm font-semibold text-gray-700 mb-2">{label}</div>
               <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
             </div>

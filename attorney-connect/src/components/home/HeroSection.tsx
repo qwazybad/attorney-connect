@@ -60,13 +60,12 @@ export default function HeroSection() {
             When Attorneys{" "}
             <span className="text-white">Compete,</span>
             <br />
-            <span className="text-blue-400">You Win.</span>
+            <span className="text-blue-400">You Pay Less.</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
             Compare fees, ratings, and results from top attorneys — transparently.
-            The average contingency fee is{" "}
-            <span className="text-white font-semibold underline">34%</span>. Many attorneys on our platform charge significantly less.
+            Whether you need a contingency lawyer, hourly counsel, or flat-fee representation, our marketplace creates competition so you get the best rate — not the default quote.
           </p>
 
           {/* Glass search form */}
