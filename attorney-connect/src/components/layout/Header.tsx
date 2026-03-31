@@ -21,14 +21,9 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
-            {[
-              { href: "/compare", label: "Compare" },
-              { href: "/#how-it-works", label: "How It Works" },
-            ].map(({ href, label }) => (
-              <Link key={href} href={href} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">
-                {label}
-              </Link>
-            ))}
+            <Link href="/compare" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">
+              Compare
+            </Link>
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
@@ -45,14 +40,9 @@ export default function Header() {
 
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-5 py-4 space-y-1">
-          {[
-            { href: "/compare", label: "Compare Attorneys" },
-            { href: "/#how-it-works", label: "How It Works" },
-          ].map(({ href, label }) => (
-            <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm font-medium text-gray-700 hover:text-accent-500 transition-colors">
-              {label}
-            </Link>
-          ))}
+          <Link href="/compare" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm font-medium text-gray-700 hover:text-accent-500 transition-colors">
+            Compare Attorneys
+          </Link>
           <div className="pt-3 border-t border-gray-100">
             <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl">
               Get Free Quotes
