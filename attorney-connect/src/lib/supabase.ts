@@ -31,6 +31,7 @@ export type Attorney = {
   total_cases: number | null;
   recent_result: string | null;
   recent_result_amount: string | null;
+  response_time_hours: number | null;
   created_at: string;
 };
 
