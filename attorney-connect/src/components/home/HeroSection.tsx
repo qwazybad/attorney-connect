@@ -52,7 +52,7 @@ export default function HeroSection() {
           {/* Pill badge */}
           <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs sm:text-sm text-white/70 mb-8 animate-fade-in max-w-[90vw]">
             <Zap className="w-3.5 h-3.5 text-accent-400 shrink-0" />
-            <span className="whitespace-nowrap overflow-hidden text-ellipsis">AI-powered matching · 2,847 verified firms · Free for consumers</span>
+            <span className="whitespace-nowrap overflow-hidden text-ellipsis">AI matching · 2,847 verified firms · Free for consumers</span>
           </div>
 
           {/* Main headline */}
