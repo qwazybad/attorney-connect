@@ -31,6 +31,7 @@ export interface Attorney {
   flatFee?: number;
   phone?: string;
   website?: string;
+  response_time_hours?: number;
 }
 
 export interface LegalIssue {
