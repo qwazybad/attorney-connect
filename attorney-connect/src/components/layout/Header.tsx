@@ -20,11 +20,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-7">
-            <Link href="/compare" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">
-              Compare
-            </Link>
-          </nav>
+          <nav className="hidden md:flex items-center gap-7" />
 
           <div className="hidden md:flex items-center gap-3">
 <Link href="/compare" className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
@@ -40,9 +36,6 @@ export default function Header() {
 
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-5 py-4 space-y-1">
-          <Link href="/compare" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm font-medium text-gray-700 hover:text-accent-500 transition-colors">
-            Compare Attorneys
-          </Link>
           <div className="pt-3 border-t border-gray-100">
             <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl">
               Get Free Quotes
