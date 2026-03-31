@@ -57,15 +57,14 @@ export default function HeroSection() {
 
           {/* Main headline */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-            When Attorneys{" "}
-            <span className="text-white">Compete,</span>
+            The First Marketplace Where{" "}
             <br />
-            <span className="text-blue-400">You Pay Less.</span>
+            <span className="text-blue-400">Attorneys Compete</span>
+            {" "}for Your Case
           </h1>
 
           <p className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-            Compare fees, ratings, and results from top attorneys — transparently.
-            Whether you need a contingency lawyer, hourly counsel, or flat-fee representation, our marketplace creates competition so you get the best rate — not the default quote.
+            A transparent, real-time legal marketplace — attorneys list their fees, ratings, and case results. You see everything upfront and choose the best fit for your situation.
           </p>
 
           {/* Glass search form */}
