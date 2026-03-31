@@ -69,7 +69,7 @@ export default function WhyNowSection() {
         <div className="reveal bg-gray-950 rounded-3xl px-8 py-10 text-center">
           <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3">The Bottom Line</p>
           <p className="text-white text-2xl sm:text-3xl font-extrabold mb-8 max-w-2xl mx-auto leading-tight">
-            "The first time in history you can shop for an attorney the same way you shop for anything else."
+            "The first time in history you can shop for an attorney the same way you shop for insurance or mortgage rates."
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
