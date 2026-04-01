@@ -142,6 +142,23 @@ export default function AttorneyProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
             {/* Left: Info */}
             <div className="pb-12">
+              {/* Mobile photo */}
+              {attorney.avatar && (
+                <div className="opacity-0 animate-slide-up lg:hidden flex justify-center mb-6" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
+                  <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/20 shadow-xl">
+                    <Image
+                      src={attorney.avatar}
+                      alt={attorney.name}
+                      fill
+                      className="object-cover"
+                      style={{ objectPosition: attorney.imagePosition ?? "top" }}
+                      sizes="112px"
+                      priority
+                    />
+                  </div>
+                </div>
+              )}
+
               {/* Badges */}
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-2 mb-5" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
                 {attorney.badges.map((badge) => (
