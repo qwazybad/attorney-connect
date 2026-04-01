@@ -10,7 +10,7 @@ export async function GET(
   const { data, error } = await supabaseAdmin
     .from("attorneys")
     .select(
-      "id, name, firm, bio, phone, website, photo_url, image_position, city, state, practice_areas, licensed_states, billing_type, fee_percent, hourly_rate, flat_fee, years_experience, firm_size, cases_won, total_cases, recent_result, recent_result_amount, created_at"
+      "id, name, firm, bio, phone, website, photo_url, image_position, city, state, practice_areas, licensed_states, billing_type, fee_percent, hourly_rate, flat_fee, years_experience, firm_size, cases_won, total_cases, recent_result, recent_result_amount, response_time_hours, created_at"
     )
     .eq("id", id)
     .eq("status", "active")
