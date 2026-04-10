@@ -127,13 +127,27 @@ export async function POST(req: NextRequest) {
     }
 
     // 4. Send notification emails
+    const formattedDetails = message
+      ? message
+          .split("\n")
+          .filter(Boolean)
+          .map((line) => {
+            const colonIdx = line.indexOf(": ");
+            if (colonIdx === -1) return `<p style="margin:6px 0;">${line}</p>`;
+            const q = line.slice(0, colonIdx);
+            const a = line.slice(colonIdx + 2);
+            return `<p style="margin:6px 0;"><strong>${q}:</strong> ${a}</p>`;
+          })
+          .join("")
+      : null;
+
     const leadRows = `
       <tr><td style="padding:8px;color:#555;font-weight:bold;">Name</td><td style="padding:8px;">${first_name} ${last_name}</td></tr>
       <tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;">Email</td><td style="padding:8px;">${email}</td></tr>
       <tr><td style="padding:8px;color:#555;font-weight:bold;">Phone</td><td style="padding:8px;">${phone ?? "—"}</td></tr>
       <tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;">Legal Issue</td><td style="padding:8px;">${legal_issue}</td></tr>
       <tr><td style="padding:8px;color:#555;font-weight:bold;">State</td><td style="padding:8px;">${state}</td></tr>
-      ${message ? `<tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;vertical-align:top;">Details</td><td style="padding:8px;">${message}</td></tr>` : ""}
+      ${formattedDetails ? `<tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;vertical-align:top;">Details</td><td style="padding:8px;line-height:1.6;">${formattedDetails}</td></tr>` : ""}
     `;
 
     const adminHtml = `
