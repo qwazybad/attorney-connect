@@ -174,7 +174,10 @@ export default function ClaimPage() {
           <div className="flex justify-center"><Loader2 className="w-5 h-5 text-blue-400 animate-spin" /></div>
         ) : !user ? (
           <div>
-            <p className="text-center text-sm text-gray-500 mb-4">Sign in or create a free account to claim this profile.</p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-4 text-center">
+              <p className="text-sm font-semibold text-blue-800">First time here? Click <span className="underline">Sign up</span> at the bottom of the form below.</p>
+              <p className="text-xs text-blue-600 mt-0.5">Already have an account? Sign in with your email.</p>
+            </div>
             <SignIn
               routing="hash"
               fallbackRedirectUrl={`/claim/${token}`}
