@@ -173,15 +173,15 @@ export default function ClaimPage() {
         {!isLoaded ? (
           <div className="flex justify-center"><Loader2 className="w-5 h-5 text-blue-400 animate-spin" /></div>
         ) : !user ? (
-          <div>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-4 text-center">
-              <p className="text-sm font-semibold text-blue-800">First time here? Click <span className="underline">Sign up</span> at the bottom of the form below.</p>
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-blue-50 border-b border-blue-200 px-6 py-3 text-center">
+              <p className="text-sm font-semibold text-blue-800">First time here? Click <span className="underline">Sign up</span> at the bottom of the form.</p>
               <p className="text-xs text-blue-600 mt-0.5">Already have an account? Sign in with your email.</p>
             </div>
             <SignIn
               routing="hash"
               fallbackRedirectUrl={`/claim/${token}`}
-              appearance={{ elements: { rootBox: "w-full", card: "shadow-none border border-gray-200 rounded-2xl" } }}
+              appearance={{ elements: { rootBox: "w-full", card: "shadow-none border-0 rounded-none" } }}
             />
           </div>
         ) : (
