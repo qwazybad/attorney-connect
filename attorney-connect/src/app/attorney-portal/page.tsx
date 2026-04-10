@@ -1170,20 +1170,20 @@ function DashboardTab({
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total Leads",  value: totalLeads,  color: "bg-blue-100 text-blue-600" },
-          { label: "New / Unread", value: newLeads,    color: "bg-amber-100 text-amber-600" },
-          { label: "Retained",     value: retained,    color: "bg-purple-100 text-purple-600" },
-          { label: "Closed / Won", value: closed,      color: "bg-green-100 text-green-600" },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center gap-4">
+          { label: "Total Leads",  value: totalLeads,  color: "bg-blue-100 text-blue-600",   href: "/attorney-portal/leads" },
+          { label: "New / Unread", value: newLeads,    color: "bg-amber-100 text-amber-600",  href: "/attorney-portal/leads?status=new" },
+          { label: "Retained",     value: retained,    color: "bg-purple-100 text-purple-600", href: "/attorney-portal/leads?status=retained" },
+          { label: "Closed / Won", value: closed,      color: "bg-green-100 text-green-600",  href: "/attorney-portal/leads?status=closed" },
+        ].map(({ label, value, color, href }) => (
+          <Link key={label} href={href} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center gap-4 hover:border-blue-300 hover:shadow-md transition-all group">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
               <Inbox className="w-5 h-5" />
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-2xl font-extrabold text-gray-900">{value}</p>
-              <p className="text-xs text-gray-500 font-medium">{label}</p>
+              <p className="text-xs text-gray-500 font-medium group-hover:text-blue-500 transition-colors">{label}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -1193,7 +1193,7 @@ function DashboardTab({
           <SectionCard>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-bold text-gray-900">Recent Leads</h3>
-              <button onClick={() => onTabChange("leads")} className="text-xs text-blue-500 hover:text-blue-700 font-semibold">View all →</button>
+              <Link href="/attorney-portal/leads" className="text-xs text-blue-500 hover:text-blue-700 font-semibold">View all →</Link>
             </div>
             {leadsLoading ? (
               <div className="space-y-2">
@@ -1543,31 +1543,36 @@ export default function AttorneyPortalPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-8 overflow-x-auto">
-          {tabs.map(({ id, label, icon: Icon, badge }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              className={`flex-1 min-w-max flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                activeTab === id
-                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              {label}
-              {badge !== undefined && (
-                <span
-                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                    activeTab === id
-                      ? "bg-white/20 text-white"
-                      : "bg-gray-200 text-gray-500"
-                  }`}
-                >
-                  {badge}
-                </span>
-              )}
-            </button>
-          ))}
+          {tabs.map(({ id, label, icon: Icon, badge }) => {
+            const cls = `flex-1 min-w-max flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              activeTab === id
+                ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
+                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+            }`;
+            const inner = (
+              <>
+                <Icon className="w-4 h-4" />
+                {label}
+                {badge !== undefined && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${activeTab === id ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`}>
+                    {badge}
+                  </span>
+                )}
+              </>
+            );
+            if (id === "leads") {
+              return (
+                <Link key={id} href="/attorney-portal/leads" className={cls}>
+                  {inner}
+                </Link>
+              );
+            }
+            return (
+              <button key={id} onClick={() => setActiveTab(id)} className={cls}>
+                {inner}
+              </button>
+            );
+          })}
         </div>
 
         {/* Tab content */}
