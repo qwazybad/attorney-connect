@@ -5,11 +5,12 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Star, Clock, MapPin, CheckCircle, Trophy, Phone, Mail,
+  Star, MapPin, Trophy,
   ArrowLeft, TrendingDown, Scale, Shield, Zap,
 } from "lucide-react";
 import { ATTORNEYS, Attorney, formatRating, getResponseLabel, getSavingsPercent, getHourlySavingsPercent } from "@/lib/data";
 import { useReveal } from "@/hooks/useInView";
+import LeadFunnel from "@/components/shared/LeadFunnel";
 
 function parseYears(val: unknown): number {
   if (typeof val === "number") return val;
@@ -82,8 +83,7 @@ export default function AttorneyProfilePage() {
       .finally(() => setLoading(false));
   }, [id, staticMatch]);
 
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [funnelOpen, setFunnelOpen] = useState(false);
 
   const mainRef = useReveal();
   const sidebarRef = useReveal();
@@ -116,12 +116,9 @@ export default function AttorneyProfilePage() {
   const winRate = attorney.totalCases > 0 ? Math.round((attorney.casesWon / attorney.totalCases) * 100) : null;
   const isHourly = attorney.billingType === "hourly";
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitted(true);
-  }
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -416,74 +413,20 @@ export default function AttorneyProfilePage() {
                 </div>
               </div>
 
-              {/* Contact form */}
+              {/* Consultation CTA */}
               <div className="reveal reveal-delay-1 bg-white rounded-2xl border border-gray-100 p-5 shadow-card">
                 <h3 className="font-extrabold text-gray-900 text-base mb-1">Get a Free Case Review</h3>
                 <p className="text-xs text-gray-400 mb-4">
                   No obligation · Responds in {getResponseLabel(attorney.responseTimeHours)}
                 </p>
-
-                {submitted ? (
-                  <div className="text-center py-6">
-                    <div className="w-14 h-14 rounded-full bg-accent-50 flex items-center justify-center mx-auto mb-3">
-                      <CheckCircle className="w-8 h-8 text-accent-500" />
-                    </div>
-                    <p className="font-extrabold text-gray-900">Request Sent!</p>
-                    <p className="text-sm text-gray-400 mt-1">
-                      {attorney.name} will reach out within {getResponseLabel(attorney.responseTimeHours)}.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-3">
-                    <input
-                      type="text"
-                      placeholder="Your full name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                      className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500 bg-gray-50"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email address"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500 bg-gray-50"
-                    />
-                    <input
-                      type="tel"
-                      placeholder="Phone number"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500 bg-gray-50"
-                    />
-                    <textarea
-                      placeholder="Briefly describe your case..."
-                      rows={3}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500 bg-gray-50 resize-none"
-                    />
-                    <button
-                      type="submit"
-                      className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 rounded-xl transition-colors text-sm"
-                    >
-                      Request Free Consultation
-                    </button>
-                  </form>
-                )}
-
-                <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
-                  <button className="flex-1 flex items-center justify-center gap-1.5 border border-gray-200 text-gray-700 text-xs font-semibold py-2.5 rounded-xl hover:bg-gray-50 transition-colors">
-                    <Phone className="w-3.5 h-3.5" />
-                    Call
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-1.5 border border-gray-200 text-gray-700 text-xs font-semibold py-2.5 rounded-xl hover:bg-gray-50 transition-colors">
-                    <Mail className="w-3.5 h-3.5" />
-                    Email
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setFunnelOpen(true)}
+                  className="w-full bg-gray-900 hover:bg-gray-800 active:bg-gray-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                >
+                  Start Free Consultation
+                </button>
+                <p className="text-xs text-center text-gray-400 mt-3">Takes 60 seconds · No spam</p>
               </div>
 
               {/* Trust signals */}
@@ -511,5 +454,17 @@ export default function AttorneyProfilePage() {
         </div>
       </div>
     </div>
+
+    <LeadFunnel
+      attorney={{
+        id: attorney.id,
+        name: attorney.name,
+        practiceAreas: attorney.practiceAreas,
+        responseTimeHours: attorney.responseTimeHours,
+      }}
+      open={funnelOpen}
+      onClose={() => setFunnelOpen(false)}
+    />
+    </>
   );
 }
