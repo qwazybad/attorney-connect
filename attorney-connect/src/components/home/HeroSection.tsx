@@ -26,8 +26,8 @@ export default function HeroSection() {
     <section className="relative bg-white overflow-hidden pt-16">
       {/* Subtle right-panel tint */}
       <div className="absolute inset-y-0 right-0 w-[45%] bg-navy-50/60 hidden lg:block pointer-events-none" />
-      {/* Thin gold top bar */}
-      <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-400/40 to-transparent" />
+      {/* Thin blue top bar */}
+      <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-0 items-center min-h-[calc(100vh-64px)] py-16 lg:py-0">
@@ -36,8 +36,8 @@ export default function HeroSection() {
           <div className="lg:col-span-7 lg:pr-16">
 
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 bg-gold-50 border border-gold-200 text-gold-700 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
-              <Zap className="w-3 h-3 text-gold-500" />
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
+              <Zap className="w-3 h-3 text-blue-500" />
               The First Legal Marketplace
             </div>
 
@@ -48,7 +48,7 @@ export default function HeroSection() {
             >
               Attorneys Compete.{" "}
               <br className="hidden sm:block" />
-              <span className="text-gradient-gold">You Win.</span>
+              <span className="text-blue-500">You Win.</span>
             </h1>
 
             <p
@@ -90,7 +90,7 @@ export default function HeroSection() {
             >
               {[
                 { icon: Shield, color: "text-emerald-500", label: "Bar-verified attorneys" },
-                { icon: Star,   color: "text-gold-400",    label: "4.8★ platform rating" },
+                { icon: Star,   color: "text-yellow-400",   label: "4.8★ platform rating" },
                 { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
               ].map(({ icon: Icon, color, label }) => (
                 <span key={label} className="flex items-center gap-1.5 text-sm text-gray-500">

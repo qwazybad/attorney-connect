@@ -22,19 +22,19 @@ export default function ForAttorneysCTA() {
         style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)", backgroundSize: "28px 28px" }}
       />
       {/* Gold accent line top */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-400/50 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* Left */}
           <div>
-            <div className="reveal inline-flex items-center gap-2 bg-gold-400/10 border border-gold-400/30 text-gold-300 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
+            <div className="reveal inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-300 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
               For Law Firms
             </div>
             <h2 className="reveal reveal-delay-1 font-display text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight mb-5">
               Performance-based leads.{" "}
-              <span className="text-gradient-gold">Zero upfront cost.</span>
+              <span className="text-blue-400">Zero upfront cost.</span>
             </h2>
             <p className="reveal reveal-delay-2 text-navy-200 text-lg mb-8 leading-relaxed">
               AttorneyCompete sends you pre-screened consumers. You pay nothing until a client signs an engagement letter or retainer — no wasted ad spend.
@@ -48,8 +48,8 @@ export default function ForAttorneysCTA() {
                 "Cancel anytime — no contracts",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-sm text-navy-100">
-                  <div className="w-5 h-5 rounded-full bg-gold-400/20 flex items-center justify-center shrink-0">
-                    <CheckCircle className="w-3 h-3 text-gold-400" />
+                  <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+                    <CheckCircle className="w-3 h-3 text-blue-400" />
                   </div>
                   {item}
                 </li>
@@ -59,7 +59,7 @@ export default function ForAttorneysCTA() {
             <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 text-navy-950 font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm"
+                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-400 text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm"
               >
                 Apply as a Partner Firm
                 <ArrowRight className="w-4 h-4" />
@@ -80,8 +80,8 @@ export default function ForAttorneysCTA() {
                 key={title}
                 className={`reveal reveal-delay-${i + 1} bg-white/5 border border-white/10 hover:bg-white/10 rounded-2xl p-5 transition-all duration-200`}
               >
-                <div className="w-10 h-10 rounded-xl bg-gold-400/15 flex items-center justify-center mb-3">
-                  <Icon className="w-5 h-5 text-gold-400" />
+                <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center mb-3">
+                  <Icon className="w-5 h-5 text-blue-400" />
                 </div>
                 <h4 className="font-bold text-white text-sm mb-1">{title}</h4>
                 <p className="text-xs text-navy-300 leading-relaxed">{description}</p>
