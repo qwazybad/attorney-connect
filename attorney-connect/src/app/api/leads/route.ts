@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,7 +39,7 @@ export async function POST(req: NextRequest) {
     // 1. Fetch attorney webhook config (uses service role key — bypasses RLS)
     const { data: attorney, error: attorneyError } = await supabaseAdmin
       .from("attorneys")
-      .select("webhook_url, field_mapping")
+      .select("webhook_url, field_mapping, name, outreach_email")
       .eq("id", attorney_id)
       .single();
 
@@ -122,6 +125,51 @@ export async function POST(req: NextRequest) {
         // Don't fail the whole request — lead is already saved
       }
     }
+
+    // 4. Send notification emails
+    const leadRows = `
+      <tr><td style="padding:8px;color:#555;font-weight:bold;">Name</td><td style="padding:8px;">${first_name} ${last_name}</td></tr>
+      <tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;">Email</td><td style="padding:8px;">${email}</td></tr>
+      <tr><td style="padding:8px;color:#555;font-weight:bold;">Phone</td><td style="padding:8px;">${phone ?? "—"}</td></tr>
+      <tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;">Legal Issue</td><td style="padding:8px;">${legal_issue}</td></tr>
+      <tr><td style="padding:8px;color:#555;font-weight:bold;">State</td><td style="padding:8px;">${state}</td></tr>
+      ${message ? `<tr style="background:#f9f9f9"><td style="padding:8px;color:#555;font-weight:bold;vertical-align:top;">Details</td><td style="padding:8px;">${message}</td></tr>` : ""}
+    `;
+
+    const adminHtml = `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
+        <h2 style="color:#111;">New Lead — ${attorney.name ?? "Unknown Attorney"}</h2>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">${leadRows}</table>
+        <a href="https://www.attorneycompete.com/admin" style="display:inline-block;background:#111;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">View in Admin</a>
+      </div>
+    `;
+
+    const attorneyHtml = `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
+        <h2 style="color:#111;">You have a new lead!</h2>
+        <p style="color:#555;">Someone submitted a consultation request through your AttorneyCompete profile. Here are their details:</p>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">${leadRows}</table>
+        <p style="color:#555;font-size:14px;">Log in to your portal to manage this lead.</p>
+        <a href="https://www.attorneycompete.com/attorney-portal" style="display:inline-block;background:#111;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Go to Portal</a>
+      </div>
+    `;
+
+    await Promise.allSettled([
+      resend.emails.send({
+        from: "AttorneyCompete <noreply@attorneycompete.com>",
+        to: "Jackhumphres.jh@gmail.com",
+        subject: `New lead — ${first_name} ${last_name} (${legal_issue})`,
+        html: adminHtml,
+      }),
+      attorney.outreach_email
+        ? resend.emails.send({
+            from: "AttorneyCompete <noreply@attorneycompete.com>",
+            to: attorney.outreach_email,
+            subject: `New lead: ${first_name} ${last_name} — ${legal_issue}`,
+            html: attorneyHtml,
+          })
+        : Promise.resolve(),
+    ]);
 
     return NextResponse.json({
       success: true,
