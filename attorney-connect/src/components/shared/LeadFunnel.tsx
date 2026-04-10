@@ -357,7 +357,7 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
                   <input className={inp} placeholder="Last name" value={contact.lastName} onChange={(e) => setContact((c) => ({ ...c, lastName: e.target.value }))} />
                 </div>
                 <input className={inp} type="email" placeholder="Email address" value={contact.email} onChange={(e) => setContact((c) => ({ ...c, email: e.target.value }))} />
-                <input className={inp} type="tel" placeholder="Phone number (optional)" value={contact.phone} onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))} />
+                <input className={inp} type="tel" placeholder="Phone number" value={contact.phone} onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))} />
                 <select className={inp} value={contact.state} onChange={(e) => setContact((c) => ({ ...c, state: e.target.value }))}>
                   <option value="">Which state are you in?</option>
                   {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -365,11 +365,12 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  disabled={submitting || !contact.firstName || !contact.lastName || !contact.email || !contact.state}
+                  disabled={submitting || !contact.firstName || !contact.lastName || !contact.email || !contact.phone || !contact.state}
                   className="w-full bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
                 >
                   {submitting ? <><Loader2 className="w-4 h-4 animate-spin" />Sending…</> : "Request Free Consultation"}
                 </button>
+
                 <p className="text-xs text-center text-gray-400">No spam. No obligation. Your info is only shared with {attorney.name}.</p>
               </div>
             </div>
