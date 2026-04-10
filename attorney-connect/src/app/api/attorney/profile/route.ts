@@ -48,10 +48,12 @@ export async function POST(req: NextRequest) {
   let data, error;
 
   if (existing) {
-    // Update the existing row (preserves the row's UUID, works for both claimed and direct signups)
+    // Strip id from body so we never overwrite the row's primary key
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: _ignored, ...updateBody } = body;
     ({ data, error } = await supabaseAdmin
       .from("attorneys")
-      .update({ ...body, clerk_id: userId })
+      .update({ ...updateBody, clerk_id: userId })
       .eq("id", existing.id)
       .select()
       .single());

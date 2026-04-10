@@ -241,9 +241,12 @@ function ProfileTab({
       body: form,
     });
 
-    if (res.ok) {
-      const { url } = await res.json();
-      setPhotoUrl(url);
+    const json = await res.json();
+    if (res.ok && json.url) {
+      setPhotoUrl(json.url);
+    } else {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus(null), 4000);
     }
     setUploading(false);
   }
