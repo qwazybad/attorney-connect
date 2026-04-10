@@ -254,6 +254,7 @@ function ProfileTab({
     const json = await res.json();
     if (res.ok && json.url) {
       setPhotoUrl(json.url);
+      if (fileRef.current) fileRef.current.value = "";
     } else {
       setSaveMessage("Photo upload failed — please try a smaller file.");
       setSaveStatus("error");
@@ -337,6 +338,7 @@ function ProfileTab({
               </div>
             )}
             <button
+              type="button"
               onClick={() => fileRef.current?.click()}
               className="absolute -bottom-2 -right-2 w-7 h-7 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center shadow-lg transition-colors"
             >
@@ -349,6 +351,7 @@ function ProfileTab({
             </p>
             <p className="text-gray-500 text-xs mt-0.5">{firm || "Your Firm"}</p>
             <button
+              type="button"
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
               className="mt-2.5 text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors"
