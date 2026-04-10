@@ -32,6 +32,10 @@ export type Attorney = {
   recent_result: string | null;
   recent_result_amount: string | null;
   response_time_hours: number | null;
+  clerk_id: string | null;
+  claimed: boolean;
+  claim_token: string | null;
+  outreach_email: string | null;
   created_at: string;
 };
 

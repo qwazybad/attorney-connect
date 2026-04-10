@@ -37,10 +37,11 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const id = crypto.randomUUID();
+  const claim_token = crypto.randomUUID();
 
   const { data, error } = await supabaseAdmin
     .from("attorneys")
-    .insert({ ...body, id, status: body.status ?? "active" })
+    .insert({ ...body, id, claim_token, claimed: false, status: body.status ?? "active" })
     .select()
     .single();
 

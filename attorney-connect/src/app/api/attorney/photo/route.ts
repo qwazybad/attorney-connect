@@ -37,10 +37,18 @@ export async function POST(req: NextRequest) {
     .from("attorney-photos")
     .getPublicUrl(path);
 
-  // Also update the attorney record immediately
-  await supabaseAdmin
+  // Also update the attorney record immediately — find row by clerk_id
+  const { data: existing } = await supabaseAdmin
     .from("attorneys")
-    .upsert({ id: userId, photo_url: data.publicUrl }, { onConflict: "id" });
+    .select("id")
+    .eq("clerk_id", userId)
+    .maybeSingle();
+
+  if (existing) {
+    await supabaseAdmin.from("attorneys").update({ photo_url: data.publicUrl }).eq("id", existing.id);
+  } else {
+    await supabaseAdmin.from("attorneys").insert({ id: userId, clerk_id: userId, photo_url: data.publicUrl });
+  }
 
   return NextResponse.json({ url: data.publicUrl });
 }

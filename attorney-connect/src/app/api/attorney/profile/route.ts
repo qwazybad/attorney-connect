@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await supabaseAdmin
     .from("attorneys")
     .select("*")
-    .eq("id", id)
+    .eq("clerk_id", userId)
     .maybeSingle();
 
   if (error) {
@@ -38,14 +38,31 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
 
-  // Always use the authenticated user's ID — never trust a client-supplied one
-  const payload = { ...body, id: userId };
-
-  const { data, error } = await supabaseAdmin
+  // Find existing row by clerk_id
+  const { data: existing } = await supabaseAdmin
     .from("attorneys")
-    .upsert(payload, { onConflict: "id" })
-    .select()
-    .single();
+    .select("id")
+    .eq("clerk_id", userId)
+    .maybeSingle();
+
+  let data, error;
+
+  if (existing) {
+    // Update the existing row (preserves the row's UUID, works for both claimed and direct signups)
+    ({ data, error } = await supabaseAdmin
+      .from("attorneys")
+      .update({ ...body, clerk_id: userId })
+      .eq("id", existing.id)
+      .select()
+      .single());
+  } else {
+    // New direct signup — id and clerk_id both = userId for simplicity
+    ({ data, error } = await supabaseAdmin
+      .from("attorneys")
+      .insert({ ...body, id: userId, clerk_id: userId })
+      .select()
+      .single());
+  }
 
   if (error) {
     console.error("Profile upsert error:", error);

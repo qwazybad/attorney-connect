@@ -6,9 +6,10 @@ import {
   Scale, Users, CheckCircle, Clock, XCircle, Inbox,
   ChevronDown, ChevronUp, Search, Plus, Save, Trash2,
   LogOut, Phone, Globe, Mail, FileText, Star,
-  AlertCircle, X, ExternalLink,
+  AlertCircle, X, ExternalLink, Send, BadgeCheck,
 } from "lucide-react";
 import Link from "next/link";
+import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
 
 type Status = "active" | "pending" | "suspended";
 
@@ -24,6 +25,7 @@ type AdminAttorney = {
   recent_result: string | null; recent_result_amount: string | null;
   bar_license: string | null; malpractice_insurance: string | null;
   response_time_hours: number | null;
+  clerk_id: string | null; claimed: boolean; claim_token: string | null; outreach_email: string | null;
   created_at: string; lead_count: number;
 };
 
@@ -56,40 +58,132 @@ function StatCard({ label, value, icon: Icon, color }: { label: string; value: n
 }
 
 function AddAttorneyModal({ onClose, onAdded }: { onClose: () => void; onAdded: (a: AdminAttorney) => void }) {
-  const [form, setForm] = useState({ name: "", firm: "", email: "", phone: "", website: "", status: "active" });
+  const [form, setForm] = useState({
+    name: "", firm: "", outreach_email: "", phone: "", website: "",
+    city: "", state: "", billing_type: "contingency",
+    fee_percent: "", hourly_rate: "", flat_fee: "", status: "active",
+  });
+  const [practiceAreas, setPracticeAreas] = useState<string[]>([]);
+  const [licensedStates, setLicensedStates] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  function toggleArea(label: string) {
+    setPracticeAreas((prev) => prev.includes(label) ? prev.filter((a) => a !== label) : [...prev, label]);
+  }
+  function toggleState(s: string) {
+    setLicensedStates((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault(); setSaving(true); setError("");
-    const res = await fetch("/api/admin/attorneys", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    const payload = {
+      ...form,
+      email: form.outreach_email,
+      fee_percent: form.fee_percent ? parseFloat(form.fee_percent) : null,
+      hourly_rate: form.hourly_rate ? parseFloat(form.hourly_rate) : null,
+      flat_fee: form.flat_fee ? parseFloat(form.flat_fee) : null,
+      practice_areas: practiceAreas,
+      licensed_states: licensedStates,
+    };
+    const res = await fetch("/api/admin/attorneys", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     const json = await res.json(); setSaving(false);
     if (!res.ok) { setError(json.error ?? "Failed"); return; }
     onAdded({ ...json.data, lead_count: 0 }); onClose();
   }
+
+  const inp = "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500";
+  const lbl = "block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5";
+
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">Add Attorney Manually</h2>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">Seed Attorney Profile</h2>
+            <p className="text-xs text-gray-500 mt-0.5">Profile goes live immediately. Send a claim email so they can take ownership.</p>
+          </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {[{ key: "name", label: "Full Name", placeholder: "Jane Smith", required: true }, { key: "firm", label: "Law Firm", placeholder: "Smith & Associates", required: true }, { key: "email", label: "Email", placeholder: "jane@firm.com", required: false }, { key: "phone", label: "Phone", placeholder: "(555) 000-0000", required: false }, { key: "website", label: "Website", placeholder: "yourfirm.com", required: false }].map(({ key, label, placeholder, required }) => (
-            <div key={key}>
-              <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">{label}</label>
-              <input required={required} value={(form as Record<string, string>)[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Basic */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {([{ key: "name", label: "Full Name *", placeholder: "Jane Smith" }, { key: "firm", label: "Law Firm *", placeholder: "Smith & Associates" }, { key: "outreach_email", label: "Outreach Email", placeholder: "jane@smithlaw.com" }, { key: "phone", label: "Phone", placeholder: "(555) 000-0000" }, { key: "city", label: "City", placeholder: "Los Angeles" }] as { key: string; label: string; placeholder: string }[]).map(({ key, label, placeholder }) => (
+              <div key={key}>
+                <label className={lbl}>{label}</label>
+                <input required={label.includes("*")} value={(form as Record<string, string>)[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} className={inp} />
+              </div>
+            ))}
+            <div>
+              <label className={lbl}>State</label>
+              <select value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className={inp}>
+                <option value="">Select state</option>
+                {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
             </div>
-          ))}
+          </div>
+
+          {/* Fee */}
           <div>
-            <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Status</label>
-            <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Fee Structure</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={lbl}>Billing Type</label>
+                <select value={form.billing_type} onChange={(e) => setForm({ ...form, billing_type: e.target.value })} className={inp}>
+                  <option value="contingency">Contingency</option>
+                  <option value="hourly">Hourly</option>
+                  <option value="flat">Flat Fee</option>
+                </select>
+              </div>
+              {form.billing_type === "contingency" && (
+                <div><label className={lbl}>Fee % (e.g. 28)</label><input type="number" value={form.fee_percent} onChange={(e) => setForm({ ...form, fee_percent: e.target.value })} placeholder="28" className={inp} /></div>
+              )}
+              {form.billing_type === "hourly" && (
+                <div><label className={lbl}>Hourly Rate ($)</label><input type="number" value={form.hourly_rate} onChange={(e) => setForm({ ...form, hourly_rate: e.target.value })} placeholder="300" className={inp} /></div>
+              )}
+              {form.billing_type === "flat" && (
+                <div><label className={lbl}>Flat Fee ($)</label><input type="number" value={form.flat_fee} onChange={(e) => setForm({ ...form, flat_fee: e.target.value })} placeholder="2500" className={inp} /></div>
+              )}
+            </div>
+          </div>
+
+          {/* Practice Areas */}
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Practice Areas ({practiceAreas.length} selected)</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              {LEGAL_ISSUES.map((issue) => (
+                <button key={issue.value} type="button" onClick={() => toggleArea(issue.label)}
+                  className={`text-xs px-3 py-2 rounded-lg border font-medium text-left transition-colors ${practiceAreas.includes(issue.label) ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}>
+                  {issue.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Licensed States */}
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Licensed States ({licensedStates.length} selected)</p>
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto">
+              {US_STATES.map((s) => (
+                <button key={s} type="button" onClick={() => toggleState(s)}
+                  className={`text-xs px-2 py-1.5 rounded-lg border font-medium transition-colors ${licensedStates.includes(s) ? "bg-blue-500 text-white border-blue-500" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300"}`}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className={lbl}>Status</label>
+            <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className={inp}>
               <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
             </select>
           </div>
+
           {error && <p className="text-xs text-red-500">{error}</p>}
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose} className="flex-1 border border-gray-200 text-gray-600 font-semibold py-2.5 rounded-xl text-sm hover:bg-gray-50">Cancel</button>
-            <button type="submit" disabled={saving} className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm disabled:opacity-60">{saving ? "Adding…" : "Add Attorney"}</button>
+            <button type="submit" disabled={saving} className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm disabled:opacity-60">{saving ? "Adding…" : "Seed Profile"}</button>
           </div>
         </form>
       </div>
@@ -116,6 +210,15 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
     response_time_hours: attorney.response_time_hours?.toString() ?? "",
   });
   const [saving, setSaving] = useState(false); const [saved, setSaved] = useState(false); const [confirmDelete, setConfirmDelete] = useState(false); const [deleting, setDeleting] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false); const [emailSent, setEmailSent] = useState(false); const [emailError, setEmailError] = useState("");
+
+  async function handleSendClaimEmail() {
+    setSendingEmail(true); setEmailError("");
+    const res = await fetch(`/api/admin/attorneys/${attorney.id}/send-claim-email`, { method: "POST" });
+    setSendingEmail(false);
+    if (res.ok) { setEmailSent(true); setTimeout(() => setEmailSent(false), 4000); }
+    else { const j = await res.json(); setEmailError(j.error ?? "Failed to send"); }
+  }
 
   async function handleSave() {
     setSaving(true);
@@ -149,6 +252,32 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
         </div>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"><X className="w-4 h-4" /></button>
       </div>
+
+      {/* Claim status bar */}
+      <div className={`flex items-center justify-between px-6 py-3 border-b border-gray-100 ${attorney.claimed ? "bg-emerald-50" : "bg-amber-50"}`}>
+        <div className="flex items-center gap-2">
+          {attorney.claimed
+            ? <><BadgeCheck className="w-4 h-4 text-emerald-500" /><span className="text-xs font-semibold text-emerald-700">Claimed — attorney manages this profile</span></>
+            : <><Clock className="w-4 h-4 text-amber-500" /><span className="text-xs font-semibold text-amber-700">Unclaimed — not yet taken ownership</span></>
+          }
+        </div>
+        {!attorney.claimed && (
+          <div className="flex items-center gap-2">
+            {emailError && <span className="text-xs text-red-500">{emailError}</span>}
+            {emailSent && <span className="text-xs text-emerald-600 font-semibold">Email sent!</span>}
+            <button
+              onClick={handleSendClaimEmail}
+              disabled={sendingEmail || !attorney.outreach_email}
+              title={!attorney.outreach_email ? "No outreach email set — add one in Basic Info first" : "Send claim email"}
+              className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
+            >
+              <Send className="w-3 h-3" />
+              {sendingEmail ? "Sending…" : "Send Claim Email"}
+            </button>
+          </div>
+        )}
+      </div>
+
       <div className="p-6 space-y-6">
         {/* Status */}
         <div>
