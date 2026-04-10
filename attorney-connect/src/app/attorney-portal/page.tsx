@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   ShieldAlert,
   Hourglass,
+  Search,
 } from "lucide-react";
 import Link from "next/link";
 import type { Attorney, Lead } from "@/lib/supabase";
@@ -1024,15 +1025,36 @@ function WebhookTab({
 
 // ─── Leads Tab ────────────────────────────────────────────────────────────────
 
+const LEAD_STATUSES: { key: string; label: string; dot: string; color: string }[] = [
+  { key: "new",                label: "New Lead",              dot: "bg-blue-500",   color: "text-blue-700" },
+  { key: "attempting_contact", label: "Attempting Contact",    dot: "bg-amber-500",  color: "text-amber-700" },
+  { key: "contacted",          label: "Contacted — Follow Up", dot: "bg-orange-500", color: "text-orange-700" },
+  { key: "retained",           label: "Retained",              dot: "bg-purple-500", color: "text-purple-700" },
+  { key: "in_progress",        label: "In Progress",           dot: "bg-indigo-500", color: "text-indigo-700" },
+  { key: "settlement",         label: "Settlement",            dot: "bg-teal-500",   color: "text-teal-700" },
+  { key: "closed",             label: "Closed / Won",          dot: "bg-green-500",  color: "text-green-700" },
+  { key: "lost",               label: "Lost",                  dot: "bg-gray-400",   color: "text-gray-500" },
+];
+
+function LeadStatusBadge({ status }: { status: string | null }) {
+  const s = LEAD_STATUSES.find((x) => x.key === (status ?? "new")) ?? LEAD_STATUSES[0];
+  return (
+    <span className={`inline-flex items-center gap-1.5 text-xs font-semibold ${s.color}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
+      {s.label}
+    </span>
+  );
+}
+
 function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
   if (loading) {
     return (
       <div className="space-y-3">
         {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="h-24 bg-gray-100 rounded-2xl border border-gray-200 animate-pulse"
-          />
+          <div key={i} className="h-20 bg-gray-100 rounded-2xl border border-gray-200 animate-pulse" />
         ))}
       </div>
     );
@@ -1052,61 +1074,85 @@ function LeadsTab({ leads, loading }: { leads: Lead[]; loading: boolean }) {
     );
   }
 
+  const filtered = leads.filter((l) => {
+    const q = search.toLowerCase();
+    const matchSearch = !q || `${l.first_name} ${l.last_name}`.toLowerCase().includes(q) || l.email.toLowerCase().includes(q) || l.legal_issue.toLowerCase().includes(q);
+    const matchStatus = statusFilter === "all" || (l.status ?? "new") === statusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  const grouped = LEAD_STATUSES.map((s) => ({
+    ...s,
+    leads: filtered.filter((l) => (l.status ?? "new") === s.key),
+  })).filter((g) => g.leads.length > 0);
+
   return (
-    <div className="space-y-3">
-      {leads.map((lead) => (
-        <SectionCard key={lead.id} className="hover:border-gray-300 transition-colors">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center shrink-0">
-                  <User className="w-4 h-4 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-gray-900 font-semibold text-sm">
-                    {lead.first_name} {lead.last_name}
-                  </p>
-                  <p className="text-gray-400 text-xs">{lead.legal_issue}</p>
-                </div>
-              </div>
+    <div className="space-y-5">
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, email, or issue…"
+            className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="all">All statuses</option>
+          {LEAD_STATUSES.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
+        </select>
+      </div>
 
-              <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-500 ml-12">
-                <span className="flex items-center gap-1">
-                  <Mail className="w-3 h-3" />
-                  {lead.email}
-                </span>
-                {lead.phone && (
-                  <span className="flex items-center gap-1">
-                    <Phone className="w-3 h-3" />
-                    {lead.phone}
-                  </span>
-                )}
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  {lead.state}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {formatDate(lead.created_at)}
-                </span>
-              </div>
-
-              {lead.message && (
-                <p className="mt-2.5 ml-12 text-xs text-gray-500 leading-relaxed line-clamp-2">
-                  {lead.message}
-                </p>
-              )}
+      {filtered.length === 0 ? (
+        <p className="text-sm text-gray-400 text-center py-8 italic">No leads match your filters.</p>
+      ) : (
+        grouped.map((group) => (
+          <div key={group.key}>
+            <div className="flex items-center gap-2 mb-2 px-1">
+              <span className={`w-2 h-2 rounded-full ${group.dot}`} />
+              <span className={`text-xs font-bold uppercase tracking-widest ${group.color}`}>{group.label}</span>
+              <span className="text-xs text-gray-400 font-semibold ml-1">{group.leads.length}</span>
             </div>
-
-            <div className="flex items-center gap-2 sm:ml-4 shrink-0">
-              <StatusBadge
-                ok={lead.sent_to_webhook}
-                label={lead.sent_to_webhook ? "Webhook sent" : "Webhook pending"}
-              />
+            <div className="space-y-2">
+              {group.leads.map((lead) => (
+                <Link key={lead.id} href={`/attorney-portal/leads/${lead.id}`}>
+                  <SectionCard className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <User className="w-4 h-4 text-blue-400" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-gray-900 font-semibold text-sm truncate">
+                            {lead.first_name} {lead.last_name}
+                          </p>
+                          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-400 mt-0.5">
+                            <span>{lead.legal_issue}</span>
+                            <span>{lead.state}</span>
+                            <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{lead.email}</span>
+                            {lead.phone && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{lead.phone}</span>}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <LeadStatusBadge status={lead.status} />
+                        <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap">{formatDate(lead.created_at)}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-300" />
+                      </div>
+                    </div>
+                  </SectionCard>
+                </Link>
+              ))}
             </div>
           </div>
-        </SectionCard>
-      ))}
+        ))
+      )}
     </div>
   );
 }

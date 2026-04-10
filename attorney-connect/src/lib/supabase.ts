@@ -50,5 +50,7 @@ export type Lead = {
   state: string;
   message: string | null;
   sent_to_webhook: boolean;
+  status: string | null;
+  notes: string | null;
   created_at: string;
 };
