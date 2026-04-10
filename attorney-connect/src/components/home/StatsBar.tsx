@@ -50,7 +50,7 @@ export default function StatsBar() {
               <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center mb-3`}>
                 <Icon className={`w-5 h-5 ${iconColor}`} />
               </div>
-              <p className="text-3xl font-extrabold text-navy-900 tracking-tight font-display">
+              <p className="text-3xl font-extrabold text-navy-900 tracking-tight">
                 {label === "Platform Rating" ? (
                   <>4.8<span className="text-gray-300 text-xl font-sans font-medium">/5.0</span></>
                 ) : (

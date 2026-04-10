@@ -43,7 +43,7 @@ export default function WhyNowSection() {
           <div className="reveal inline-flex items-center gap-2 bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
             Why This Didn't Exist Before
           </div>
-          <h2 className="reveal reveal-delay-1 font-display text-4xl sm:text-5xl font-bold text-navy-900 tracking-tight leading-tight mb-6">
+          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-bold text-navy-900 tracking-tight leading-tight mb-6">
             You've Been Comparison Shopping Everything{" "}
             <span className="text-blue-500">Except Your Attorney</span>
           </h2>

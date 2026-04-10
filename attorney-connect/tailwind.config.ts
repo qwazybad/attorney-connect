@@ -62,7 +62,6 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Manrope", "system-ui", "sans-serif"],
-        display: ["Playfair Display", "Georgia", "serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

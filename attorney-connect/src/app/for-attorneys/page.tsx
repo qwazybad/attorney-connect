@@ -43,7 +43,7 @@ export default function ForAttorneysPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gray-800">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-navy-900">
         {/* Orbs */}
         <div className="absolute inset-0 dot-grid opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-800/60" />
@@ -170,7 +170,7 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Pricing ───────────────────────────────────────────── */}
-      <section id="pricing" ref={pricingRef} className="relative py-24 bg-gray-800 overflow-hidden">
+      <section id="pricing" ref={pricingRef} className="relative py-24 bg-navy-900 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-25" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center">
@@ -256,7 +256,7 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Bottom CTA ────────────────────────────────────────── */}
-      <section ref={ctaRef} className="relative py-24 bg-gray-800 overflow-hidden">
+      <section ref={ctaRef} className="relative py-24 bg-navy-900 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-25" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 text-center">

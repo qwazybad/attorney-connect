@@ -32,7 +32,7 @@ export default function ForAttorneysCTA() {
             <div className="reveal inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-300 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
               For Law Firms
             </div>
-            <h2 className="reveal reveal-delay-1 font-display text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight mb-5">
+            <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight mb-5">
               Performance-based leads.{" "}
               <span className="text-blue-400">Zero upfront cost.</span>
             </h2>
@@ -99,7 +99,7 @@ export default function ForAttorneysCTA() {
             { value: "2,800+",label: "Partner firms" },
           ].map(({ value, label }) => (
             <div key={label}>
-              <p className="font-display text-3xl font-bold text-white">{value}</p>
+              <p className="text-3xl font-bold text-white">{value}</p>
               <p className="text-sm text-navy-300 mt-1">{label}</p>
             </div>
           ))}

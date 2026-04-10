@@ -43,7 +43,7 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1
-              className="font-display text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-bold text-navy-900 leading-[1.08] tracking-tight mb-6 opacity-0 animate-slide-up"
+              className="text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-bold text-navy-900 leading-[1.08] tracking-tight mb-6 opacity-0 animate-slide-up"
               style={{ animationFillMode: "forwards" }}
             >
               Attorneys Compete.{" "}
@@ -127,7 +127,7 @@ export default function HeroSection() {
               className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
-              <p className="font-display text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
+              <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
               <p className="text-sm text-gray-400 mb-6">Tell us about your case and we&apos;ll match you instantly.</p>
 
               <form onSubmit={handleSearch} className="space-y-3">
