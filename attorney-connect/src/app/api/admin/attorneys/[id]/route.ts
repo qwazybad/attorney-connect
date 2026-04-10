@@ -11,6 +11,28 @@ function isAdmin(userId: string | null) {
   return adminIds.includes(userId);
 }
 
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { userId } = await auth();
+  if (!isAdmin(userId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const { id } = await params;
+
+  const { data, error } = await supabaseAdmin
+    .from("attorneys")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  const { count } = await supabaseAdmin
+    .from("leads")
+    .select("*", { count: "exact", head: true })
+    .eq("attorney_id", id);
+
+  return NextResponse.json({ data: { ...data, lead_count: count ?? 0 } });
+}
+
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!isAdmin(userId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });

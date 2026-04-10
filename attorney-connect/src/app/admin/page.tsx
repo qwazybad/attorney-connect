@@ -5,8 +5,7 @@ import { useAuth, useUser, UserButton } from "@clerk/nextjs";
 import {
   Scale, Users, CheckCircle, Clock, XCircle, Inbox,
   ChevronDown, ChevronUp, Search, Plus, Save, Trash2,
-  LogOut, Phone, Globe, Mail, FileText, Star,
-  AlertCircle, X, ExternalLink, Send, BadgeCheck,
+  LogOut, X, ExternalLink, Send, BadgeCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
@@ -32,7 +31,8 @@ type AdminAttorney = {
 type AdminLead = {
   id: string; attorney_id: string; attorney_name: string | null; attorney_firm: string | null;
   first_name: string; last_name: string; email: string; phone: string | null;
-  legal_issue: string; state: string; message: string | null; sent_to_webhook: boolean; created_at: string;
+  legal_issue: string; state: string; message: string | null; sent_to_webhook: boolean;
+  status: string | null; created_at: string;
 };
 
 function fmt(iso: string) {
@@ -418,8 +418,8 @@ function DetailPanel({ attorney, leads, onUpdate, onDelete, onClose }: { attorne
   );
 }
 
-function AttorneysTab({ attorneys, leads, onUpdate, onDelete, onAdded }: { attorneys: AdminAttorney[]; leads: AdminLead[]; onUpdate: (a: AdminAttorney) => void; onDelete: (id: string) => void; onAdded: (a: AdminAttorney) => void }) {
-  const [search, setSearch] = useState(""); const [statusFilter, setStatusFilter] = useState<"all" | Status>("all"); const [selected, setSelected] = useState<AdminAttorney | null>(null); const [showAdd, setShowAdd] = useState(false);
+function AttorneysTab({ attorneys, onAdded }: { attorneys: AdminAttorney[]; onAdded: (a: AdminAttorney) => void }) {
+  const [search, setSearch] = useState(""); const [statusFilter, setStatusFilter] = useState<"all" | Status>("all"); const [showAdd, setShowAdd] = useState(false);
   const filtered = attorneys.filter((a) => { const q = search.toLowerCase(); return (!q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q) || (a.email ?? "").toLowerCase().includes(q)) && (statusFilter === "all" || a.status === statusFilter); });
   return (
     <div className="space-y-4">
@@ -433,27 +433,26 @@ function AttorneysTab({ attorneys, leads, onUpdate, onDelete, onAdded }: { attor
           <thead className="bg-gray-50 border-b border-gray-200"><tr>{["Attorney", "Status", "Leads", "Fee %", "Joined", ""].map((h) => <th key={h} className="text-left text-xs font-semibold text-gray-500 px-5 py-3.5 uppercase tracking-wide">{h}</th>)}</tr></thead>
           <tbody className="divide-y divide-gray-100">
             {filtered.length === 0 ? <tr><td colSpan={6} className="text-center py-12 text-gray-400 text-sm">No attorneys found.</td></tr> : filtered.map((a) => (
-              <tr key={a.id} onClick={() => setSelected(selected?.id === a.id ? null : a)} className={`cursor-pointer transition-colors ${selected?.id === a.id ? "bg-blue-50" : "hover:bg-gray-50"}`}>
+              <tr key={a.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-5 py-4">
-                  <div className="flex items-center gap-3">
+                  <Link href={`/admin/attorneys/${a.id}`} className="flex items-center gap-3">
                     {a.photo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={a.photo_url} alt="" className="w-9 h-9 rounded-xl object-cover border border-gray-200 shrink-0" />
                     ) : <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center shrink-0"><span className="text-blue-600 font-bold text-sm">{(a.name ?? a.firm ?? "?")[0].toUpperCase()}</span></div>}
-                    <div><p className="font-semibold text-gray-900 text-sm">{a.name ?? <span className="text-gray-400 italic">No name</span>}</p><p className="text-xs text-gray-500">{a.firm ?? "—"}</p></div>
-                  </div>
+                    <div><p className="font-semibold text-gray-900 text-sm hover:text-blue-600 transition-colors">{a.name ?? <span className="text-gray-400 italic">No name</span>}</p><p className="text-xs text-gray-500">{a.firm ?? "—"}</p></div>
+                  </Link>
                 </td>
                 <td className="px-5 py-4"><StatusPill status={a.status} /></td>
                 <td className="px-5 py-4"><span className="inline-flex items-center gap-1 text-sm font-semibold text-gray-700"><Inbox className="w-3.5 h-3.5 text-gray-400" />{a.lead_count}</span></td>
                 <td className="px-5 py-4 text-sm text-gray-600">{a.fee_percent != null ? `${a.fee_percent}%` : <span className="text-gray-300">—</span>}</td>
                 <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">{fmt(a.created_at)}</td>
-                <td className="px-5 py-4 text-gray-400">{selected?.id === a.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}</td>
+                <td className="px-5 py-4"><Link href={`/admin/attorneys/${a.id}`} className="text-blue-400 hover:text-blue-600"><ChevronDown className="w-4 h-4 -rotate-90" /></Link></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {selected && <DetailPanel attorney={selected} leads={leads} onUpdate={(u) => { onUpdate(u); setSelected(u); }} onDelete={(id) => { onDelete(id); setSelected(null); }} onClose={() => setSelected(null)} />}
       {showAdd && <AddAttorneyModal onClose={() => setShowAdd(false)} onAdded={(a) => { onAdded(a); setShowAdd(false); }} />}
     </div>
   );
@@ -549,16 +548,19 @@ export default function AdminPage() {
           <StatCard label="Total Leads" value={stats.leads} icon={Inbox} color="bg-purple-100 text-purple-600" />
         </div>
         <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-6 w-fit">
-          {([{ id: "attorneys" as Tab, label: "Attorneys", count: stats.total }, { id: "leads" as Tab, label: "Leads", count: stats.leads }]).map(({ id, label, count }) => (
+          {([{ id: "attorneys" as Tab, label: "Attorneys", count: stats.total }]).map(({ id, label, count }) => (
             <button key={id} onClick={() => setTab(id)} className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold transition-all ${tab === id ? "bg-blue-500 text-white shadow" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
               {label}<span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tab === id ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`}>{count}</span>
             </button>
           ))}
+          <Link href="/admin/leads" className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all">
+            Leads <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-500">{stats.leads}</span>
+          </Link>
         </div>
         {loading ? (
           <div className="flex items-center justify-center py-24"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>
         ) : tab === "attorneys" ? (
-          <AttorneysTab attorneys={attorneys} leads={leads} onUpdate={(u) => setAttorneys((p) => p.map((a) => a.id === u.id ? { ...a, ...u } : a))} onDelete={(id) => setAttorneys((p) => p.filter((a) => a.id !== id))} onAdded={(a) => setAttorneys((p) => [a, ...p])} />
+          <AttorneysTab attorneys={attorneys} onAdded={(a) => setAttorneys((p) => [a, ...p])} />
         ) : (
           <LeadsTab leads={leads} attorneys={attorneys} />
         )}
