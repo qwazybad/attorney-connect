@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { X, ChevronLeft, CheckCircle, Loader2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { X, ChevronLeft, CheckCircle, Loader2, ShieldCheck } from "lucide-react";
 import { US_STATES } from "@/lib/data";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -169,6 +169,15 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
+  // Phone verification state
+  const [codeSent, setCodeSent] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [verifyCode, setVerifyCode] = useState("");
+  const [sendingCode, setSendingCode] = useState(false);
+  const [checkingCode, setCheckingCode] = useState(false);
+  const [verifyError, setVerifyError] = useState("");
+  const codeInputRef = useRef<HTMLInputElement>(null);
+
   if (!open) return null;
 
   function reset() {
@@ -178,6 +187,44 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
     setContact({ firstName: "", lastName: "", email: "", phone: "", state: "" });
     setDone(false);
     setSubmitting(false);
+    setCodeSent(false);
+    setPhoneVerified(false);
+    setVerifyCode("");
+    setVerifyError("");
+  }
+
+  async function handleSendCode() {
+    setSendingCode(true); setVerifyError("");
+    const res = await fetch("/api/verify/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: contact.phone }),
+    });
+    const json = await res.json();
+    setSendingCode(false);
+    if (res.ok) {
+      setCodeSent(true);
+      setTimeout(() => codeInputRef.current?.focus(), 100);
+    } else {
+      setVerifyError(json.error ?? "Failed to send code.");
+    }
+  }
+
+  async function handleCheckCode() {
+    setCheckingCode(true); setVerifyError("");
+    const res = await fetch("/api/verify/check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: contact.phone, code: verifyCode }),
+    });
+    const json = await res.json();
+    setCheckingCode(false);
+    if (res.ok) {
+      setPhoneVerified(true);
+      setVerifyError("");
+    } else {
+      setVerifyError(json.error ?? "Invalid code.");
+    }
   }
 
   function handleClose() {
@@ -357,15 +404,78 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
                   <input className={inp} placeholder="Last name" value={contact.lastName} onChange={(e) => setContact((c) => ({ ...c, lastName: e.target.value }))} />
                 </div>
                 <input className={inp} type="email" placeholder="Email address" value={contact.email} onChange={(e) => setContact((c) => ({ ...c, email: e.target.value }))} />
-                <input className={inp} type="tel" placeholder="Phone number" value={contact.phone} onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))} />
+
+                {/* Phone + verification */}
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      className={`${inp} flex-1 ${phoneVerified ? "border-emerald-400 bg-emerald-50" : ""}`}
+                      type="tel"
+                      placeholder="Phone number"
+                      value={contact.phone}
+                      disabled={phoneVerified}
+                      onChange={(e) => {
+                        setContact((c) => ({ ...c, phone: e.target.value }));
+                        setCodeSent(false);
+                        setPhoneVerified(false);
+                        setVerifyCode("");
+                        setVerifyError("");
+                      }}
+                    />
+                    {phoneVerified ? (
+                      <div className="flex items-center gap-1.5 px-3 bg-emerald-50 border border-emerald-400 rounded-xl text-emerald-600 text-xs font-bold whitespace-nowrap">
+                        <ShieldCheck className="w-4 h-4" /> Verified
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleSendCode}
+                        disabled={sendingCode || !contact.phone}
+                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-40 text-white text-xs font-bold rounded-xl whitespace-nowrap transition-colors"
+                      >
+                        {sendingCode ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : codeSent ? "Resend" : "Send Code"}
+                      </button>
+                    )}
+                  </div>
+
+                  {codeSent && !phoneVerified && (
+                    <div className="flex gap-2">
+                      <input
+                        ref={codeInputRef}
+                        className={`${inp} flex-1 tracking-widest text-center font-bold text-lg`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={6}
+                        placeholder="_ _ _ _ _ _"
+                        value={verifyCode}
+                        onChange={(e) => setVerifyCode(e.target.value.replace(/\D/g, ""))}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleCheckCode}
+                        disabled={checkingCode || verifyCode.length !== 6}
+                        className="px-4 py-2 bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-xs font-bold rounded-xl whitespace-nowrap transition-colors"
+                      >
+                        {checkingCode ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "Verify"}
+                      </button>
+                    </div>
+                  )}
+
+                  {verifyError && <p className="text-xs text-red-500 font-medium">{verifyError}</p>}
+                  {codeSent && !phoneVerified && !verifyError && (
+                    <p className="text-xs text-gray-400">Enter the 6-digit code we just texted to {contact.phone}.</p>
+                  )}
+                </div>
+
                 <select className={inp} value={contact.state} onChange={(e) => setContact((c) => ({ ...c, state: e.target.value }))}>
                   <option value="">Which state are you in?</option>
                   {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
+
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  disabled={submitting || !contact.firstName || !contact.lastName || !contact.email || !contact.phone || !contact.state}
+                  disabled={submitting || !contact.firstName || !contact.lastName || !contact.email || !phoneVerified || !contact.state}
                   className="w-full bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
                 >
                   {submitting ? <><Loader2 className="w-4 h-4 animate-spin" />Sending…</> : "Request Free Consultation"}
