@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useUser, SignIn } from "@clerk/nextjs";
+import { useUser, SignUp } from "@clerk/nextjs";
 import { CheckCircle, MapPin, Scale, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -175,12 +175,14 @@ export default function ClaimPage() {
         ) : !user ? (
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
             <div className="bg-blue-50 border-b border-blue-200 px-6 py-3 text-center">
-              <p className="text-sm font-semibold text-blue-800">First time here? Click <span className="underline">Sign up</span> at the bottom of the form.</p>
-              <p className="text-xs text-blue-600 mt-0.5">Already have an account? Sign in with your email.</p>
+              <p className="text-sm font-semibold text-blue-800">Create a free account to claim your profile.</p>
+              <p className="text-xs text-blue-600 mt-0.5">Already have an account? Click <span className="underline">Sign in</span> at the bottom of the form.</p>
             </div>
-            <SignIn
+            <SignUp
               routing="hash"
               fallbackRedirectUrl={`/claim/${token}`}
+              forceRedirectUrl={`/claim/${token}`}
+              signInUrl={`/claim/${token}`}
               appearance={{ elements: { rootBox: "w-full", card: "shadow-none border-0 rounded-none" } }}
             />
           </div>
