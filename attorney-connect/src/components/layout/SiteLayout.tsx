@@ -20,7 +20,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       {!hideChrome && <Header />}
       <main>{children}</main>
       {!hideChrome && <Footer />}
-      <ChatWidget />
+      {!hideChrome && <ChatWidget />}
     </>
   );
 }

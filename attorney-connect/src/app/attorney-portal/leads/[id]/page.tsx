@@ -162,7 +162,7 @@ export default function AttorneyLeadDetailPage() {
     <div className="min-h-screen bg-gray-50">
       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
+          <Link href="/attorney-portal" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-blue-500 flex items-center justify-center">
               <Scale className="w-[18px] h-[18px] text-white" />
             </div>
