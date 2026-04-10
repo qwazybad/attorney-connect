@@ -170,7 +170,7 @@ export default function AttorneyLeadDetailPage() {
               Attorney<span className="text-blue-500">Compete</span>
             </span>
           </Link>
-          <Link href="/attorney-portal" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors">
+          <Link href="/attorney-portal/leads" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors">
             <ArrowLeft className="w-4 h-4" /> My Leads
           </Link>
         </div>
