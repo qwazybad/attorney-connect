@@ -320,12 +320,43 @@ function ProfileTab({
     setTimeout(() => setSaveStatus(null), 4000);
   }
 
+  // Compute which profile fields are currently incomplete
+  const incomplete = {
+    photo: !photoUrl,
+    name: !name.trim(),
+    bio: !bio.trim() || bio.trim().length < 20,
+    practiceAreas: practiceAreas.length === 0,
+    licensedStates: licensedStates.length === 0,
+    fee: (billingType === "contingency" && !feePercent) ||
+         (billingType === "hourly" && !hourlyRate) ||
+         (billingType === "flat" && !flatFee),
+    responseTime: !responseTime,
+    website: !website.trim(),
+  };
+  const incompleteCount = Object.values(incomplete).filter(Boolean).length;
+
   return (
     <div className="space-y-6">
+      {/* Incomplete fields banner */}
+      {incompleteCount > 0 && (
+        <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-2xl px-5 py-4">
+          <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold text-sm text-red-700">
+              {incompleteCount} profile {incompleteCount === 1 ? "field is" : "fields are"} incomplete
+            </p>
+            <p className="text-xs text-red-500 mt-0.5">
+              Fields highlighted in red below need to be filled in to complete your profile.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Photo */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">
+        <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${incomplete.photo ? "text-red-500" : "text-gray-600"}`}>
           Profile Photo
+          {incomplete.photo && <span className="ml-2 text-xs font-normal normal-case text-red-400">— Required</span>}
         </h3>
         <div className="flex items-center gap-5">
           <div className="relative">
@@ -337,8 +368,8 @@ function ProfileTab({
                 className="w-20 h-20 rounded-2xl object-cover border-2 border-gray-200"
               />
             ) : (
-              <div className="w-20 h-20 rounded-2xl bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
-                <User className="w-8 h-8 text-gray-400" />
+              <div className={`w-20 h-20 rounded-2xl flex items-center justify-center border-2 ${incomplete.photo ? "bg-red-50 border-red-300" : "bg-gray-100 border-gray-200"}`}>
+                <User className={`w-8 h-8 ${incomplete.photo ? "text-red-300" : "text-gray-400"}`} />
               </div>
             )}
             <button
@@ -419,6 +450,7 @@ function ProfileTab({
             value={name}
             onChange={setName}
             placeholder="Jane Smith"
+            incomplete={incomplete.name}
           />
           <Field
             icon={Building2}
@@ -463,14 +495,16 @@ function ProfileTab({
             onChange={setWebsite}
             placeholder="yourfirm.com"
             type="text"
+            incomplete={incomplete.website}
           />
         </div>
 
         <div className="mt-4">
-          <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">
+          <label className={`block text-xs font-semibold mb-1.5 uppercase tracking-wide ${incomplete.bio ? "text-red-500" : "text-gray-500"}`}>
             <span className="flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5" />
               Bio
+              {incomplete.bio && <span className="ml-auto normal-case font-normal text-red-400">Required (min 20 characters)</span>}
             </span>
           </label>
           <textarea
@@ -478,17 +512,24 @@ function ProfileTab({
             onChange={(e) => setBio(e.target.value)}
             rows={4}
             placeholder="Tell potential clients about your experience, practice areas, and approach..."
-            className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
+            className={`w-full text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 resize-none border ${
+              incomplete.bio
+                ? "bg-red-50 border-red-300 focus:border-red-400 focus:ring-red-300"
+                : "bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+            }`}
           />
         </div>
 
         <div className="mt-4 space-y-4">
           {/* Practice Areas */}
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-              Practice Areas <span className="text-gray-400 normal-case font-normal">({practiceAreas.length} selected)</span>
+            <label className={`block text-xs font-semibold mb-2 uppercase tracking-wide ${incomplete.practiceAreas ? "text-red-500" : "text-gray-500"}`}>
+              Practice Areas{" "}
+              <span className={`normal-case font-normal ${incomplete.practiceAreas ? "text-red-400" : "text-gray-400"}`}>
+                {practiceAreas.length === 0 ? "— Required, select at least one" : `(${practiceAreas.length} selected)`}
+              </span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+            <div className={`grid grid-cols-2 sm:grid-cols-3 gap-1.5 rounded-xl p-1 ${incomplete.practiceAreas ? "bg-red-50 border border-red-200" : ""}`}>
               {LEGAL_ISSUES.map((issue) => (
                 <button
                   key={issue.value}
@@ -510,10 +551,13 @@ function ProfileTab({
 
           {/* Licensed States */}
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-              Licensed States <span className="text-gray-400 normal-case font-normal">({licensedStates.length} selected)</span>
+            <label className={`block text-xs font-semibold mb-2 uppercase tracking-wide ${incomplete.licensedStates ? "text-red-500" : "text-gray-500"}`}>
+              Licensed States{" "}
+              <span className={`normal-case font-normal ${incomplete.licensedStates ? "text-red-400" : "text-gray-400"}`}>
+                {licensedStates.length === 0 ? "— Required, select at least one" : `(${licensedStates.length} selected)`}
+              </span>
             </label>
-            <div className="h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-gray-50">
+            <div className={`h-48 overflow-y-auto rounded-xl p-3 border ${incomplete.licensedStates ? "border-red-300 bg-red-50" : "border-gray-200 bg-gray-50"}`}>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                 {US_STATES.map((state) => (
                   <button
@@ -539,7 +583,10 @@ function ProfileTab({
 
       {/* Fee Structure */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Fee Structure</h3>
+        <h3 className={`text-sm font-semibold uppercase tracking-wider mb-1.5 ${incomplete.fee ? "text-red-500" : "text-gray-600"}`}>
+          Fee Structure
+          {incomplete.fee && <span className="ml-2 text-xs font-normal normal-case text-red-400">— Enter your fee amount</span>}
+        </h3>
         <p className="text-xs text-gray-400 mb-5">Update your fees at any time. Lower fees improve your ranking on the marketplace.</p>
 
         {/* Billing type */}
@@ -560,14 +607,14 @@ function ProfileTab({
 
         {billingType === "contingency" && (
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Contingency Fee %</label>
+            <label className={`block text-xs font-semibold mb-1.5 uppercase tracking-wide ${incomplete.fee ? "text-red-500" : "text-gray-500"}`}>Contingency Fee %</label>
             <div className="flex items-center gap-3">
               <input
                 type="number" min="1" max="50" step="0.5"
                 value={feePercent}
                 onChange={(e) => setFeePercent(e.target.value)}
                 placeholder="e.g. 28"
-                className="w-28 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className={`w-28 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 border ${incomplete.fee ? "bg-red-50 border-red-300 focus:border-red-400 focus:ring-red-300" : "bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"}`}
               />
               <span className="text-lg font-bold text-gray-400">%</span>
               <span className="text-xs text-gray-400">Industry avg is 34%</span>
@@ -594,7 +641,7 @@ function ProfileTab({
 
         {billingType === "hourly" && (
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Hourly Rate</label>
+            <label className={`block text-xs font-semibold mb-1.5 uppercase tracking-wide ${incomplete.fee ? "text-red-500" : "text-gray-500"}`}>Hourly Rate</label>
             <div className="flex items-center gap-3">
               <span className="text-lg font-bold text-gray-400">$</span>
               <input
@@ -602,7 +649,7 @@ function ProfileTab({
                 value={hourlyRate}
                 onChange={(e) => setHourlyRate(e.target.value)}
                 placeholder="e.g. 300"
-                className="w-28 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className={`w-28 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 border ${incomplete.fee ? "bg-red-50 border-red-300 focus:border-red-400 focus:ring-red-300" : "bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"}`}
               />
               <span className="text-xs text-gray-400">/ hour · Area avg ~$400/hr</span>
             </div>
@@ -628,7 +675,7 @@ function ProfileTab({
 
         {billingType === "flat" && (
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Flat Fee Amount</label>
+            <label className={`block text-xs font-semibold mb-1.5 uppercase tracking-wide ${incomplete.fee ? "text-red-500" : "text-gray-500"}`}>Flat Fee Amount</label>
             <div className="flex items-center gap-3">
               <span className="text-lg font-bold text-gray-400">$</span>
               <input
@@ -636,7 +683,7 @@ function ProfileTab({
                 value={flatFee}
                 onChange={(e) => setFlatFee(e.target.value)}
                 placeholder="e.g. 1500"
-                className="w-32 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className={`w-32 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 border ${incomplete.fee ? "bg-red-50 border-red-300 focus:border-red-400 focus:ring-red-300" : "bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"}`}
               />
               <span className="text-xs text-gray-400">per case</span>
             </div>
@@ -646,7 +693,10 @@ function ProfileTab({
 
       {/* Response Time */}
       <SectionCard>
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Typical Response Time</h3>
+        <h3 className={`text-sm font-semibold uppercase tracking-wider mb-1.5 ${incomplete.responseTime ? "text-red-500" : "text-gray-600"}`}>
+          Typical Response Time
+          {incomplete.responseTime && <span className="ml-2 text-xs font-normal normal-case text-red-400">— Required, select one</span>}
+        </h3>
         <p className="text-xs text-gray-400 mb-5">How quickly do you typically respond to new client inquiries? Faster response times improve your ranking.</p>
         <div className="flex flex-wrap gap-2">
           {[
@@ -769,6 +819,7 @@ function Field({
   onChange,
   placeholder,
   type = "text",
+  incomplete = false,
 }: {
   icon: React.ElementType;
   label: string;
@@ -776,13 +827,15 @@ function Field({
   onChange: (v: string) => void;
   placeholder?: string;
   type?: string;
+  incomplete?: boolean;
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">
+      <label className={`block text-xs font-semibold mb-1.5 uppercase tracking-wide ${incomplete ? "text-red-500" : "text-gray-500"}`}>
         <span className="flex items-center gap-1.5">
           <Icon className="w-3.5 h-3.5" />
           {label}
+          {incomplete && <span className="ml-auto normal-case font-normal text-red-400">Required</span>}
         </span>
       </label>
       <input
@@ -790,7 +843,11 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        className={`w-full bg-gray-50 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 border ${
+          incomplete
+            ? "border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-300"
+            : "border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+        }`}
       />
     </div>
   );
