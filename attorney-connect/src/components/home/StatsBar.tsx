@@ -34,30 +34,30 @@ function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: stri
 }
 
 const stats = [
-  { icon: Building2, value: 2847, suffix: "+", label: "Verified Law Firms", color: "text-accent-500", bg: "bg-accent-500/10" },
-  { icon: Clock, value: 18, suffix: " min", label: "Avg First Response", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  { icon: Star, value: 48, suffix: "/5.0", label: "Platform Rating", color: "text-yellow-500", bg: "bg-yellow-500/10" },
-  { icon: FileCheck, value: 48293, suffix: "+", label: "Cases Matched", color: "text-purple-500", bg: "bg-purple-500/10" },
+  { icon: Building2, value: 2847, suffix: "+", label: "Verified Law Firms",  iconColor: "text-navy-600",  iconBg: "bg-navy-100" },
+  { icon: Clock,     value: 18,   suffix: " min", label: "Avg First Response", iconColor: "text-emerald-600", iconBg: "bg-emerald-50" },
+  { icon: Star,      value: 48,   suffix: "",    label: "Platform Rating",    iconColor: "text-gold-500",  iconBg: "bg-gold-50" },
+  { icon: FileCheck, value: 48293, suffix: "+",  label: "Cases Matched",     iconColor: "text-blue-600",  iconBg: "bg-blue-50" },
 ];
 
 export default function StatsBar() {
   return (
-    <section className="bg-white py-16 border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map(({ icon: Icon, value, suffix, label, color, bg }) => (
-            <div key={label} className="flex flex-col items-center text-center group">
-              <div className={`w-12 h-12 rounded-2xl ${bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                <Icon className={`w-6 h-6 ${color}`} />
+    <section className="bg-white border-y border-gray-100">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 divide-y-2 md:divide-y-0 md:divide-x divide-gray-100">
+          {stats.map(({ icon: Icon, value, suffix, label, iconColor, iconBg }, i) => (
+            <div key={label} className={`flex flex-col items-center text-center ${i > 0 && i % 2 === 0 ? "pt-8 md:pt-0" : ""} md:px-8`}>
+              <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center mb-3`}>
+                <Icon className={`w-5 h-5 ${iconColor}`} />
               </div>
-              <p className="text-3xl font-extrabold text-gray-900 tracking-tight">
+              <p className="text-3xl font-extrabold text-navy-900 tracking-tight font-display">
                 {label === "Platform Rating" ? (
-                  <span>4.8<span className="text-gray-300 text-xl">/5.0</span></span>
+                  <>4.8<span className="text-gray-300 text-xl font-sans font-medium">/5.0</span></>
                 ) : (
-                  <AnimatedNumber target={value} suffix={label === "Platform Rating" ? "" : suffix} />
+                  <AnimatedNumber target={value} suffix={suffix} />
                 )}
               </p>
-              <p className="text-sm text-gray-400 font-medium mt-0.5">{label}</p>
+              <p className="text-sm text-gray-400 font-medium mt-1">{label}</p>
             </div>
           ))}
         </div>

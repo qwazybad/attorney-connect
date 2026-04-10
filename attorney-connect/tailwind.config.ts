@@ -15,14 +15,39 @@ const config: Config = {
           200: "#A0E8C9",
           300: "#5DD4A8",
           400: "#25BE87",
-          500: "#059669",  // Emerald green
+          500: "#059669",
           600: "#047A55",
           700: "#035C40",
           800: "#023D2B",
           900: "#011F16",
         },
+        navy: {
+          50:  "#f0f5fb",
+          100: "#d9e8f5",
+          200: "#b2d0eb",
+          300: "#7ab0d8",
+          400: "#4a8fc1",
+          500: "#2970a8",
+          600: "#1e5c8f",
+          700: "#184e7c",
+          800: "#153f66",
+          900: "#0f3055",
+          950: "#091d35",
+        },
+        gold: {
+          50:  "#fdfaec",
+          100: "#f9f0c6",
+          200: "#f3e08b",
+          300: "#ecc84b",
+          400: "#e5b020",
+          500: "#c9920f",
+          600: "#a87209",
+          700: "#865408",
+          800: "#6e430b",
+          900: "#5c370d",
+        },
         gray: {
-          50:  "#F5F5F7",  // Apple light background
+          50:  "#F5F5F7",
           100: "#E8E8ED",
           200: "#D2D2D7",
           300: "#AEAEB2",
@@ -31,12 +56,13 @@ const config: Config = {
           600: "#48484A",
           700: "#3A3A3C",
           800: "#2C2C2E",
-          900: "#1C1C1E",  // Apple dark text
-          950: "#0A0A0A",  // Near black
+          900: "#1C1C1E",
+          950: "#0A0A0A",
         },
       },
       fontFamily: {
         sans: ["Manrope", "system-ui", "sans-serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

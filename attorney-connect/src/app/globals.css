@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -64,7 +64,7 @@ body {
 }
 
 .text-gradient-gold {
-  background: linear-gradient(135deg, #059669 0%, #25BE87 50%, #5DD4A8 100%);
+  background: linear-gradient(135deg, #9a7209 0%, #c9920f 50%, #e5b020 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

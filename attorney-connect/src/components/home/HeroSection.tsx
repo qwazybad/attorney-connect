@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronDown, Shield, Star, Zap, ArrowRight } from "lucide-react";
-import Image from "next/image";
+import { Search, ChevronDown, Shield, Star, Zap, ArrowRight, Bot } from "lucide-react";
 import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
 
 export default function HeroSection() {
@@ -24,53 +23,114 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gray-950">
+    <section className="relative bg-white overflow-hidden pt-16">
+      {/* Subtle right-panel tint */}
+      <div className="absolute inset-y-0 right-0 w-[45%] bg-navy-50/60 hidden lg:block pointer-events-none" />
+      {/* Thin gold top bar */}
+      <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-400/40 to-transparent" />
 
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-0 items-center min-h-[calc(100vh-64px)] py-16 lg:py-0">
 
-      {/* Lady Justice — right side */}
-      <div className="absolute right-0 top-0 h-full w-[55%] pointer-events-none hidden lg:block">
-        <Image
-          src="/pineapple-diaries.jpeg"
-          alt="Lady Justice"
-          fill
-          className="object-cover object-center"
-          style={{ opacity: 0.45, maskImage: "linear-gradient(to right, transparent 0%, black 35%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 35%)" }}
-          priority
-        />
-      </div>
+          {/* ── Left: Headline + CTAs ─────────────────────────────── */}
+          <div className="lg:col-span-7 lg:pr-16">
 
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 bg-gold-50 border border-gold-200 text-gold-700 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
+              <Zap className="w-3 h-3 text-gold-500" />
+              The First Legal Marketplace
+            </div>
 
-      {/* Dot grid overlay */}
-      <div className="absolute inset-0 dot-grid opacity-40" />
+            {/* Headline */}
+            <h1
+              className="font-display text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-bold text-navy-900 leading-[1.08] tracking-tight mb-6 opacity-0 animate-slide-up"
+              style={{ animationFillMode: "forwards" }}
+            >
+              Attorneys Compete.{" "}
+              <br className="hidden sm:block" />
+              <span className="text-gradient-gold">You Win.</span>
+            </h1>
 
-      {/* Subtle vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/80" />
+            <p
+              className="text-lg text-gray-500 leading-relaxed max-w-lg mb-8 opacity-0 animate-slide-up"
+              style={{ animationDelay: "0.08s", animationFillMode: "forwards" }}
+            >
+              Compare verified attorneys by fee, rating, and specialty. Every attorney on our platform lists their exact rates — no hidden costs, no phone tag.
+            </p>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
-        <div className="max-w-4xl mx-auto text-center">
+            {/* CTAs */}
+            <div
+              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up"
+              style={{ animationDelay: "0.14s", animationFillMode: "forwards" }}
+            >
+              <button
+                onClick={() => router.push("/compare")}
+                className="inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px] shadow-lg shadow-navy-900/20 hover:shadow-navy-900/30"
+              >
+                <Search className="w-4 h-4" />
+                Compare Attorneys — Free
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => {
+                  const el = document.querySelector("[aria-label='Open legal assistant']") as HTMLButtonElement | null;
+                  el?.click();
+                }}
+                className="inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-200 text-gray-700 hover:text-navy-900 font-semibold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px]"
+              >
+                <Bot className="w-4 h-4 text-navy-600" />
+                AI Match My Case
+              </button>
+            </div>
 
-          {/* Pill badge */}
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs sm:text-sm text-white/70 mb-8 animate-fade-in max-w-[90vw]">
-            <Zap className="w-3.5 h-3.5 text-accent-400 shrink-0" />
-            <span className="whitespace-nowrap overflow-hidden text-ellipsis">AI matching · 2,847 verified firms · Free for consumers</span>
+            {/* Trust signals */}
+            <div
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-0 animate-slide-up"
+              style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
+            >
+              {[
+                { icon: Shield, color: "text-emerald-500", label: "Bar-verified attorneys" },
+                { icon: Star,   color: "text-gold-400",    label: "4.8★ platform rating" },
+                { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
+              ].map(({ icon: Icon, color, label }) => (
+                <span key={label} className="flex items-center gap-1.5 text-sm text-gray-500">
+                  <Icon className={`w-4 h-4 ${color}`} />
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            {/* Quick-select pills */}
+            <div
+              className="mt-8 flex flex-wrap gap-2 opacity-0 animate-slide-up"
+              style={{ animationDelay: "0.26s", animationFillMode: "forwards" }}
+            >
+              <span className="text-xs text-gray-400 font-medium self-center mr-1">Popular:</span>
+              {["Personal Injury", "Car Accident", "Medical Malpractice", "Employment Law", "Workers' Comp"].map((area) => (
+                <button
+                  key={area}
+                  onClick={() => {
+                    const found = LEGAL_ISSUES.find((i) => i.label === area || i.label.includes(area.split(" ")[0]));
+                    if (found) router.push(`/compare?area=${found.value}`);
+                  }}
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-navy-300 hover:text-navy-700 hover:bg-navy-50 transition-all duration-200"
+                >
+                  {area}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Main headline */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-            The First Marketplace Where{" "}
-            <br />
-            <span className="text-blue-400">Attorneys Compete</span>
-            {" "}for Your Case
-          </h1>
+          {/* ── Right: Search card ────────────────────────────────── */}
+          <div className="lg:col-span-5 lg:pl-10">
+            <div
+              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up"
+              style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
+            >
+              <p className="font-display text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
+              <p className="text-sm text-gray-400 mb-6">Tell us about your case and we&apos;ll match you instantly.</p>
 
-          <p className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-            A transparent, real-time legal marketplace — attorneys list their fees, ratings, and case results. You see everything upfront and choose the best fit for your situation.
-          </p>
-
-          {/* Glass search form */}
-          <div className="glass-light rounded-2xl p-5 max-w-4xl mx-auto shadow-[0_8px_60px_rgba(0,0,0,0.3)] opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-            <form onSubmit={handleSearch}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+              <form onSubmit={handleSearch} className="space-y-3">
                 {[
                   {
                     label: "Legal Issue",
@@ -86,83 +146,67 @@ export default function HeroSection() {
                     placeholder: "Select state",
                     options: US_STATES.map((s) => ({ value: s, label: s })),
                   },
-                  {
-                    label: "Timeline",
-                    value: timeline,
-                    onChange: setTimeline,
-                    placeholder: "When do you need help?",
-                    options: TIMELINES.map((t) => ({ value: t, label: t })),
-                  },
-                  {
-                    label: "Max Fee",
-                    value: feePreference,
-                    onChange: setFeePreference,
-                    placeholder: "Any fee",
-                    options: [
-                      { value: "under-25", label: "Under 25%" },
-                      { value: "under-30", label: "Under 30%" },
-                      { value: "under-33", label: "Under 34% (avg)" },
-                    ],
-                  },
                 ].map(({ label, value, onChange, placeholder, options }) => (
                   <div key={label}>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest mb-1.5 ml-0.5">
-                      {label}
-                    </label>
+                    <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">{label}</label>
                     <div className="relative">
                       <select
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
-                        className="w-full appearance-none bg-white border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-3 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-accent-500/30 focus:border-accent-500 transition-all cursor-pointer"
+                        className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-4 py-3 pr-9 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
                       >
                         <option value="">{placeholder}</option>
                         {options.map((o) => (
                           <option key={o.value} value={o.value}>{o.label}</option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     </div>
                   </div>
                 ))}
-              </div>
 
-              <button
-                type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)]"
-              >
-                <Search className="w-4.5 h-4.5 w-[18px] h-[18px]" />
-                Compare Attorneys — It&apos;s Free
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "Timeline", value: timeline, onChange: setTimeline, placeholder: "When needed?", options: TIMELINES.map((t) => ({ value: t, label: t })) },
+                    { label: "Max Fee", value: feePreference, onChange: setFeePreference, placeholder: "Any fee", options: [{ value: "under-25", label: "Under 25%" }, { value: "under-30", label: "Under 30%" }, { value: "under-33", label: "Under 34% (avg)" }] },
+                  ].map(({ label, value, onChange, placeholder, options }) => (
+                    <div key={label}>
+                      <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">{label}</label>
+                      <div className="relative">
+                        <select
+                          value={value}
+                          onChange={(e) => onChange(e.target.value)}
+                          className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-3 py-3 pr-7 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
+                        >
+                          <option value="">{placeholder}</option>
+                          {options.map((o) => (
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                          ))}
+                        </select>
+                        <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-5 text-xs text-white font-semibold">
-              <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-green-400" /> No obligation</span>
-              <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 text-yellow-300" /> Verified reviews</span>
-              <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-blue-400" /> Avg response 1.8 hrs</span>
+                <button
+                  type="submit"
+                  className="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] mt-1 shadow-lg shadow-navy-900/20"
+                >
+                  <Search className="w-4 h-4" />
+                  Compare Attorneys
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+
+              <p className="text-center text-xs text-gray-400 mt-4">
+                Free · No obligation · 2,847 verified firms
+              </p>
             </div>
           </div>
 
-          {/* Quick links */}
-          <div className="mt-8 flex flex-wrap justify-center gap-2 opacity-0 animate-slide-up" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-            {["Personal Injury", "Car Accident", "Medical Malpractice", "Employment Law", "Workers' Comp"].map((area) => (
-              <button
-                key={area}
-                onClick={() => {
-                  const found = LEGAL_ISSUES.find((i) => i.label === area || i.label.includes(area.split(" ")[0]));
-                  if (found) router.push(`/compare?area=${found.value}`);
-                }}
-                className="glass text-white/70 hover:text-white text-xs font-medium px-3.5 py-1.5 rounded-full border border-white/10 hover:border-white/20 transition-all duration-200 hover:bg-white/10"
-              >
-                {area}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
     </section>
   );
 }

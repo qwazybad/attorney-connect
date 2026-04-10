@@ -11,10 +11,10 @@ export default function EducationalSection() {
 
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
-          <div className="reveal inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 text-yellow-700 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+          <div className="reveal inline-flex items-center gap-2 bg-gold-50 border border-gold-200 text-gold-700 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
             Know Before You Sign
           </div>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          <h2 className="reveal reveal-delay-1 font-display text-4xl sm:text-5xl font-bold text-navy-900 tracking-tight leading-tight">
             Most people overpay on{" "}
             <span className="text-red-500">legal fees</span>
           </h2>
@@ -70,7 +70,7 @@ export default function EducationalSection() {
         </div>
 
         {/* Dark comparison panel */}
-        <div className="reveal bg-gray-900 rounded-3xl overflow-hidden">
+        <div className="reveal bg-navy-900 rounded-3xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="p-8 lg:p-12 flex flex-col justify-center">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-4 leading-tight">

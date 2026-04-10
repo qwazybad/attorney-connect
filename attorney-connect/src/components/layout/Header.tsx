@@ -30,7 +30,7 @@ export default function Header() {
             <Link href="/attorney-portal/sign-in" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Attorney Login
             </Link>
-            <Link href="/compare" className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
+            <Link href="/compare" className="bg-navy-900 hover:bg-navy-800 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200">
               Get Free Quotes
             </Link>
           </div>
@@ -50,7 +50,7 @@ export default function Header() {
             Attorney Login
           </Link>
           <div className="pt-3 border-t border-gray-100">
-            <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl">
+            <Link href="/compare" onClick={() => setMobileOpen(false)} className="block w-full text-center bg-navy-900 hover:bg-navy-800 text-white text-sm font-semibold px-4 py-3 rounded-xl">
               Get Free Quotes
             </Link>
           </div>

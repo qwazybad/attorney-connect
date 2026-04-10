@@ -40,10 +40,10 @@ export default function WhyNowSection() {
 
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="reveal inline-flex items-center gap-2 bg-gray-100 border border-gray-200 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+          <div className="reveal inline-flex items-center gap-2 bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
             Why This Didn't Exist Before
           </div>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
+          <h2 className="reveal reveal-delay-1 font-display text-4xl sm:text-5xl font-bold text-navy-900 tracking-tight leading-tight mb-6">
             You've Been Comparison Shopping Everything{" "}
             <span className="text-blue-500">Except Your Attorney</span>
           </h2>
@@ -66,7 +66,7 @@ export default function WhyNowSection() {
         </div>
 
         {/* Bottom CTA strip */}
-        <div className="reveal bg-gray-950 rounded-3xl px-8 py-10 text-center">
+        <div className="reveal bg-navy-900 rounded-3xl px-8 py-10 text-center">
           <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3">The Bottom Line</p>
           <p className="text-white text-2xl sm:text-3xl font-extrabold mb-8 max-w-2xl mx-auto leading-tight">
             "The first time in history you can shop for an attorney the same way you shop for insurance or mortgage rates."
