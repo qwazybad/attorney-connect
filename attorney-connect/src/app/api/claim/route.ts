@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // GET /api/claim?token=xxx — look up claim token (public, no auth needed)
 export async function GET(req: NextRequest) {
@@ -30,7 +33,7 @@ export async function POST(req: NextRequest) {
   // Find the unclaimed attorney row
   const { data: attorney, error: findError } = await supabaseAdmin
     .from("attorneys")
-    .select("id, claimed, clerk_id")
+    .select("id, name, firm, claimed, clerk_id")
     .eq("claim_token", token)
     .maybeSingle();
 
@@ -56,6 +59,25 @@ export async function POST(req: NextRequest) {
     .eq("id", attorney.id);
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
+
+  // Notify admin
+  await resend.emails.send({
+    from: "AttorneyCompete <noreply@attorneycompete.com>",
+    to: "Jackhumphres.jh@gmail.com",
+    subject: `Profile claimed — ${attorney.name ?? "Unknown"}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #111;">Attorney Profile Claimed</h2>
+        <p><strong>${attorney.name ?? "An attorney"}</strong> at <strong>${attorney.firm ?? "—"}</strong> has just claimed their profile on AttorneyCompete.</p>
+        <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+          <tr><td style="padding: 8px; color: #555; font-weight: bold;">Name</td><td style="padding: 8px;">${attorney.name ?? "—"}</td></tr>
+          <tr style="background:#f9f9f9"><td style="padding: 8px; color: #555; font-weight: bold;">Firm</td><td style="padding: 8px;">${attorney.firm ?? "—"}</td></tr>
+          <tr><td style="padding: 8px; color: #555; font-weight: bold;">Profile ID</td><td style="padding: 8px;">${attorney.id}</td></tr>
+        </table>
+        <a href="https://www.attorneycompete.com/admin" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">View in Admin Panel</a>
+      </div>
+    `,
+  }).catch((err) => console.error("Claim notification email error:", err));
 
   return NextResponse.json({ success: true, attorney_id: attorney.id });
 }
