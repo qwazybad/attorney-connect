@@ -199,6 +199,7 @@ function ProfileTab({
   const [responseTime, setResponseTime] = useState(String(attorney?.response_time_hours ?? ""));
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"success" | "error" | null>(null);
+  const [saveMessage, setSaveMessage] = useState("");
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -231,6 +232,15 @@ function ProfileTab({
   async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file || !user) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setSaveMessage("Photo must be under 5MB — please resize and try again.");
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus(null), 4000);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
+
     setUploading(true);
 
     const form = new FormData();
@@ -245,6 +255,7 @@ function ProfileTab({
     if (res.ok && json.url) {
       setPhotoUrl(json.url);
     } else {
+      setSaveMessage("Photo upload failed — please try a smaller file.");
       setSaveStatus("error");
       setTimeout(() => setSaveStatus(null), 4000);
     }
@@ -727,7 +738,7 @@ function ProfileTab({
           )}
           {saveStatus === "error" && (
             <span className="flex items-center gap-1.5 text-red-500">
-              <AlertCircle className="w-4 h-4" /> Save failed — please try again
+              <AlertCircle className="w-4 h-4" /> {saveMessage || "Save failed — please try again"}
             </span>
           )}
         </div>
