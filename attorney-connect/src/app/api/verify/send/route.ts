@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
     await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SID!)
       .verifications.create({ to: normalized, channel: "sms" });
-  } catch (err) {
-    console.error("Twilio Verify send error:", err);
-    return NextResponse.json({ error: "Failed to send code. Check your phone number and try again." }, { status: 500 });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Twilio Verify send error:", msg);
+    return NextResponse.json({ error: `Twilio error: ${msg}` }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
