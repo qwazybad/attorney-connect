@@ -27,14 +27,16 @@ import {
   Hourglass,
   Search,
   LayoutDashboard,
+  FolderOpen,
 } from "lucide-react";
+import { DocumentsPanel } from "@/components/shared/DocumentsPanel";
 import Link from "next/link";
 import type { Attorney, Lead } from "@/lib/supabase";
 import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Tab = "dashboard" | "profile" | "webhook" | "leads";
+type Tab = "dashboard" | "profile" | "webhook" | "leads" | "documents";
 
 const LEAD_FIELDS = [
   { key: "first_name", label: "First Name" },
@@ -1402,6 +1404,7 @@ export default function AttorneyPortalPage() {
     { id: "profile", label: "Profile", icon: User },
     { id: "webhook", label: "Webhook & CRM", icon: Webhook },
     { id: "leads", label: "Leads", icon: Inbox, badge: leads.length || undefined },
+    { id: "documents", label: "Documents", icon: FolderOpen },
   ];
 
   return (
@@ -1523,6 +1526,18 @@ export default function AttorneyPortalPage() {
           )}
           {activeTab === "leads" && (
             <LeadsTab leads={leads} loading={leadsLoading} />
+          )}
+          {activeTab === "documents" && attorney && (
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <FolderOpen className="w-5 h-5 text-gray-400" />
+                <div>
+                  <h2 className="text-sm font-bold text-gray-900">My Documents</h2>
+                  <p className="text-xs text-gray-400 mt-0.5">Onboarding agreements, signed contracts, and files shared by AttorneyCompete.</p>
+                </div>
+              </div>
+              <DocumentsPanel attorneyId={attorney.id} canUpload canDelete={false} />
+            </div>
           )}
         </div>
 

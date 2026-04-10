@@ -5,8 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   Scale, ArrowLeft, Save, Trash2, Send, BadgeCheck, Clock,
-  ChevronRight, CheckCircle, ExternalLink,
+  ChevronRight, CheckCircle, ExternalLink, FolderOpen,
 } from "lucide-react";
+import { DocumentsPanel } from "@/components/shared/DocumentsPanel";
 import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
 
 type LeadStatus = "new" | "attempting_contact" | "contacted" | "retained" | "in_progress" | "settlement" | "closed" | "lost";
@@ -51,7 +52,7 @@ function fmt(iso: string) {
 const inp = "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500";
 const lbl = "block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5";
 
-type Tab = "profile" | "leads";
+type Tab = "profile" | "leads" | "documents";
 
 export default function AttorneyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -249,7 +250,7 @@ export default function AttorneyDetailPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-6 w-fit">
-          {([{ id: "profile" as Tab, label: "Profile", count: null }, { id: "leads" as Tab, label: "Leads", count: leads.length }]).map(({ id: tid, label, count }) => (
+          {([{ id: "profile" as Tab, label: "Profile", count: null }, { id: "leads" as Tab, label: "Leads", count: leads.length }, { id: "documents" as Tab, label: "Documents", count: null }]).map(({ id: tid, label, count }) => (
             <button
               key={tid}
               onClick={() => setTab(tid)}
@@ -438,6 +439,19 @@ export default function AttorneyDetailPage() {
                 </tbody>
               </table>
             )}
+          </div>
+        )}
+
+        {tab === "documents" && (
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <FolderOpen className="w-5 h-5 text-gray-400" />
+              <div>
+                <h2 className="text-sm font-bold text-gray-900">Attorney Documents</h2>
+                <p className="text-xs text-gray-400 mt-0.5">Onboarding agreements, signed contracts, licenses, and other attorney-level files.</p>
+              </div>
+            </div>
+            <DocumentsPanel attorneyId={id} canUpload canDelete />
           </div>
         )}
       </div>

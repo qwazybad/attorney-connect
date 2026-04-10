@@ -5,8 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   Scale, ArrowLeft, Phone, Mail, ChevronDown,
-  MessageSquare, Clock, CheckCircle, Send, User,
+  MessageSquare, Clock, CheckCircle, Send, User, FolderOpen,
 } from "lucide-react";
+import { DocumentsPanel } from "@/components/shared/DocumentsPanel";
 
 type LeadStatus =
   | "new"
@@ -72,7 +73,7 @@ function parseMessage(message: string | null) {
   });
 }
 
-type Tab = "details" | "notes";
+type Tab = "details" | "notes" | "documents";
 
 export default function AttorneyLeadDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -230,7 +231,7 @@ export default function AttorneyLeadDetailPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-gray-200 shadow-sm rounded-2xl p-1.5 mb-6 w-fit">
-          {([{ id: "details" as Tab, label: "Lead Details" }, { id: "notes" as Tab, label: "Notes & Activity" }]).map(({ id: tid, label }) => (
+          {([{ id: "details" as Tab, label: "Lead Details" }, { id: "notes" as Tab, label: "Notes & Activity" }, { id: "documents" as Tab, label: "Documents" }]).map(({ id: tid, label }) => (
             <button
               key={tid}
               onClick={() => setTab(tid)}
@@ -323,6 +324,19 @@ export default function AttorneyLeadDetailPage() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {tab === "documents" && (
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <FolderOpen className="w-5 h-5 text-gray-400" />
+              <div>
+                <h2 className="text-sm font-bold text-gray-900">Case Documents</h2>
+                <p className="text-xs text-gray-400 mt-0.5">Retainer agreements, police reports, medical records, and other case files.</p>
+              </div>
+            </div>
+            <DocumentsPanel leadId={id} canUpload canDelete />
           </div>
         )}
       </div>
