@@ -24,16 +24,10 @@ export default function HeroSection() {
 
   return (
     <section className="relative bg-white overflow-hidden pt-16">
-      {/* Subtle right-panel tint */}
-      <div className="absolute inset-y-0 right-0 w-[45%] bg-navy-50/60 hidden lg:block pointer-events-none" />
       {/* Thin blue top bar */}
       <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-0 items-center py-10 sm:py-14 lg:py-20">
-
-          {/* ── Left: Headline + CTAs ─────────────────────────────── */}
-          <div className="lg:col-span-7 lg:pr-16 text-center lg:text-left">
+      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center py-16 sm:py-20 lg:py-24">
 
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
@@ -60,7 +54,7 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up justify-center"
               style={{ animationDelay: "0.14s", animationFillMode: "forwards" }}
             >
               <button
@@ -86,7 +80,7 @@ export default function HeroSection() {
 
             {/* Trust signals */}
             <div
-              className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-0 animate-slide-up justify-center lg:justify-start"
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-0 animate-slide-up justify-center"
               style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
             >
               {[
@@ -107,7 +101,7 @@ export default function HeroSection() {
               style={{ animationDelay: "0.26s", animationFillMode: "forwards" }}
             >
               <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest block mb-2">Popular</span>
-              <div className="flex flex-wrap gap-1.5 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-1.5 justify-center">
               {[
                 { label: "Personal Injury", area: "Personal Injury" },
                 { label: "Car Accident", area: "Car Accident" },
@@ -129,12 +123,10 @@ export default function HeroSection() {
               ))}
               </div>
             </div>
-          </div>
 
-          {/* ── Right: Search card ────────────────────────────────── */}
-          <div className="lg:col-span-5 lg:pl-10 lg:-mr-8 xl:-mr-8">
-            <div
-              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
+          {/* ── Search card ──────────────────────────────────────── */}
+          <div
+              className="mt-10 bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300 text-left"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
               <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
@@ -213,9 +205,7 @@ export default function HeroSection() {
                 Free · No obligation · 2,847 verified firms
               </p>
             </div>
-          </div>
 
-        </div>
       </div>
     </section>
   );
