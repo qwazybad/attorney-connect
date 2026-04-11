@@ -7,11 +7,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   CheckCircle, ArrowRight, ArrowLeft, Upload, Shield,
-  Camera, User, Scale,
+  Camera, User, Scale, Lock, CreditCard,
 } from "lucide-react";
 import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-type Step = 1 | 2 | 3 | 4 | 5 | 6;
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 interface FormData {
   firmName: string; contactName: string; email: string; phone: string; website: string;
@@ -29,7 +33,126 @@ const STEPS = [
   { n: 4, label: "Fees" },
   { n: 5, label: "Documents" },
   { n: 6, label: "Photo" },
+  { n: 7, label: "Billing" },
 ];
+
+function BillingStepForm({
+  clientSecret,
+  stripeCustomerId,
+  onSuccess,
+}: {
+  clientSecret: string;
+  stripeCustomerId: string;
+  onSuccess: () => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [processing, setProcessing] = useState(false);
+  const [cardError, setCardError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+    setProcessing(true);
+    setCardError(null);
+
+    const card = elements.getElement(CardElement);
+    if (!card) { setProcessing(false); return; }
+
+    const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
+      payment_method: { card },
+    });
+
+    if (error) {
+      setCardError(error.message ?? "Card error. Please try again.");
+      setProcessing(false);
+      return;
+    }
+
+    // Save payment method to DB
+    await fetch("/api/stripe/save-payment-method", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customerId: stripeCustomerId,
+        paymentMethodId: setupIntent?.payment_method,
+      }),
+    });
+
+    onSuccess();
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="p-7 space-y-6">
+      <div>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">Secure Your Founding Member Rate</h2>
+        <p className="text-sm text-gray-500">You&apos;re in the first 500. Your $249/mo rate is locked for life.</p>
+      </div>
+
+      {/* Pricing highlight */}
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-1">Founding Member Rate</p>
+            <div className="flex items-baseline gap-1">
+              <span className="text-4xl font-extrabold text-emerald-700">$249</span>
+              <span className="text-gray-500 text-sm">/mo · locked for life</span>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-gray-400 line-through">$499/mo standard</p>
+            <p className="text-xs font-bold text-emerald-600">Save $250/mo forever</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 bg-emerald-100 rounded-xl px-4 py-2.5">
+          <Lock className="w-4 h-4 text-emerald-600 shrink-0" />
+          <p className="text-xs font-semibold text-emerald-700">
+            Your card is saved but <span className="font-extrabold">not charged</span> until the platform goes live. You&apos;ll be notified before any billing begins.
+          </p>
+        </div>
+      </div>
+
+      {/* Card input */}
+      <div>
+        <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+          Card Details
+        </label>
+        <div className="border border-gray-200 rounded-xl px-4 py-3.5 bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "15px",
+                  color: "#111827",
+                  fontFamily: "Manrope, system-ui, sans-serif",
+                  "::placeholder": { color: "#9ca3af" },
+                },
+                invalid: { color: "#ef4444" },
+              },
+            }}
+          />
+        </div>
+        {cardError && <p className="text-xs text-red-500 mt-1.5 font-medium">{cardError}</p>}
+      </div>
+
+      <button
+        type="submit"
+        disabled={!stripe || processing}
+        className="group relative w-full inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-bold py-3.5 rounded-xl transition-colors text-sm overflow-hidden"
+      >
+        <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
+        <CreditCard className="w-4 h-4" />
+        {processing ? "Securing…" : "Secure My Rate"}
+        {!processing && <ArrowRight className="w-4 h-4" />}
+      </button>
+
+      <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+        <Lock className="w-3 h-3" />
+        <span>Secured by Stripe · SSL encrypted · Not charged until launch</span>
+      </div>
+    </form>
+  );
+}
 
 function JoinPageInner() {
   const { user, isLoaded } = useUser();
@@ -37,6 +160,8 @@ function JoinPageInner() {
   const searchParams = useSearchParams();
   const [photoPreview, setPhotoPreview] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
+  const [stripeCustomerId, setStripeCustomerId] = useState<string | null>(null);
   const photoRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState<FormData>({
@@ -79,7 +204,7 @@ function JoinPageInner() {
       router.push(`/join?step=${currentStep + 1}`);
       return;
     }
-    // Final step — save everything
+    // Step 6 — save profile, then advance to billing
     setSubmitting(true);
     try {
       await fetch("/api/attorney/profile", {
@@ -111,12 +236,26 @@ function JoinPageInner() {
         const blob = await res.blob();
         const ext = blob.type.split("/")[1] || "jpg";
         const file = new File([blob], `profile.${ext}`, { type: blob.type });
-        const formData = new FormData();
-        formData.append("file", file);
-        await fetch("/api/attorney/photo", { method: "POST", body: formData });
+        const fd = new FormData();
+        fd.append("file", file);
+        await fetch("/api/attorney/photo", { method: "POST", body: fd });
       }
+
+      // Fetch setup intent for billing step
+      const siRes = await fetch("/api/stripe/setup-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.contactName,
+          email: user?.primaryEmailAddress?.emailAddress ?? form.email,
+        }),
+      });
+      const { clientSecret, customerId } = await siRes.json();
+      setStripeClientSecret(clientSecret);
+      setStripeCustomerId(customerId);
     } catch { /* ignore */ }
-    router.push("/attorney-portal");
+    setSubmitting(false);
+    router.push("/join?step=7");
   }
 
   if (!isLoaded) {
@@ -204,8 +343,21 @@ function JoinPageInner() {
           </div>
         )}
 
+        {/* Step 7 — Billing (outside main form, uses Stripe Elements) */}
+        {currentStep === 7 && user && stripeClientSecret && (
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <Elements stripe={stripePromise} options={{ clientSecret: stripeClientSecret }}>
+              <BillingStepForm
+                clientSecret={stripeClientSecret}
+                stripeCustomerId={stripeCustomerId!}
+                onSuccess={() => router.push("/attorney-portal")}
+              />
+            </Elements>
+          </div>
+        )}
+
         {/* Steps 2–6 — Form */}
-        {currentStep >= 2 && user && (
+        {currentStep >= 2 && currentStep <= 6 && user && (
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <form onSubmit={handleNext}>
               {/* Step 2 — Firm Info */}
