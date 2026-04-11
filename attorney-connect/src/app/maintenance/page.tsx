@@ -300,17 +300,17 @@ export default function MaintenancePage() {
       </section>
 
       {/* ── Bottom CTA ───────────────────────────────────────── */}
-      <section className="relative py-24 bg-gray-900 overflow-hidden">
-        <div className="dot-grid absolute inset-0 opacity-30" />
-        <div className="orb w-[500px] h-[500px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
+      <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
+        <div className="dot-grid-dark absolute inset-0 opacity-30" />
+        <div className="orb w-[500px] h-[500px] bg-blue-400/15 top-0 left-1/2 -translate-x-1/2" />
         <div className="relative max-w-4xl mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="text-center sm:text-left">
-              <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3">For Clients</p>
-              <h3 className="text-2xl font-extrabold text-white mb-3">Be first to find your attorney.</h3>
-              <p className="text-gray-400 text-sm mb-6">We&apos;ll notify you the moment we launch.</p>
+              <p className="text-xs font-bold text-blue-500 uppercase tracking-widest mb-3">For Clients</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 mb-3">Be first to find your attorney.</h3>
+              <p className="text-gray-500 text-sm mb-6">We&apos;ll notify you the moment we launch.</p>
               {submitted ? (
-                <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold justify-center sm:justify-start">
+                <div className="flex items-center gap-2 text-emerald-600 text-sm font-semibold justify-center sm:justify-start">
                   <CheckCircle className="w-4 h-4" />
                   You&apos;re on the list!
                 </div>
@@ -324,10 +324,10 @@ export default function MaintenancePage() {
               )}
             </div>
 
-            <div className="text-center sm:text-left border-t border-gray-800 pt-8 sm:border-t-0 sm:pt-0 sm:border-l sm:pl-8">
-              <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3">For Attorneys</p>
-              <h3 className="text-2xl font-extrabold text-white mb-3">Lock in $249/mo before it closes.</h3>
-              <p className="text-gray-400 text-sm mb-6">After 500 founding members the rate goes to $499/mo — permanently.</p>
+            <div className="text-center sm:text-left border-t border-gray-200 pt-8 sm:border-t-0 sm:pt-0 sm:border-l sm:border-gray-200 sm:pl-8">
+              <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">For Attorneys</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 mb-3">Lock in $249/mo before it closes.</h3>
+              <p className="text-gray-500 text-sm mb-6">After 500 founding members the rate goes to $499/mo — permanently.</p>
               <Link
                 href="/for-attorneys"
                 className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm"
@@ -338,7 +338,7 @@ export default function MaintenancePage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-12 pt-8 border-t border-gray-800">
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-12 pt-8 border-t border-gray-200">
             {[
               { icon: Shield, text: "Bar verified attorneys" },
               { icon: Lock, text: "Card not charged until launch" },
