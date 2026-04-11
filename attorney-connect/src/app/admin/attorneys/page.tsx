@@ -168,6 +168,8 @@ function AttorneysContent() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | Status>(statusParam ?? "all");
   const [showAdd, setShowAdd] = useState(false);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(25);
 
   useEffect(() => {
     fetch("/api/admin/attorneys").then((r) => r.json()).then(({ data }) => {
@@ -185,6 +187,12 @@ function AttorneysContent() {
     return (!q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q) || (a.email ?? "").toLowerCase().includes(q)) &&
       (statusFilter === "all" || a.status === statusFilter);
   });
+
+  // Reset to page 0 when filters change
+  useEffect(() => { setPage(0); }, [search, statusFilter, pageSize]);
+
+  const totalPages = Math.ceil(filtered.length / pageSize);
+  const paginated = filtered.slice(page * pageSize, (page + 1) * pageSize);
 
   const counts: Record<"all" | Status, number> = {
     all:             attorneys.length,
@@ -264,9 +272,9 @@ function AttorneysContent() {
                 <tr>{["Attorney", "Status", "Leads", "Fee", "Joined", ""].map((h) => <th key={h} className="text-left text-xs font-semibold text-gray-500 px-5 py-3.5 uppercase tracking-wide">{h}</th>)}</tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filtered.length === 0 ? (
+                {paginated.length === 0 ? (
                   <tr><td colSpan={6} className="text-center py-12 text-gray-400 text-sm">No attorneys found.</td></tr>
-                ) : filtered.map((a) => (
+                ) : paginated.map((a) => (
                   <tr key={a.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-4">
                       <Link href={`/admin/attorneys/${a.id}`} className="flex items-center gap-3">
@@ -293,6 +301,33 @@ function AttorneysContent() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Pagination footer */}
+        {!loading && filtered.length > 0 && (
+          <div className="flex items-center justify-between mt-4 px-1">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>Show</span>
+              {[20, 30, 50].map((n) => (
+                <button key={n} onClick={() => setPageSize(n)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${pageSize === n ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"}`}>
+                  {n}
+                </button>
+              ))}
+              <span className="ml-1 text-gray-400">of {filtered.length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">Page {page + 1} of {totalPages}</span>
+              <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 bg-white text-gray-600 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                Prev
+              </button>
+              <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 bg-white text-gray-600 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
