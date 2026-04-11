@@ -33,7 +33,7 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-0 items-center lg:min-h-[calc(100vh-64px)] py-10 sm:py-14 lg:py-0">
 
           {/* ── Left: Headline + CTAs ─────────────────────────────── */}
-          <div className="lg:col-span-7 lg:pr-16">
+          <div className="lg:col-span-7 lg:pr-16 text-center lg:text-left">
 
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
@@ -60,7 +60,7 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up"
+              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up justify-center lg:justify-start"
               style={{ animationDelay: "0.14s", animationFillMode: "forwards" }}
             >
               <button
@@ -86,7 +86,7 @@ export default function HeroSection() {
 
             {/* Trust signals */}
             <div
-              className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-0 animate-slide-up"
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-0 animate-slide-up justify-center lg:justify-start"
               style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
             >
               {[
@@ -107,7 +107,7 @@ export default function HeroSection() {
               style={{ animationDelay: "0.26s", animationFillMode: "forwards" }}
             >
               <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest block mb-2">Popular</span>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 justify-center lg:justify-start">
               {[
                 { label: "Personal Injury", area: "Personal Injury" },
                 { label: "Car Accident", area: "Car Accident" },
