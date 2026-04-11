@@ -33,7 +33,7 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-0 items-center lg:min-h-[calc(100vh-64px)] py-10 sm:py-14 lg:py-0">
 
           {/* ── Left: Headline + CTAs ─────────────────────────────── */}
-          <div className="lg:col-span-7 lg:pr-16 text-center lg:text-left">
+          <div className="lg:col-span-6 lg:pr-12 text-center lg:text-left">
 
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
@@ -132,9 +132,9 @@ export default function HeroSection() {
           </div>
 
           {/* ── Right: Search card ────────────────────────────────── */}
-          <div className="lg:col-span-5 lg:flex lg:justify-end lg:pl-6 xl:pl-0">
+          <div className="lg:col-span-6 lg:pl-12 xl:pl-16">
             <div
-              className="w-full lg:max-w-[400px] bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
+              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
               <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
