@@ -49,11 +49,11 @@ export default function MaintenancePage() {
             Launching Soon
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
             The legal marketplace where<br />
             <span className="text-gradient-blue">attorneys compete for your business.</span>
           </h1>
-          <p className="text-gray-500 text-lg leading-relaxed mb-12 max-w-2xl mx-auto">
+          <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-12 max-w-2xl mx-auto">
             Compare real fees, ratings, and results before you hire. For attorneys — a flat monthly rate instead of referral fees, so they can charge you less and still win more.
           </p>
 
@@ -137,7 +137,7 @@ export default function MaintenancePage() {
               <RefreshCw className="w-3 h-3" />
               How the platform works for you
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
               The reason fees go down here — not up.
             </h2>
             <p className="text-gray-500 text-base max-w-2xl mx-auto leading-relaxed">
@@ -184,7 +184,7 @@ export default function MaintenancePage() {
       <section className="py-20 bg-gray-50 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">
               Built for both sides of the table
             </h2>
           </div>
@@ -251,7 +251,7 @@ export default function MaintenancePage() {
       <section className="py-20 bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">How it works</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">How it works</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">

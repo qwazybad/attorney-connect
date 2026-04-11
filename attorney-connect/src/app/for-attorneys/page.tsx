@@ -105,12 +105,12 @@ export default function ForAttorneysPage() {
             Founding Member Rate · First 500 Only · $249/mo Locked for Life
           </div>
 
-          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-[-0.02em] text-gray-900 leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-gray-900 leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
             Stop paying referral fees.<br />
             <span className="text-gradient-blue">Pay a flat rate instead.</span>
           </h1>
 
-          <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+          <p className="text-base sm:text-lg text-gray-500 mb-8 leading-relaxed max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
             Other platforms take 20–40% of every case they send you. On a $100,000 settlement that's $30,000 gone before you see it. AttorneyCompete charges $249/mo flat — and your earnings stay yours.
           </p>
 
@@ -297,7 +297,7 @@ export default function ForAttorneysPage() {
             <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
               Why AttorneyCompete
             </div>
-            <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
               A better deal for attorneys
             </h2>
             <p className="reveal reveal-delay-2 mt-4 text-gray-500 text-lg">
@@ -326,7 +326,7 @@ export default function ForAttorneysPage() {
             <div className="reveal inline-flex items-center gap-2 bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
               The Process
             </div>
-            <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
               Live in 4 simple steps
             </h2>
           </div>
@@ -357,7 +357,7 @@ export default function ForAttorneysPage() {
             <div className="reveal inline-flex items-center gap-2 bg-white/70 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-5">
               Pricing
             </div>
-            <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+            <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
               Pricing that scales with the platform
             </h2>
             <p className="reveal reveal-delay-2 text-gray-500 text-lg max-w-xl mx-auto">
