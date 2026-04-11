@@ -30,7 +30,7 @@ export default function HeroSection() {
       <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-0 items-center lg:min-h-[calc(100vh-64px)] py-10 sm:py-14 lg:py-0">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-0 items-center py-10 sm:py-14 lg:py-20">
 
           {/* ── Left: Headline + CTAs ─────────────────────────────── */}
           <div className="lg:col-span-7 lg:pr-16 text-center lg:text-left">
