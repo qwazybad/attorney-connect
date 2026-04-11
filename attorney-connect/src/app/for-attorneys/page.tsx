@@ -84,24 +84,6 @@ export default function ForAttorneysPage() {
         </div>
       </section>
 
-      {/* ── Stats bar ─────────────────────────────────────────── */}
-      <section className="bg-white py-14 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-y-2 md:divide-y-0 md:divide-x divide-gray-100">
-            {[
-              { value: "2,800+", label: "Partner law firms", color: "text-navy-900" },
-              { value: "48,000+", label: "Cases matched", color: "text-navy-900" },
-              { value: "$0", label: "Upfront cost", color: "text-emerald-600" },
-              { value: "4.8/5", label: "Avg firm satisfaction", color: "text-navy-900" },
-            ].map(({ value, label, color }, i) => (
-              <div key={label} className={`flex flex-col items-center text-center px-8 ${i > 0 && i % 2 === 0 ? "pt-8 md:pt-0" : ""} py-2`}>
-                <p className={`text-3xl font-extrabold ${color} tracking-tight`}>{value}</p>
-                <p className="text-sm text-gray-400 font-medium mt-1">{label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Features ──────────────────────────────────────────── */}
       <section ref={featuresRef} className="py-24 bg-gray-50">
