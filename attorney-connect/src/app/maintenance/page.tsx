@@ -66,7 +66,7 @@ export default function MaintenancePage() {
               </div>
               <p className="text-xs font-bold text-blue-500 uppercase tracking-widest mb-1">For Clients</p>
               <h3 className="font-extrabold text-gray-900 text-lg mb-2">Find the right attorney</h3>
-              <p className="text-gray-500 text-sm mb-5 leading-relaxed">Get notified when we launch. Compare fees and ratings before you ever make a call.</p>
+              <p className="text-gray-500 text-sm mb-5 leading-relaxed">Get notified when we launch. Compare fees and ratings before you ever submit a lead.</p>
               {submitted ? (
                 <div className="flex items-center gap-2 text-emerald-600 text-sm font-semibold">
                   <CheckCircle className="w-4 h-4" />
@@ -261,7 +261,7 @@ export default function MaintenancePage() {
               <div className="space-y-6">
                 {[
                   { n: "1", title: "Search by practice area", desc: "Tell us what type of case you have. We show you verified attorneys in your area." },
-                  { n: "2", title: "Compare fees and ratings", desc: "See exactly what each attorney charges before you ever pick up the phone." },
+                  { n: "2", title: "Compare fees and ratings", desc: "See exactly what each attorney charges before you ever submit a lead." },
                   { n: "3", title: "Contact and hire", desc: "Reach out directly. No middleman, no referral games — just you and the right attorney." },
                 ].map((step) => (
                   <div key={step.n} className="flex items-start gap-4">
