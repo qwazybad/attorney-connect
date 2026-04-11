@@ -54,17 +54,7 @@ export default function PitchPage() {
           <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Legal Advertising Is Broken</h2>
           <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">Billions are spent on billboards, radio, and TV — yet consumers can't remember a single name when they actually need an attorney.</p>
 
-          <div className="bg-red-950/40 border border-red-800/40 rounded-2xl p-10 text-center max-w-3xl mx-auto mb-16">
-            <p className="text-2xl sm:text-3xl font-extrabold text-white leading-snug mb-3">
-              "I'm paying $3,000 a month to FindLaw
-            </p>
-            <p className="text-2xl sm:text-3xl font-extrabold text-red-400 leading-snug">
-              and getting garbage leads."
-            </p>
-            <p className="text-gray-500 text-sm mt-4">— What we hear from attorneys every week</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
             {[
               { icon: "📺", title: "$9.8B Wasted", desc: "Law firms spend $9.8B/year on advertising — mostly on traditional media with no measurable ROI." },
               { icon: "🧠", title: "Zero Retention", desc: "Consumers see hundreds of legal ads but retain almost none when they actually need legal help." },
@@ -77,6 +67,15 @@ export default function PitchPage() {
                 <p className="text-gray-400 text-sm leading-relaxed">{card.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="bg-gray-800 border border-gray-600 rounded-2xl p-10 max-w-3xl mx-auto text-center">
+            <p className="text-lg text-gray-300 leading-relaxed mb-4">
+              Law firms spend billions on advertising to stay top of mind. Consumers see hundreds of ads but retain very few. When legal need arises, recall fails and decision quality suffers.
+            </p>
+            <p className="text-xl font-bold text-white leading-relaxed">
+              AttorneyCompete replaces fragmented advertising with a centralized marketplace where consumers arrive with intent and attorneys compete in real time.
+            </p>
           </div>
         </div>
       </section>
