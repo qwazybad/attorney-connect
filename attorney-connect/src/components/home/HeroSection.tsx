@@ -23,7 +23,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative bg-white overflow-hidden pt-16">
+    <section className="relative overflow-hidden pt-16" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
       {/* Thin blue top bar */}
       <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
