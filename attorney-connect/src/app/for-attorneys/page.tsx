@@ -87,19 +87,16 @@ export default function ForAttorneysPage() {
       {/* ── Stats bar ─────────────────────────────────────────── */}
       <section className="bg-white py-14 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-y-2 md:divide-y-0 md:divide-x divide-gray-100">
             {[
-              { value: "2,800+", label: "Partner law firms", color: "text-accent-500", bg: "bg-accent-50" },
-              { value: "48,000+", label: "Cases matched", color: "text-blue-500", bg: "bg-blue-50" },
-              { value: "$0", label: "Upfront cost", color: "text-emerald-500", bg: "bg-emerald-50" },
-              { value: "4.8/5", label: "Avg firm satisfaction", color: "text-yellow-500", bg: "bg-yellow-50" },
-            ].map(({ value, label, color, bg }) => (
-              <div key={label} className="flex flex-col items-center text-center group">
-                <div className={`w-12 h-12 rounded-2xl ${bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                  <span className={`text-lg font-extrabold ${color}`}>{value[0]}</span>
-                </div>
-                <p className={`text-3xl font-extrabold ${color}`}>{value}</p>
-                <p className="text-sm text-gray-400 font-medium mt-0.5">{label}</p>
+              { value: "2,800+", label: "Partner law firms", color: "text-navy-900" },
+              { value: "48,000+", label: "Cases matched", color: "text-navy-900" },
+              { value: "$0", label: "Upfront cost", color: "text-emerald-600" },
+              { value: "4.8/5", label: "Avg firm satisfaction", color: "text-navy-900" },
+            ].map(({ value, label, color }, i) => (
+              <div key={label} className={`flex flex-col items-center text-center px-8 ${i > 0 && i % 2 === 0 ? "pt-8 md:pt-0" : ""} py-2`}>
+                <p className={`text-3xl font-extrabold ${color} tracking-tight`}>{value}</p>
+                <p className="text-sm text-gray-400 font-medium mt-1">{label}</p>
               </div>
             ))}
           </div>
