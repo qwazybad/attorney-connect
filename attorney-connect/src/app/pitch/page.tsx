@@ -309,7 +309,7 @@ export default function PitchPage() {
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Traction</p>
           <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">3,450 Attorneys. Already Seeded.</h2>
-          <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">We scraped every AZ Bar attorney with a public email address. Their profiles are live in the platform. Not one has been contacted yet — we're waiting for the right moment to launch outreach.</p>
+          <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">The supply side is seeded. 3,450 Arizona attorneys are already in the platform with verified contact information — the outreach hasn't started yet.</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
