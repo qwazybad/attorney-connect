@@ -127,6 +127,7 @@ export default function HeroSection() {
               ))}
               </div>
             </div>
+          </div>
 
           {/* ── Right: Search card ────────────────────────────────── */}
           <div className="lg:col-span-5 lg:pl-10">
