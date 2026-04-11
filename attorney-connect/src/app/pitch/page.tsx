@@ -115,10 +115,10 @@ export default function PitchPage() {
               <div key={row.industry} className={`reveal ${row.delay} rounded-2xl p-6 border flex items-center gap-5 card-lift ${row.status === "us" ? "bg-blue-500 border-blue-400 col-span-1 sm:col-span-2 shadow-lg" : "bg-white border-gray-200 shadow-sm"}`}>
                 <span className="text-4xl">{row.emoji}</span>
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
                     <h3 className={`font-extrabold text-lg ${row.status === "us" ? "text-white" : "text-gray-900"}`}>{row.industry}</h3>
                     {row.status === "done" && <CheckCircle className="w-4 h-4 text-emerald-500" />}
-                    {row.status === "us" && <span className="text-xs bg-white/20 text-white font-bold px-2 py-0.5 rounded-full">Our Opportunity</span>}
+                    {row.status === "us" && <span className="text-xs bg-white/20 text-white font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Our Opportunity</span>}
                   </div>
                   <p className={`text-sm ${row.status === "us" ? "text-blue-100" : "text-gray-500"}`}>{row.platforms}</p>
                 </div>
