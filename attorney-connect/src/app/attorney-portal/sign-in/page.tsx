@@ -25,8 +25,8 @@ export default function AttorneySignInPage() {
           </span>
         </Link>
 
-        <div className="flex flex-col items-center w-full max-w-md">
-          <div className="mb-8 text-center w-full max-w-[400px]">
+        <div className="flex flex-col items-center w-full max-w-[400px]">
+          <div className="mb-8 text-center w-full">
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-1">
               Attorney Portal
             </h1>
@@ -42,7 +42,7 @@ export default function AttorneySignInPage() {
             appearance={{
               elements: {
                 rootBox: "w-full",
-                card: "bg-white/80 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl",
+                card: "bg-white/80 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl w-full",
                 headerTitle: "text-gray-900 font-bold",
                 headerSubtitle: "text-gray-500",
                 socialButtonsBlockButton:
