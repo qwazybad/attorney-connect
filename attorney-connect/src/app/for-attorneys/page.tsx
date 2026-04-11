@@ -43,7 +43,7 @@ export default function ForAttorneysPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-white border-b border-gray-100 overflow-hidden pt-32 pb-20">
+      <section className="relative border-b border-gray-100 overflow-hidden pt-32 pb-20" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
         <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">

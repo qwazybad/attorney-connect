@@ -122,7 +122,7 @@ function ComparePageInner() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Page header */}
-      <div className="bg-white border-b border-gray-100 pt-24 pb-10">
+      <div className="border-b border-gray-100 pt-24 pb-10" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-blue-500 font-semibold uppercase tracking-widest mb-2">Live Marketplace</p>
           <h1 className="text-3xl font-extrabold text-navy-900 mb-1">
