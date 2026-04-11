@@ -108,7 +108,7 @@ export default function MaintenancePage() {
                 </div>
                 <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1">For Attorneys</p>
                 <h3 className="font-extrabold text-white text-lg mb-2">Lock in $249/mo</h3>
-                <p className="text-gray-400 text-sm mb-5 leading-relaxed">First 500 attorneys get the founding rate — locked for life. Card saved now, charged at launch.</p>
+                <p className="text-gray-200 text-sm mb-5 leading-relaxed">First 500 attorneys get the founding rate — locked for life. Card saved now, charged at launch.</p>
                 <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-4">
                   <Lock className="w-3 h-3 text-emerald-400" />
                   <span className="text-emerald-400 font-semibold">Not charged until launch</span>
