@@ -210,20 +210,20 @@ export default function ForAttorneysPage() {
           </div>
 
           {/* Output */}
-          <div className="reveal reveal-delay-2 grid grid-cols-3 gap-4 text-center">
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-5">
+          <div className="reveal reveal-delay-2 grid grid-cols-3 gap-3 text-center">
+            <div className="bg-red-50 border border-red-100 rounded-2xl p-3 sm:p-5">
               <p className="text-xs text-gray-400 font-semibold mb-2">Your current cost</p>
-              <p className="text-2xl font-extrabold text-red-500">{fmt(currentCost)}</p>
+              <p className="text-base sm:text-2xl font-extrabold text-red-500 break-all">{fmt(currentCost)}</p>
               <p className="text-xs text-gray-400 mt-1">per month</p>
             </div>
-            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-3 sm:p-5">
               <p className="text-xs text-gray-400 font-semibold mb-2">AttorneyCompete</p>
-              <p className="text-2xl font-extrabold text-blue-600">$249</p>
+              <p className="text-base sm:text-2xl font-extrabold text-blue-600">$249</p>
               <p className="text-xs text-gray-400 mt-1">per month flat</p>
             </div>
-            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
+            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 sm:p-5">
               <p className="text-xs text-gray-400 font-semibold mb-2">You save</p>
-              <p className="text-2xl font-extrabold text-emerald-600">{fmt(savings)}</p>
+              <p className="text-base sm:text-2xl font-extrabold text-emerald-600 break-all">{fmt(savings)}</p>
               <p className="text-xs text-gray-400 mt-1">per month</p>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function ForAttorneysPage() {
               { n: "3", title: "Rank higher", body: "Fee competitiveness is a core ranking signal. Lower rates = more visibility.", color: "from-violet-500 to-purple-400", textColor: "text-violet-600" },
               { n: "4", title: "Win more cases", body: "More traffic, more leads, more clients. Revenue grows even at lower margins.", color: "from-amber-400 to-orange-500", textColor: "text-amber-600" },
             ] as const).flatMap((step, i, arr) => [
-              <div key={step.n} className="flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center flex-1 min-w-0 max-w-[180px]">
+              <div key={step.n} className="flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center flex-1 min-w-0 w-full sm:max-w-[180px]">
                 <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
                   <span className="text-xl font-extrabold text-white">{step.n}</span>
                 </div>
@@ -480,18 +480,18 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Bottom CTA ────────────────────────────────────────── */}
-      <section ref={ctaRef} className="relative py-24 bg-gray-900 overflow-hidden">
-        <div className="dot-grid absolute inset-0 opacity-30" />
-        <div className="orb w-[500px] h-[500px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
+      <section ref={ctaRef} className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
+        <div className="dot-grid-dark absolute inset-0 opacity-30" />
+        <div className="orb w-[500px] h-[500px] bg-blue-400/15 top-0 left-1/2 -translate-x-1/2" />
         <div className="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
-          <div className="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
+          <div className="reveal inline-flex items-center gap-2 bg-white/70 border border-emerald-300 text-emerald-600 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
             <Lock className="w-3 h-3" />
             Founding Member · First 500 Only
           </div>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
             Lock in $249/mo before<br />the window closes.
           </h2>
-          <p className="reveal reveal-delay-2 text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+          <p className="reveal reveal-delay-2 text-gray-500 text-base sm:text-lg mb-10 max-w-xl mx-auto">
             After 500 founding members the rate goes to $499/mo — and eventually $699/mo. Your founding rate is locked for life. Card saved today, charged at launch.
           </p>
           <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3 justify-center">
@@ -505,7 +505,7 @@ export default function ForAttorneysPage() {
             </Link>
             <Link
               href="/compare"
-              className="group relative inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 bg-white/80 hover:bg-white border border-gray-200 text-gray-700 font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden shadow-sm"
             >
               Browse the Marketplace
             </Link>

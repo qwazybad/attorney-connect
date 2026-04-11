@@ -153,7 +153,7 @@ export default function MaintenancePage() {
               { n: "3", title: "Best value ranks highest", body: "Lower fees + strong ratings = higher placement. No pay-to-win.", color: "from-violet-500 to-purple-400", textColor: "text-violet-600" },
               { n: "4", title: "You win", body: "More competitive attorneys, lower fees, better outcomes.", color: "from-amber-400 to-orange-500", textColor: "text-amber-600" },
             ] as const).flatMap((step, i, arr) => [
-              <div key={step.n} className="flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center flex-1 min-w-0 max-w-[180px]">
+              <div key={step.n} className="flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center flex-1 min-w-0 w-full sm:max-w-[180px]">
                 <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
                   <span className="text-xl font-extrabold text-white">{step.n}</span>
                 </div>
