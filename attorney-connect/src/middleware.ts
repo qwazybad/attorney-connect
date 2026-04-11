@@ -24,6 +24,7 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
     pathname.startsWith("/api/") ||
     pathname.startsWith("/maintenance") ||
     pathname.startsWith("/pitch") ||
+    pathname.startsWith("/for-attorneys") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname.startsWith("/icon") ||
