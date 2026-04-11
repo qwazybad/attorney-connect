@@ -69,7 +69,7 @@ export default function ForAttorneysPage() {
   const [leadSpend, setLeadSpend] = useState(3000);
   const [leadCostPerLead, setLeadCostPerLead] = useState(1500);
   const [leadsPerMonth, setLeadsPerMonth] = useState(5);
-  const [engagementFee, setEngagementFee] = useState(500);
+  const [engagementFee, setEngagementFee] = useState(1500);
   const [retainersSigned, setRetainersSigned] = useState(3);
 
   const currentCost = (() => {
@@ -174,7 +174,7 @@ export default function ForAttorneysPage() {
             {calcMode === "flat-plus" && (<>
               <SliderField label="Cost per lead" value={leadCostPerLead} min={500} max={5000} step={100} format={fmt} onChange={setLeadCostPerLead} />
               <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
-              <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={100} max={2000} step={50} format={fmt} onChange={setEngagementFee} />
+              <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={500} max={5000} step={100} format={fmt} onChange={setEngagementFee} />
               <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={20} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
               <div className="text-xs text-gray-400 pt-1 border-t border-gray-200">
                 Lead cost: {fmt(leadCostPerLead * leadsPerMonth)} + Engagement fees: {fmt(engagementFee * retainersSigned)} = <span className="font-semibold text-gray-600">{fmt(leadCostPerLead * leadsPerMonth + engagementFee * retainersSigned)}/mo total</span>
