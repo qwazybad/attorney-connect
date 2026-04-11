@@ -34,12 +34,12 @@ export default function PitchPage() {
             </div>
             <span className="text-4xl font-extrabold tracking-tight text-gray-900">Attorney<span className="text-blue-500">Compete</span></span>
           </div>
-          <h1 className="reveal reveal-delay-2 text-5xl sm:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
+          <h1 className="reveal reveal-delay-2 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
             The Marketplace<br />
             <span className="text-gradient-blue">Legal Services</span><br />
             Has Been Waiting For
           </h1>
-          <p className="reveal reveal-delay-3 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="reveal reveal-delay-3 text-base sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
             We are transforming legal services from fragmented, high-cost advertising into a centralized marketplace where attorneys compete and consumers finally have transparency.
           </p>
           <div className="reveal reveal-delay-4 flex flex-wrap items-center justify-center gap-4">
@@ -60,7 +60,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── The Problem ─────────────────────────────────────────── */}
-      <section id="problem" className="py-32 px-6 bg-white">
+      <section id="problem" className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">The Problem</p>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Legal Advertising Is Broken</h2>
@@ -83,7 +83,7 @@ export default function PitchPage() {
             ))}
           </div>
 
-          <div className="reveal bg-gray-50 border border-gray-200 rounded-2xl p-10 max-w-3xl mx-auto text-center">
+          <div className="reveal bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-10 max-w-3xl mx-auto text-center">
             <p className="text-lg font-bold text-gray-900 leading-relaxed mb-4">
               Law firms spend billions on advertising to stay top of mind. Consumers see hundreds of ads but retain very few. When legal need arises, recall fails and decision quality suffers.
             </p>
@@ -95,7 +95,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── The Insight: Market Shift ────────────────────────────── */}
-      <section className="py-32 px-6 bg-gray-50 relative overflow-hidden">
+      <section className="py-16 sm:py-32 px-6 bg-gray-50 relative overflow-hidden">
         <div className="dot-grid-dark absolute inset-0 opacity-20" />
         <div className="orb w-[400px] h-[400px] bg-blue-400/10 -top-20 -right-20" />
         <div className="relative max-w-6xl mx-auto">
@@ -128,7 +128,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── The Solution ─────────────────────────────────────────── */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">The Solution</p>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">AttorneyCompete Changes Everything</h2>
@@ -172,7 +172,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── Business Model ───────────────────────────────────────── */}
-      <section className="py-32 px-6 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
+      <section className="py-16 sm:py-32 px-6 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
         <div className="dot-grid-dark absolute inset-0 opacity-20" />
         <div className="orb w-[500px] h-[500px] bg-blue-400/10 top-0 right-0" />
         <div className="orb w-[400px] h-[400px] bg-purple-400/10 bottom-0 left-0" />
@@ -237,10 +237,11 @@ export default function PitchPage() {
 
           {/* Revenue at full milestones */}
           <div className="reveal bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm mb-8">
-            <div className="px-8 pt-6 pb-3 border-b border-gray-100">
+            <div className="px-6 sm:px-8 pt-6 pb-3 border-b border-gray-100">
               <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Revenue at Each Milestone</p>
             </div>
-            <div className="grid grid-cols-3 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
+            <div className="overflow-x-auto">
+            <div className="grid grid-cols-3 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50 min-w-[420px]">
               <div className="p-4 text-gray-400">Milestone</div>
               <div className="p-4 text-gray-400">Monthly Revenue</div>
               <div className="p-4 text-gray-400">Annual Revenue</div>
@@ -250,12 +251,13 @@ export default function PitchPage() {
               { label: "2,000 attorneys (mixed)", mrr: "$872,500", arr: "$10,470,000", color: "text-blue-600" },
               { label: "2,500 attorneys (mixed)", mrr: "$1,222,000", arr: "$14,664,000", color: "text-purple-600" },
             ].map((row, i) => (
-              <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
+              <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-100 last:border-b-0 min-w-[420px] ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
                 <div className="p-5 text-gray-600 text-sm">{row.label}</div>
                 <div className={`p-5 font-bold ${row.color}`}>{row.mrr}</div>
                 <div className={`p-5 font-semibold ${row.color} opacity-80`}>{row.arr}</div>
               </div>
             ))}
+            </div>{/* /overflow-x-auto */}
           </div>
 
           {/* Future revenue */}
@@ -278,7 +280,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── Traction ─────────────────────────────────────────────── */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Traction</p>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">3,450 Attorneys. Already Seeded.</h2>
@@ -303,7 +305,8 @@ export default function PitchPage() {
               <h3 className="font-extrabold text-xl text-gray-900 mb-1">Arizona Conversion Projections</h3>
               <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at the founding-member rate of $249/mo</p>
             </div>
-            <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
+            <div className="overflow-x-auto">
+            <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50 min-w-[500px]">
               <div className="p-4 text-gray-400">Conversion Rate</div>
               <div className="p-4 text-gray-400">Active Attorneys</div>
               <div className="p-4 text-gray-400">Monthly Revenue</div>
@@ -315,19 +318,20 @@ export default function PitchPage() {
               { rate: "10%", members: "345", mrr: "$85,905",  arr: "$1,030,860" },
               { rate: "20%", members: "690", mrr: "$171,810", arr: "$2,061,720" },
             ].map((row, i) => (
-              <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
+              <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 min-w-[500px] ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
                 <div className="p-5 text-gray-900 font-bold">{row.rate}</div>
                 <div className="p-5 text-gray-600">{row.members}</div>
                 <div className="p-5 text-emerald-600 font-bold">{row.mrr}</div>
                 <div className="p-5 text-emerald-500 font-semibold">{row.arr}</div>
               </div>
             ))}
+            </div>{/* /overflow-x-auto */}
           </div>
         </div>
       </section>
 
       {/* ── Market Opportunity ───────────────────────────────────── */}
-      <section className="py-32 px-6 bg-gray-50 relative overflow-hidden">
+      <section className="py-16 sm:py-32 px-6 bg-gray-50 relative overflow-hidden">
         <div className="dot-grid-dark absolute inset-0 opacity-20" />
         <div className="orb w-[400px] h-[400px] bg-blue-400/10 top-0 right-0" />
         <div className="relative max-w-6xl mx-auto">
@@ -368,7 +372,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── Why Now ──────────────────────────────────────────────── */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Why Now</p>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-16 tracking-tight text-gray-900">The Timing Has Never Been Better</h2>
@@ -395,7 +399,7 @@ export default function PitchPage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section className="relative py-40 px-6 overflow-hidden bg-gray-950">
+      <section className="relative py-20 sm:py-40 px-6 overflow-hidden bg-gray-950">
         <div className="dot-grid absolute inset-0 opacity-30" />
         <div className="orb w-[600px] h-[600px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
         <div className="orb w-[300px] h-[300px] bg-indigo-600/15 bottom-0 left-0" />
@@ -407,11 +411,11 @@ export default function PitchPage() {
             </div>
             <span className="text-3xl font-extrabold tracking-tight text-white">Attorney<span className="text-blue-400">Compete</span></span>
           </div>
-          <h2 className="reveal reveal-delay-1 text-5xl sm:text-6xl font-extrabold tracking-tight mb-6 text-white">
+          <h2 className="reveal reveal-delay-1 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-white">
             Let's Build the<br />
             <span className="text-gradient-blue">LendingTree of Law</span>
           </h2>
-          <p className="reveal reveal-delay-2 text-xl text-gray-300 mb-4 leading-relaxed">
+          <p className="reveal reveal-delay-2 text-base sm:text-xl text-gray-300 mb-4 leading-relaxed">
             Legal services is one of the last major consumer categories without a dominant marketplace. The platform is built. The supply side is seeded. We're looking for partners who see what we see.
           </p>
           <p className="reveal reveal-delay-3 text-blue-400 font-semibold mb-10">3,450 attorneys in the database. Zero contacted. The outreach starts when you say go.</p>
