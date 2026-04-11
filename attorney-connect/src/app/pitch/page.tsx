@@ -21,7 +21,8 @@ export default function PitchPage() {
 
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-white"
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}
       >
         <div className="dot-grid-dark absolute inset-0 opacity-30" />
         <div className="orb w-[600px] h-[600px] bg-blue-400/15 -top-40 -left-40" />
