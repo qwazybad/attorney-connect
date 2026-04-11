@@ -53,7 +53,7 @@ If no attorneys in the list match their location or need, say so honestly and su
 Available attorneys:
 ${attorneyList || "No attorneys currently available."}
 
-Keep responses conversational and under 200 words.`;
+Keep responses conversational and under 200 words. Do not use markdown formatting — no bold (**), no bullet points (*), no headers (#). Write in plain conversational prose only.`;
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
