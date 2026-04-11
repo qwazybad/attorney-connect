@@ -107,24 +107,7 @@ export default function ForAttorneysPage() {
             Other platforms take 20–40% of every case they send you. On a $100,000 settlement that's $30,000 gone before you see it. AttorneyCompete charges $249/mo flat — and your earnings stay yours.
           </p>
 
-          {/* Math callout */}
-          <div className="opacity-0 animate-slide-up max-w-2xl mx-auto mb-10" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
-            <div className="bg-white/80 border border-gray-200 rounded-2xl p-5 grid grid-cols-3 gap-4 text-center shadow-sm">
-              {[
-                { label: "Other platforms (30%)", value: "$30,000", sub: "on a $100K case", bad: true },
-                { label: "AttorneyCompete", value: "$249", sub: "per month flat", bad: false },
-                { label: "You save", value: "$29,751", sub: "on that one case", bad: false, highlight: true },
-              ].map((item) => (
-                <div key={item.label}>
-                  <p className="text-xs text-gray-400 font-semibold mb-1">{item.label}</p>
-                  <p className={`text-2xl font-extrabold ${item.highlight ? "text-emerald-600" : item.bad ? "text-red-500" : "text-gray-900"}`}>{item.value}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{item.sub}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center opacity-0 animate-slide-up" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
             <Link
               href="/join"
               className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg text-base overflow-hidden"
