@@ -31,7 +31,7 @@ export default function AttorneySignInPage() {
           <h2 className="text-3xl font-extrabold text-white tracking-tight leading-snug mb-4">
             Your portal.<br />Your leads.<br />Your practice.
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed mb-10">
+          <p className="text-gray-200 text-sm leading-relaxed mb-10">
             Manage your profile, respond to leads, and track your ranking — all from one place.
           </p>
 
@@ -45,7 +45,7 @@ export default function AttorneySignInPage() {
                 <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center shrink-0">
                   <Icon className="w-4 h-4 text-blue-400" />
                 </div>
-                <p className="text-gray-300 text-sm">{text}</p>
+                <p className="text-gray-100 text-sm">{text}</p>
               </div>
             ))}
           </div>
@@ -69,7 +69,7 @@ export default function AttorneySignInPage() {
         </Link>
 
         <div className="w-full max-w-md">
-          <div className="mb-8 text-center lg:text-left">
+          <div className="mb-8 text-center">
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-1">
               Attorney Portal
             </h1>
