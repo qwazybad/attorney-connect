@@ -12,7 +12,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-accent-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-500 flex items-center justify-center">
               <Scale className="w-[18px] h-[18px] text-white" />
             </div>
             <span className="font-extrabold text-[17px] tracking-tight text-gray-900">

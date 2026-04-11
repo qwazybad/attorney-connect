@@ -47,8 +47,8 @@ export default function ForAttorneysPage() {
         <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-cream-100 border border-accent-200 text-accent-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
-              <Zap className="w-3 h-3 text-accent-500" />
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
+              <Zap className="w-3 h-3 text-blue-500" />
               Performance-based · Zero upfront · 2,800+ partner firms
             </div>
 
@@ -87,7 +87,7 @@ export default function ForAttorneysPage() {
       <section ref={featuresRef} className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-2xl mx-auto text-center mb-16">
-            <div className="reveal inline-flex items-center gap-2 bg-cream-100 border border-accent-200 text-accent-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+            <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
               Why AttorneyCompete
             </div>
             <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
@@ -185,7 +185,7 @@ export default function ForAttorneysPage() {
 
             <Link
               href="/join"
-              className="block w-full text-center bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(194,128,10,0.4)] text-base"
+              className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
             >
               Apply Now — It&apos;s Free
               <ArrowRight className="w-5 h-5 inline ml-2" />
@@ -243,7 +243,7 @@ export default function ForAttorneysPage() {
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/join"
-              className="inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(194,128,10,0.4)] text-base"
+              className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
             >
               Apply as a Partner Firm
               <ArrowRight className="w-5 h-5" />

@@ -37,7 +37,7 @@ const stats = [
   { icon: Building2, value: 2847, suffix: "+", label: "Verified Law Firms",  iconColor: "text-navy-600",  iconBg: "bg-navy-100" },
   { icon: Clock,     value: 18,   suffix: " min", label: "Avg First Response", iconColor: "text-emerald-600", iconBg: "bg-emerald-50" },
   { icon: Star,      value: 48,   suffix: "",    label: "Platform Rating",    iconColor: "text-yellow-500", iconBg: "bg-yellow-50" },
-  { icon: FileCheck, value: 48293, suffix: "+",  label: "Cases Matched",     iconColor: "text-accent-600",  iconBg: "bg-cream-100" },
+  { icon: FileCheck, value: 48293, suffix: "+",  label: "Cases Matched",     iconColor: "text-blue-600",  iconBg: "bg-blue-50" },
 ];
 
 export default function StatsBar() {
