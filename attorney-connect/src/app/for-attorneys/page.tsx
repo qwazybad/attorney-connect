@@ -46,8 +46,7 @@ export default function ForAttorneysPage() {
       <section className="relative bg-white border-b border-gray-100 overflow-hidden pt-32 pb-20">
         <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-3xl">
+        <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
               <Zap className="w-3 h-3 text-blue-500" />
               Performance-based · Zero upfront · 2,800+ partner firms
@@ -59,12 +58,12 @@ export default function ForAttorneysPage() {
               leads.
             </h1>
 
-            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
               AttorneyCompete sends you pre-qualified consumers actively looking for representation.
               You pay nothing until a client signs an engagement letter or retainer agreement with your firm. No wasted ad spend. Pure results.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
               <Link
                 href="/join"
                 className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg shadow-navy-900/20 text-base overflow-hidden"
@@ -80,7 +79,6 @@ export default function ForAttorneysPage() {
                 See How It Works
               </a>
             </div>
-          </div>
         </div>
       </section>
 
