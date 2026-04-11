@@ -217,7 +217,7 @@ export default function ForAttorneysPage() {
               <p className="text-xs text-gray-400 mt-1">per month</p>
             </div>
             <div className="bg-blue-50 border border-blue-100 rounded-2xl p-3 sm:p-5">
-              <p className="text-xs text-gray-400 font-semibold mb-2">AttorneyCompete</p>
+              <p className="text-xs text-gray-400 font-semibold mb-2">AC Rate</p>
               <p className="text-base sm:text-2xl font-extrabold text-blue-600">$249</p>
               <p className="text-xs text-gray-400 mt-1">per month flat</p>
             </div>
