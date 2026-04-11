@@ -55,7 +55,7 @@ export default function HeroSection() {
               className="text-lg text-gray-500 leading-relaxed max-w-lg mb-8 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.08s", animationFillMode: "forwards" }}
             >
-              For the first time, attorney fees are public, competitive, and searchable. Compare real rates from verified attorneys.
+              Stop guessing what an attorney costs. Start comparing.
             </p>
 
             {/* CTAs */}
