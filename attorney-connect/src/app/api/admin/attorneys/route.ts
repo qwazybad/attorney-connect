@@ -12,12 +12,22 @@ export async function GET() {
   const { userId } = await auth();
   if (!isAdmin(userId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-  const { data: attorneys, error } = await supabaseAdmin
-    .from("attorneys")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // Fetch all attorneys in pages to bypass Supabase's 1000-row default limit
+  const PAGE = 1000;
+  let attorneys: Record<string, string>[] = [];
+  let from = 0;
+  while (true) {
+    const { data, error: pageError } = await supabaseAdmin
+      .from("attorneys")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .range(from, from + PAGE - 1);
+    if (pageError) return NextResponse.json({ error: pageError.message }, { status: 500 });
+    if (!data || data.length === 0) break;
+    attorneys = attorneys.concat(data);
+    if (data.length < PAGE) break;
+    from += PAGE;
+  }
 
   // Get lead counts per attorney
   const { data: leads } = await supabaseAdmin
@@ -27,7 +37,7 @@ export async function GET() {
   const counts: Record<string, number> = {};
   leads?.forEach((l) => { counts[l.attorney_id] = (counts[l.attorney_id] ?? 0) + 1; });
 
-  const result = attorneys?.map((a) => ({ ...a, lead_count: counts[a.id] ?? 0 }));
+  const result = attorneys.map((a) => ({ ...a, lead_count: counts[a.id] ?? 0 }));
   return NextResponse.json({ data: result });
 }
 

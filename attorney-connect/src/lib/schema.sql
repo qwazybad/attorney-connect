@@ -77,7 +77,10 @@ ALTER TABLE attorneys
   ADD COLUMN IF NOT EXISTS cases_won            INTEGER DEFAULT 0,
   ADD COLUMN IF NOT EXISTS total_cases          INTEGER DEFAULT 0,
   ADD COLUMN IF NOT EXISTS recent_result        TEXT,
-  ADD COLUMN IF NOT EXISTS recent_result_amount TEXT;
+  ADD COLUMN IF NOT EXISTS recent_result_amount TEXT,
+  ADD COLUMN IF NOT EXISTS city                 TEXT,
+  ADD COLUMN IF NOT EXISTS response_time_hours  INTEGER DEFAULT 24,
+  ADD COLUMN IF NOT EXISTS unclaimed            BOOLEAN DEFAULT FALSE;
 
 -- Fast index for public queries that filter by status
 CREATE INDEX IF NOT EXISTS attorneys_status_idx ON attorneys (status);
