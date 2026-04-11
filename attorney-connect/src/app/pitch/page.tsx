@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import {
   Scale, TrendingDown, TrendingUp, Users, Zap, DollarSign,
-  BarChart3, Target, ArrowRight, CheckCircle, EyeOff,
+  BarChart3, Target, CheckCircle, EyeOff,
   Smartphone, Flag, Shuffle, Search,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
@@ -355,39 +354,6 @@ export default function PitchPage() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section className="relative py-20 sm:py-40 px-6 overflow-hidden bg-gray-950">
-        <div className="dot-grid absolute inset-0 opacity-30" />
-        <div className="orb w-[600px] h-[600px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
-        <div className="orb w-[300px] h-[300px] bg-indigo-600/15 bottom-0 left-0" />
-        <div className="orb w-[300px] h-[300px] bg-purple-600/10 bottom-0 right-0" />
-        <div className="relative max-w-3xl mx-auto text-center">
-          <div className="reveal flex items-center justify-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg">
-              <Scale className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-3xl font-extrabold tracking-tight text-white">Attorney<span className="text-blue-400">Compete</span></span>
-          </div>
-          <h2 className="reveal reveal-delay-1 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-white">
-            Let's Build the<br />
-            <span className="text-gradient-blue">LendingTree of Law</span>
-          </h2>
-          <p className="reveal reveal-delay-2 text-base sm:text-xl text-gray-300 mb-4 leading-relaxed">
-            Legal services is one of the last major consumer categories without a dominant marketplace. The platform is built. The supply side is seeded. We're looking for partners who see what we see.
-          </p>
-          <p className="reveal reveal-delay-3 text-blue-400 font-semibold mb-10">3,450 attorneys in the database. Zero contacted. The outreach starts when you say go.</p>
-          <div className="reveal reveal-delay-4 flex flex-wrap items-center justify-center gap-4">
-            <a href="mailto:Jackhumphres.jh@gmail.com" className="group relative inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-colors text-base overflow-hidden shadow-lg">
-              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
-              Get in Touch <ArrowRight className="w-5 h-5" />
-            </a>
-            <Link href="/" className="inline-flex items-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-colors text-base">
-              See the Platform
-            </Link>
-          </div>
-          <p className="reveal text-gray-600 text-sm mt-8">AttorneyCompete · attorneycompete.com</p>
-        </div>
-      </section>
 
     </div>
   );
