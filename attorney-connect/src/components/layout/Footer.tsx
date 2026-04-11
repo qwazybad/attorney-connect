@@ -13,7 +13,7 @@ export default function Footer() {
                 <Scale className="w-[18px] h-[18px] text-white" />
               </div>
               <span className="font-extrabold text-[17px] text-navy-900 tracking-tight">
-                Attorney<span className="text-blue-500">Compete</span>
+                Attorney<span className="text-accent-500">Compete</span>
               </span>
             </Link>
             <p className="text-sm text-gray-500 leading-relaxed max-w-xs">

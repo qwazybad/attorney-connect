@@ -115,7 +115,7 @@ export default function ChatWidget() {
         </div>
         <button
           onClick={() => setOpen(true)}
-          className="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+          className="w-14 h-14 bg-accent-500 hover:bg-accent-600 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
           aria-label="Open legal assistant"
         >
           <MessageCircle className="w-6 h-6" />
@@ -130,7 +130,7 @@ export default function ChatWidget() {
         style={{ height: "520px" }}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 bg-blue-500 rounded-t-2xl">
+        <div className="flex items-center gap-3 px-4 py-3.5 bg-accent-500 rounded-t-2xl">
           <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
             <Scale className="w-4 h-4 text-white" />
           </div>
@@ -151,7 +151,7 @@ export default function ChatWidget() {
                 <div
                   className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-blue-500 text-white rounded-br-sm"
+                      ? "bg-accent-500 text-white rounded-br-sm"
                       : "bg-gray-100 text-gray-800 rounded-bl-sm"
                   }`}
                 >
@@ -181,7 +181,7 @@ export default function ChatWidget() {
                           {a.firm && <p className="text-gray-500 text-xs">{a.firm}</p>}
                           <div className="flex items-center gap-2 mt-1">
                             {location && <span className="text-xs text-gray-400">{location}</span>}
-                            <span className="text-xs font-semibold text-blue-600">{fee}</span>
+                            <span className="text-xs font-semibold text-accent-600">{fee}</span>
                           </div>
                         </Link>
                       );
@@ -216,7 +216,7 @@ export default function ChatWidget() {
             <button
               onClick={sendMessage}
               disabled={!input.trim() || loading}
-              className="w-8 h-8 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-200 text-white rounded-lg flex items-center justify-center transition-colors"
+              className="w-8 h-8 bg-accent-500 hover:bg-accent-600 disabled:bg-gray-200 text-white rounded-lg flex items-center justify-center transition-colors"
             >
               <Send className="w-3.5 h-3.5" />
             </button>

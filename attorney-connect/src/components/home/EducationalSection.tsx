@@ -25,7 +25,7 @@ export default function EducationalSection() {
 
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
-          <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+          <div className="reveal inline-flex items-center gap-2 bg-cream-100 border border-accent-200 text-accent-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
             Know Before You Sign
           </div>
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-bold text-navy-900 tracking-tight leading-tight">

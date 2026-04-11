@@ -23,15 +23,15 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative bg-white overflow-hidden pt-16">
-      {/* Thin blue top bar */}
-      <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
+    <section className="relative bg-cream-50 overflow-hidden pt-16">
+      {/* Thin accent top bar */}
+      <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-400/40 to-transparent" />
 
       <div className="relative max-w-5xl mx-auto px-5 sm:px-8 text-center py-10 sm:py-12 lg:py-16">
 
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
-              <Zap className="w-3 h-3 text-blue-500" />
+            <div className="inline-flex items-center gap-2 bg-cream-100 border border-accent-200 text-accent-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
+              <Zap className="w-3 h-3 text-accent-500" />
               The First Legal Marketplace
             </div>
 
@@ -42,7 +42,7 @@ export default function HeroSection() {
             >
               Attorneys Compete.
               <br />
-              <span className="text-blue-500">You Win.</span>
+              <span className="text-accent-500">You Win.</span>
             </h1>
 
             <p
@@ -86,7 +86,7 @@ export default function HeroSection() {
               {[
                 { icon: Shield, color: "text-emerald-500", label: "Bar-verified attorneys" },
                 { icon: Star,   color: "text-yellow-400",   label: "4.8 platform rating" },
-                { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
+                { icon: Zap,    color: "text-accent-500",    label: "Avg response 1.8 hrs" },
               ].map(({ icon: Icon, color, label }) => (
                 <span key={label} className="group flex items-center gap-1.5 text-sm text-gray-500 cursor-default">
                   <Icon className={`w-4 h-4 ${color} group-hover:scale-125 transition-transform duration-200`} />
