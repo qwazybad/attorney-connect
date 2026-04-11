@@ -202,32 +202,32 @@ export default function AttorneyProfilePage() {
 
               {/* Stats row */}
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-3 mt-7" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
-                <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
-                  <p className="text-2xl font-extrabold text-white leading-none">
+                <div className="bg-white border border-white/20 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-gray-900 leading-none">
                     {isHourly ? `$${attorney.hourlyRate}` : `${attorney.feePercent}%`}
                   </p>
-                  <p className="text-[10px] text-gray-400 mt-1 font-medium">{isHourly ? "Per Hour" : "Fee"}</p>
+                  <p className="text-[10px] text-gray-500 mt-1 font-medium">{isHourly ? "Per Hour" : "Fee"}</p>
                   {!isHourly && savings > 0 && (
-                    <p className="text-[10px] text-emerald-400 font-bold mt-0.5">-{savings}% avg</p>
+                    <p className="text-[10px] text-emerald-600 font-bold mt-0.5">-{savings}% avg</p>
                   )}
                 </div>
                 {attorney.rating > 0 && (
-                  <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                  <div className="bg-white border border-white/20 rounded-2xl px-5 py-3 text-center min-w-[80px]">
                     <div className="flex items-center justify-center gap-1 leading-none">
                       <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <p className="text-2xl font-extrabold text-white">{formatRating(attorney.rating)}</p>
+                      <p className="text-2xl font-extrabold text-gray-900">{formatRating(attorney.rating)}</p>
                     </div>
-                    <p className="text-[10px] text-gray-400 mt-1 font-medium">{attorney.reviewCount} reviews</p>
+                    <p className="text-[10px] text-gray-500 mt-1 font-medium">{attorney.reviewCount} reviews</p>
                   </div>
                 )}
-                <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
-                  <p className="text-2xl font-extrabold text-white leading-none">{getResponseLabel(attorney.responseTimeHours)}</p>
-                  <p className="text-[10px] text-gray-400 mt-1 font-medium">Response</p>
+                <div className="bg-white border border-white/20 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-gray-900 leading-none">{getResponseLabel(attorney.responseTimeHours)}</p>
+                  <p className="text-[10px] text-gray-500 mt-1 font-medium">Response</p>
                 </div>
                 {winRate !== null && (
-                  <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
-                    <p className="text-2xl font-extrabold text-white leading-none">{winRate}%</p>
-                    <p className="text-[10px] text-gray-400 mt-1 font-medium">Success</p>
+                  <div className="bg-white border border-white/20 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                    <p className="text-2xl font-extrabold text-gray-900 leading-none">{winRate}%</p>
+                    <p className="text-[10px] text-gray-500 mt-1 font-medium">Success</p>
                   </div>
                 )}
               </div>
