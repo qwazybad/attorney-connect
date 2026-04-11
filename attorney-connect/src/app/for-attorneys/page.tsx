@@ -66,7 +66,8 @@ export default function ForAttorneysPage() {
   const [caseValue, setCaseValue] = useState(100000);
   const [referralPct, setReferralPct] = useState(30);
   const [casesPerMonth, setCasesPerMonth] = useState(2);
-  const [leadSpend, setLeadSpend] = useState(3000);
+  const [leadSpend, setLeadSpend] = useState(800);
+  const [flatLeadsPerMonth, setFlatLeadsPerMonth] = useState(5);
   const [leadCostPerLead, setLeadCostPerLead] = useState(1500);
   const [leadsPerMonth, setLeadsPerMonth] = useState(5);
   const [engagementFee, setEngagementFee] = useState(1500);
@@ -77,7 +78,7 @@ export default function ForAttorneysPage() {
 
   const currentCost = (() => {
     if (calcMode === "referral") return caseValue * (referralPct / 100) * casesPerMonth;
-    if (calcMode === "flat") return leadSpend;
+    if (calcMode === "flat") return leadSpend * flatLeadsPerMonth;
     if (calcMode === "flat-plus") return (leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned);
     return (leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned) + (settlementValue * (settlementPct / 100) * casesSettled);
   })();
@@ -152,7 +153,7 @@ export default function ForAttorneysPage() {
           <div className="reveal grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             {([
               { id: "referral" as const, icon: TrendingDown, label: "Referral Fee", desc: "You pay a % of every case settled" },
-              { id: "flat" as const, icon: DollarSign, label: "Flat Lead Fee", desc: "Fixed monthly spend on lead packages" },
+              { id: "flat" as const, icon: DollarSign, label: "Flat Lead Fee", desc: "Fixed cost per lead, $200–$2,000 each" },
               { id: "flat-plus" as const, icon: Users, label: "Lead + Retainer Fee", desc: "Per-lead cost plus fee when client signs" },
               { id: "flat-plus-pct" as const, icon: BarChart3, label: "Lead + Retainer + Settlement %", desc: "All of the above plus a cut of the case" },
             ]).map(({ id, icon: Icon, label, desc }) => (
@@ -177,9 +178,13 @@ export default function ForAttorneysPage() {
               <SliderField label="Referral fee percentage" value={referralPct} min={15} max={45} step={1} format={(v) => `${v}%`} onChange={setReferralPct} />
               <SliderField label="Cases referred per month" value={casesPerMonth} min={1} max={10} step={1} format={(v) => `${v}`} onChange={setCasesPerMonth} />
             </>)}
-            {calcMode === "flat" && (
-              <SliderField label="Monthly spend on lead packages" value={leadSpend} min={500} max={10000} step={100} format={fmt} onChange={setLeadSpend} />
-            )}
+            {calcMode === "flat" && (<>
+              <SliderField label="Cost per lead" value={leadSpend} min={200} max={2000} step={50} format={fmt} onChange={setLeadSpend} />
+              <SliderField label="Leads purchased per month" value={flatLeadsPerMonth} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setFlatLeadsPerMonth} />
+              <div className="text-xs text-gray-400 pt-1 border-t border-gray-200">
+                {fmt(leadSpend)} × {flatLeadsPerMonth} leads = <span className="font-semibold text-gray-600">{fmt(leadSpend * flatLeadsPerMonth)}/mo total</span>
+              </div>
+            </>)}
             {calcMode === "flat-plus" && (<>
               <SliderField label="Cost per lead" value={leadCostPerLead} min={500} max={5000} step={100} format={fmt} onChange={setLeadCostPerLead} />
               <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
