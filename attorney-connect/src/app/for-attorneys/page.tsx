@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   CheckCircle, DollarSign, Users, BarChart3, TrendingDown,
-  ArrowRight, Shield, Clock, Zap, Lock, Star, Flag,
+  ArrowRight, Shield, Clock, Zap, Lock, Star, Flag, Calculator,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
 
@@ -32,8 +33,51 @@ const faqs = [
   { q: "How do you verify attorneys?", a: "We check your state bar license number against the bar's public records, look for any disciplinary history, and confirm active malpractice insurance. The process takes 24–48 hours." },
 ];
 
+function fmt(n: number) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+}
+
+function SliderField({ label, value, min, max, step, format, onChange }: {
+  label: string; value: number; min: number; max: number; step: number;
+  format: (v: number) => string; onChange: (v: number) => void;
+}) {
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-sm font-semibold text-gray-700">{label}</label>
+        <span className="text-sm font-bold text-blue-600">{format(value)}</span>
+      </div>
+      <input
+        type="range" min={min} max={max} step={step} value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full accent-blue-500 cursor-pointer"
+      />
+      <div className="flex justify-between text-xs text-gray-400 mt-1">
+        <span>{format(min)}</span>
+        <span>{format(max)}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function ForAttorneysPage() {
+  const [calcMode, setCalcMode] = useState<"referral" | "flat" | "flat-plus">("referral");
+  const [caseValue, setCaseValue] = useState(100000);
+  const [referralPct, setReferralPct] = useState(30);
+  const [casesPerMonth, setCasesPerMonth] = useState(2);
+  const [leadSpend, setLeadSpend] = useState(3000);
+  const [engagementFee, setEngagementFee] = useState(300);
+  const [retainersSigned, setRetainersSigned] = useState(5);
+
+  const currentCost = (() => {
+    if (calcMode === "referral") return caseValue * (referralPct / 100) * casesPerMonth;
+    if (calcMode === "flat") return leadSpend;
+    return leadSpend + engagementFee * retainersSigned;
+  })();
+  const savings = Math.max(0, currentCost - 249);
+
   const featuresRef = useReveal();
+  const calcRef = useReveal();
   const stepsRef = useReveal();
   const pricingRef = useReveal();
   const faqRef = useReveal();
@@ -94,6 +138,85 @@ export default function ForAttorneysPage() {
               See How It Works
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ── Savings Calculator ────────────────────────────────── */}
+      <section ref={calcRef} className="py-20 bg-white border-b border-gray-100">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-10">
+            <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+              <Calculator className="w-3 h-3" />
+              Savings Calculator
+            </div>
+            <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+              See what you&apos;re actually paying
+            </h2>
+            <p className="reveal reveal-delay-2 text-gray-500 mt-3 text-base">
+              Choose how you currently pay for leads and see the real comparison.
+            </p>
+          </div>
+
+          {/* Mode tabs */}
+          <div className="reveal flex flex-wrap gap-2 justify-center mb-8">
+            {[
+              { id: "referral" as const, label: "Referral Fee (%)" },
+              { id: "flat" as const, label: "Flat Fee for Leads" },
+              { id: "flat-plus" as const, label: "Flat Fee + Engagement" },
+            ].map((m) => (
+              <button
+                key={m.id}
+                onClick={() => setCalcMode(m.id)}
+                className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${calcMode === m.id ? "bg-blue-500 text-white shadow-sm" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Inputs */}
+          <div className="reveal reveal-delay-1 bg-gray-50 rounded-2xl p-6 border border-gray-100 mb-6 space-y-6">
+            {calcMode === "referral" && (<>
+              <SliderField label="Average case value" value={caseValue} min={25000} max={500000} step={5000} format={fmt} onChange={setCaseValue} />
+              <SliderField label="Referral fee percentage" value={referralPct} min={15} max={45} step={1} format={(v) => `${v}%`} onChange={setReferralPct} />
+              <SliderField label="Cases referred per month" value={casesPerMonth} min={1} max={10} step={1} format={(v) => `${v}`} onChange={setCasesPerMonth} />
+            </>)}
+            {calcMode === "flat" && (
+              <SliderField label="Monthly spend on lead packages" value={leadSpend} min={500} max={10000} step={100} format={fmt} onChange={setLeadSpend} />
+            )}
+            {calcMode === "flat-plus" && (<>
+              <SliderField label="Monthly flat fee for leads" value={leadSpend} min={500} max={5000} step={100} format={fmt} onChange={setLeadSpend} />
+              <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={50} max={1500} step={25} format={fmt} onChange={setEngagementFee} />
+              <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={20} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
+            </>)}
+          </div>
+
+          {/* Output */}
+          <div className="reveal reveal-delay-2 grid grid-cols-3 gap-4 text-center">
+            <div className="bg-red-50 border border-red-100 rounded-2xl p-5">
+              <p className="text-xs text-gray-400 font-semibold mb-2">Your current cost</p>
+              <p className="text-2xl font-extrabold text-red-500">{fmt(currentCost)}</p>
+              <p className="text-xs text-gray-400 mt-1">per month</p>
+            </div>
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+              <p className="text-xs text-gray-400 font-semibold mb-2">AttorneyCompete</p>
+              <p className="text-2xl font-extrabold text-blue-600">$249</p>
+              <p className="text-xs text-gray-400 mt-1">per month flat</p>
+            </div>
+            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
+              <p className="text-xs text-gray-400 font-semibold mb-2">You save</p>
+              <p className="text-2xl font-extrabold text-emerald-600">{fmt(savings)}</p>
+              <p className="text-xs text-gray-400 mt-1">per month</p>
+            </div>
+          </div>
+
+          {savings > 0 && (
+            <p className="reveal text-center text-sm text-gray-500 mt-5">
+              That&apos;s{" "}
+              <span className="font-bold text-emerald-600">{fmt(savings * 12)}</span>
+              {" "}saved per year.
+            </p>
+          )}
         </div>
       </section>
 
