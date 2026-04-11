@@ -1,26 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronDown, Shield, Star, Zap, ArrowRight, Bot } from "lucide-react";
-import { LEGAL_ISSUES, US_STATES, TIMELINES } from "@/lib/data";
+import { Search, Shield, Star, Zap, ArrowRight, Bot } from "lucide-react";
+import { LEGAL_ISSUES } from "@/lib/data";
 
 export default function HeroSection() {
   const router = useRouter();
-  const [legalIssue, setLegalIssue] = useState("");
-  const [state, setState] = useState("");
-  const [timeline, setTimeline] = useState("");
-  const [feePreference, setFeePreference] = useState("");
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    if (legalIssue) params.set("area", legalIssue);
-    if (state) params.set("state", state);
-    if (timeline) params.set("timeline", timeline);
-    if (feePreference) params.set("fee", feePreference);
-    router.push(`/compare?${params.toString()}`);
-  }
 
   return (
     <section className="relative overflow-hidden pt-16" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
@@ -123,53 +108,6 @@ export default function HeroSection() {
                 </button>
               ))}
               </div>
-            </div>
-
-          {/* ── Search card ──────────────────────────────────────── */}
-          <div
-              className="mt-8 bg-white border border-gray-200/80 rounded-2xl shadow-[0_8px_40px_rgba(15,48,85,0.10)] p-4 sm:p-5 opacity-0 animate-slide-up transition-all duration-300 text-left"
-              style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
-            >
-              <form onSubmit={handleSearch}>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
-                  {[
-                    { label: "Legal Issue", value: legalIssue, onChange: setLegalIssue, placeholder: "Select issue type", options: LEGAL_ISSUES.map((i) => ({ value: i.value, label: i.label })) },
-                    { label: "Your State", value: state, onChange: setState, placeholder: "Select state", options: US_STATES.map((s) => ({ value: s, label: s })) },
-                    { label: "Timeline", value: timeline, onChange: setTimeline, placeholder: "When needed?", options: TIMELINES.map((t) => ({ value: t, label: t })) },
-                    { label: "Max Fee", value: feePreference, onChange: setFeePreference, placeholder: "Any fee", options: [{ value: "under-25", label: "Under 25%" }, { value: "under-30", label: "Under 30%" }, { value: "under-33", label: "Under 34% (avg)" }] },
-                  ].map(({ label, value, onChange, placeholder, options }) => (
-                    <div key={label}>
-                      <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</label>
-                      <div className="relative">
-                        <select
-                          value={value}
-                          onChange={(e) => onChange(e.target.value)}
-                          className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-3 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
-                        >
-                          <option value="">{placeholder}</option>
-                          {options.map((o) => (
-                            <option key={o.value} value={o.value}>{o.label}</option>
-                          ))}
-                        </select>
-                        <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="submit"
-                  className="group relative w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-navy-900/20 overflow-hidden"
-                >
-                  <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
-                  <Search className="w-4 h-4" />
-                  Compare Attorneys
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
-
-              <p className="text-center text-xs text-gray-400 mt-4">
-                Free · No obligation · 2,847 verified firms
-              </p>
             </div>
 
       </div>
