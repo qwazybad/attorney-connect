@@ -188,7 +188,7 @@ export default function PitchPage() {
             {[
               {
                 milestone: "First 500 attorneys",
-                price: "$149",
+                price: "$249",
                 lock: "Locked for life",
                 desc: "Early adopters get founding-member pricing that never increases, no matter how much the platform grows.",
                 numColor: "text-emerald-600",
@@ -199,7 +199,7 @@ export default function PitchPage() {
               },
               {
                 milestone: "501 – 2,000 attorneys",
-                price: "$299",
+                price: "$499",
                 lock: "Standard rate",
                 desc: "As consumer demand grows and the platform proves its value, the subscription reflects that.",
                 numColor: "text-blue-600",
@@ -210,7 +210,7 @@ export default function PitchPage() {
               },
               {
                 milestone: "2,001+ attorneys",
-                price: "$499",
+                price: "$699",
                 lock: "Mature network rate",
                 desc: "A proven two-sided marketplace with national reach commands a premium. The value justifies it.",
                 numColor: "text-purple-600",
@@ -246,9 +246,9 @@ export default function PitchPage() {
               <div className="p-4 text-gray-400">Annual Revenue</div>
             </div>
             {[
-              { label: "500 attorneys @ $149", mrr: "$74,500", arr: "$894,000", color: "text-emerald-600" },
-              { label: "2,000 attorneys (mixed)", mrr: "$522,500", arr: "$6,270,000", color: "text-blue-600" },
-              { label: "2,500 attorneys (mixed)", mrr: "$772,000", arr: "$9,264,000", color: "text-purple-600" },
+              { label: "500 attorneys @ $249", mrr: "$124,500", arr: "$1,494,000", color: "text-emerald-600" },
+              { label: "2,000 attorneys (mixed)", mrr: "$872,500", arr: "$10,470,000", color: "text-blue-600" },
+              { label: "2,500 attorneys (mixed)", mrr: "$1,222,000", arr: "$14,664,000", color: "text-purple-600" },
             ].map((row, i) => (
               <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
                 <div className="p-5 text-gray-600 text-sm">{row.label}</div>
@@ -301,7 +301,7 @@ export default function PitchPage() {
           <div className="reveal bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="px-8 pt-8 pb-4 border-b border-gray-100">
               <h3 className="font-extrabold text-xl text-gray-900 mb-1">Arizona Conversion Projections</h3>
-              <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at the founding-member rate of $149/mo</p>
+              <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at the founding-member rate of $249/mo</p>
             </div>
             <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
               <div className="p-4 text-gray-400">Conversion Rate</div>
@@ -310,10 +310,10 @@ export default function PitchPage() {
               <div className="p-4 text-gray-400">Annual Revenue</div>
             </div>
             {[
-              { rate: "2%",  members: "69",  mrr: "$10,281",  arr: "$123,372" },
-              { rate: "5%",  members: "172", mrr: "$25,628",  arr: "$307,536" },
-              { rate: "10%", members: "345", mrr: "$51,405",  arr: "$616,860" },
-              { rate: "20%", members: "690", mrr: "$102,810", arr: "$1,233,720" },
+              { rate: "2%",  members: "69",  mrr: "$17,181",  arr: "$206,172" },
+              { rate: "5%",  members: "172", mrr: "$42,828",  arr: "$513,936" },
+              { rate: "10%", members: "345", mrr: "$85,905",  arr: "$1,030,860" },
+              { rate: "20%", members: "690", mrr: "$171,810", arr: "$2,061,720" },
             ].map((row, i) => (
               <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
                 <div className="p-5 text-gray-900 font-bold">{row.rate}</div>
