@@ -123,7 +123,7 @@ export default function PitchPage() {
             {[
               { icon: Target, title: "Aggregate Demand", desc: "Instead of fragmented ads across thousands of channels, we create a single destination where consumers go when they need legal help.", color: "text-blue-400" },
               { icon: TrendingDown, title: "Price Transparency", desc: "Consumers see attorney fees, ratings, and response times side by side — for the first time ever in the legal industry.", color: "text-emerald-400" },
-              { icon: BarChart3, title: "Performance Acquisition", desc: "Attorneys pay a flat monthly subscription — not a percentage of each case. Lower fees and better ratings earn higher placement.", color: "text-purple-400" },
+              { icon: BarChart3, title: "Merit-Based Ranking", desc: "Attorneys are ranked purely on fee, rating, and response time — no paid placements, no pay-to-win. The best value wins.", color: "text-purple-400" },
             ].map((card) => (
               <div key={card.title} className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
                 <card.icon className={`w-8 h-8 ${card.color} mb-5`} />
@@ -159,30 +159,95 @@ export default function PitchPage() {
         <div className="dot-grid absolute inset-0 opacity-20" />
         <div className="relative max-w-6xl mx-auto">
           <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">Business Model</p>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Predictable Recurring Revenue</h2>
-          <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">Attorneys pay a flat monthly subscription — not a percentage of their cases. This aligns our interests and creates highly predictable MRR as the platform scales.</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Pricing That Scales With the Network</h2>
+          <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">
+            Attorneys pay a flat monthly subscription — not a percentage of their cases. Price increases as the platform grows, rewarding early adopters and compounding revenue automatically.
+          </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+          {/* Milestone pricing */}
+          <div className="relative mb-16">
+            {/* Connector line */}
+            <div className="hidden sm:block absolute top-1/2 left-0 right-0 h-px bg-gray-700 -translate-y-1/2 z-0" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 relative z-10">
+              {[
+                {
+                  milestone: "First 500 attorneys",
+                  price: "$149",
+                  lock: "Locked for life",
+                  desc: "Early adopters get founding-member pricing that never increases, no matter how much the platform grows.",
+                  color: "text-emerald-400",
+                  ring: "ring-emerald-500/40",
+                  badge: "Early Adopter",
+                  badgeColor: "bg-emerald-500/20 text-emerald-400",
+                },
+                {
+                  milestone: "501 – 2,000 attorneys",
+                  price: "$299",
+                  lock: "Standard rate",
+                  desc: "As consumer demand grows and the platform proves its value, the subscription reflects that.",
+                  color: "text-blue-400",
+                  ring: "ring-blue-500/40",
+                  badge: "Growth Phase",
+                  badgeColor: "bg-blue-500/20 text-blue-400",
+                },
+                {
+                  milestone: "2,001+ attorneys",
+                  price: "$499",
+                  lock: "Mature network rate",
+                  desc: "A proven two-sided marketplace with national reach commands a premium. The value justifies it.",
+                  color: "text-purple-400",
+                  ring: "ring-purple-500/40",
+                  badge: "Scale Phase",
+                  badgeColor: "bg-purple-500/20 text-purple-400",
+                },
+              ].map((plan) => (
+                <div key={plan.milestone} className={`bg-gray-800 rounded-2xl p-8 border border-gray-700 ring-2 ${plan.ring}`}>
+                  <div className={`inline-flex items-center text-xs font-bold px-3 py-1 rounded-full mb-4 ${plan.badgeColor}`}>
+                    {plan.badge}
+                  </div>
+                  <p className="text-gray-400 text-sm font-semibold mb-2">{plan.milestone}</p>
+                  <div className="flex items-baseline gap-1 mb-1">
+                    <span className={`text-5xl font-extrabold ${plan.color}`}>{plan.price}</span>
+                    <span className="text-gray-400 text-sm">/mo</span>
+                  </div>
+                  <p className="text-gray-500 text-xs font-semibold uppercase tracking-widest mb-4">{plan.lock}</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">{plan.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Revenue at full milestones */}
+          <div className="bg-gray-900 rounded-2xl border border-gray-700 overflow-hidden mb-8">
+            <div className="px-8 pt-6 pb-3 border-b border-gray-700">
+              <p className="text-gray-400 text-sm uppercase tracking-widest font-bold">Revenue at Each Milestone</p>
+            </div>
+            <div className="grid grid-cols-3 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-700 bg-gray-800">
+              <div className="p-4 text-gray-400">Milestone</div>
+              <div className="p-4 text-gray-400">Monthly Revenue</div>
+              <div className="p-4 text-gray-400">Annual Revenue</div>
+            </div>
             {[
-              { tier: "Essential", price: "$149/mo", desc: "Verified profile, appear in searches, receive leads directly." },
-              { tier: "Pro", price: "$299/mo", desc: "Featured placement, priority ranking, profile badges.", highlight: true },
-              { tier: "Premium", price: "$499/mo", desc: "Top-of-page placement, full analytics, dedicated account manager." },
-            ].map((plan) => (
-              <div key={plan.tier} className={`rounded-2xl p-8 border text-center ${plan.highlight ? "bg-blue-600 border-blue-400 ring-2 ring-blue-400" : "bg-gray-800 border-gray-700"}`}>
-                <h3 className="font-extrabold text-xl text-white mb-2">{plan.tier}</h3>
-                <p className={`text-4xl font-extrabold mb-3 ${plan.highlight ? "text-white" : "text-blue-400"}`}>{plan.price}</p>
-                <p className={`text-sm ${plan.highlight ? "text-blue-100" : "text-gray-400"}`}>{plan.desc}</p>
+              { label: "500 attorneys @ $149", mrr: "$74,500", arr: "$894,000", color: "text-emerald-400" },
+              { label: "2,000 attorneys (mixed)", mrr: "$522,500", arr: "$6,270,000", color: "text-blue-400" },
+              { label: "2,500 attorneys (mixed)", mrr: "$772,000", arr: "$9,264,000", color: "text-purple-400" },
+            ].map((row, i) => (
+              <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-800 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-900/40" : ""}`}>
+                <div className="p-5 text-gray-300 text-sm">{row.label}</div>
+                <div className={`p-5 font-bold ${row.color}`}>{row.mrr}</div>
+                <div className={`p-5 font-semibold ${row.color} opacity-80`}>{row.arr}</div>
               </div>
             ))}
           </div>
 
+          {/* Future revenue */}
           <div className="bg-gray-900 rounded-2xl border border-gray-700 p-8">
-            <p className="text-gray-400 text-sm uppercase tracking-widest font-bold mb-6 text-center">Additional Revenue Streams</p>
+            <p className="text-gray-400 text-sm uppercase tracking-widest font-bold mb-6 text-center">Beyond 2,500 — Additional Revenue Levers</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
               {[
-                { label: "Attorney subscriptions", desc: "Core MRR from active attorney profiles across all tiers" },
-                { label: "Featured placements", desc: "Premium positioning sold on top of base subscription" },
-                { label: "Consumer services", desc: "Document prep, premium consultations, legal guides" },
+                { label: "Per-lead fees", desc: "Charge a small fee per qualified lead delivered on top of the subscription" },
+                { label: "Continued price increases", desc: "As network effects compound, pricing power grows — especially in new states" },
+                { label: "Consumer services", desc: "Document prep, premium consultations, and legal guides on the demand side" },
               ].map((s) => (
                 <div key={s.label}>
                   <p className="font-bold text-white mb-1">{s.label}</p>
