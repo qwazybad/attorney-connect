@@ -62,7 +62,7 @@ function SliderField({ label, value, min, max, step, format, onChange }: {
 }
 
 export default function ForAttorneysPage() {
-  const [calcMode, setCalcMode] = useState<"referral" | "flat" | "flat-plus">("referral");
+  const [calcMode, setCalcMode] = useState<"referral" | "flat" | "flat-plus" | "flat-plus-pct">("referral");
   const [caseValue, setCaseValue] = useState(100000);
   const [referralPct, setReferralPct] = useState(30);
   const [casesPerMonth, setCasesPerMonth] = useState(2);
@@ -71,11 +71,15 @@ export default function ForAttorneysPage() {
   const [leadsPerMonth, setLeadsPerMonth] = useState(5);
   const [engagementFee, setEngagementFee] = useState(1500);
   const [retainersSigned, setRetainersSigned] = useState(3);
+  const [settlementValue, setSettlementValue] = useState(100000);
+  const [settlementPct, setSettlementPct] = useState(15);
+  const [casesSettled, setCasesSettled] = useState(2);
 
   const currentCost = (() => {
     if (calcMode === "referral") return caseValue * (referralPct / 100) * casesPerMonth;
     if (calcMode === "flat") return leadSpend;
-    return (leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned);
+    if (calcMode === "flat-plus") return (leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned);
+    return (leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned) + (settlementValue * (settlementPct / 100) * casesSettled);
   })();
   const savings = Math.max(0, currentCost - 249);
 
@@ -150,6 +154,7 @@ export default function ForAttorneysPage() {
               { id: "referral" as const, label: "Referral Fee (%)" },
               { id: "flat" as const, label: "Flat Fee for Leads" },
               { id: "flat-plus" as const, label: "Flat Fee + Engagement" },
+              { id: "flat-plus-pct" as const, label: "Flat Fee + Engagement + % of Settlement" },
             ].map((m) => (
               <button
                 key={m.id}
@@ -178,6 +183,19 @@ export default function ForAttorneysPage() {
               <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={20} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
               <div className="text-xs text-gray-400 pt-1 border-t border-gray-200">
                 Lead cost: {fmt(leadCostPerLead * leadsPerMonth)} + Engagement fees: {fmt(engagementFee * retainersSigned)} = <span className="font-semibold text-gray-600">{fmt(leadCostPerLead * leadsPerMonth + engagementFee * retainersSigned)}/mo total</span>
+              </div>
+            </>)}
+            {calcMode === "flat-plus-pct" && (<>
+              <SliderField label="Cost per lead" value={leadCostPerLead} min={500} max={5000} step={100} format={fmt} onChange={setLeadCostPerLead} />
+              <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
+              <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={500} max={5000} step={100} format={fmt} onChange={setEngagementFee} />
+              <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={20} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
+              <SliderField label="Average settlement value" value={settlementValue} min={25000} max={500000} step={5000} format={fmt} onChange={setSettlementValue} />
+              <SliderField label="Settlement percentage taken" value={settlementPct} min={5} max={40} step={1} format={(v) => `${v}%`} onChange={setSettlementPct} />
+              <SliderField label="Cases that settle per month" value={casesSettled} min={1} max={10} step={1} format={(v) => `${v}`} onChange={setCasesSettled} />
+              <div className="text-xs text-gray-400 pt-1 border-t border-gray-200 space-y-0.5">
+                <div>Lead cost: {fmt(leadCostPerLead * leadsPerMonth)} + Engagement fees: {fmt(engagementFee * retainersSigned)} + Settlement cut: {fmt(settlementValue * (settlementPct / 100) * casesSettled)}</div>
+                <div>= <span className="font-semibold text-gray-600">{fmt((leadCostPerLead * leadsPerMonth) + (engagementFee * retainersSigned) + (settlementValue * (settlementPct / 100) * casesSettled))}/mo total</span></div>
               </div>
             </>)}
           </div>
