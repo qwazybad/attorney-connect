@@ -55,7 +55,7 @@ export default function HeroSection() {
               className="text-lg text-gray-500 leading-relaxed max-w-lg mb-8 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.08s", animationFillMode: "forwards" }}
             >
-              Compare verified attorneys by fee, rating, and specialty. Every attorney on our platform lists their exact rates — no hidden costs, no phone tag.
+              For the first time, attorney fees are public, competitive, and searchable. Compare real rates from verified attorneys.
             </p>
 
             {/* CTAs */}

@@ -19,7 +19,7 @@ export default function EducationalSection() {
             <span className="text-red-500">legal fees</span>
           </h2>
           <p className="reveal reveal-delay-2 mt-4 text-gray-500 text-lg leading-relaxed">
-            Attorney fees are negotiable — whether hourly, contingency, or flat fee. Our marketplace creates competition so firms offer their best rate, not a default quote.
+            For the first time, you can shop and compare attorneys the same way you shop for anything else — by price, upfront, in one place.
           </p>
         </div>
 
