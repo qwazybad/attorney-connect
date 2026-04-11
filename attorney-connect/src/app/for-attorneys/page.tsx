@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   CheckCircle, DollarSign, Users, BarChart3, TrendingDown,
   ArrowRight, Shield, Clock, Zap, Lock, Star, Flag, Calculator,
+  RefreshCw, ChevronRight,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
 
@@ -76,6 +77,7 @@ export default function ForAttorneysPage() {
   })();
   const savings = Math.max(0, currentCost - 249);
 
+  const flywheelRef = useReveal();
   const featuresRef = useReveal();
   const calcRef = useReveal();
   const stepsRef = useReveal();
@@ -217,6 +219,60 @@ export default function ForAttorneysPage() {
               {" "}saved per year.
             </p>
           )}
+        </div>
+      </section>
+
+      {/* ── Flywheel ──────────────────────────────────────────── */}
+      <section ref={flywheelRef} className="py-20 border-b border-gray-100" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
+        <div className="max-w-4xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-12">
+            <div className="reveal inline-flex items-center gap-2 bg-white/70 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+              <RefreshCw className="w-3 h-3" />
+              The Flywheel
+            </div>
+            <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+              Pass the savings on.<br />Watch the leads come back.
+            </h2>
+            <p className="reveal reveal-delay-2 text-gray-500 text-base max-w-2xl mx-auto leading-relaxed">
+              When you&apos;re not handing 30% to a referral platform, you can afford to charge clients less. Lower fees earn you a higher ranking here. Higher ranking means more leads. More leads means more cases — at any margin. It compounds.
+            </p>
+          </div>
+
+          {/* Cycle steps */}
+          <div className="reveal reveal-delay-1 grid grid-cols-1 sm:grid-cols-4 gap-0 mb-10">
+            {[
+              { n: "1", title: "You save", body: "No referral fees. $249/mo flat instead of thousands per case.", color: "from-emerald-500 to-teal-400", textColor: "text-emerald-600" },
+              { n: "2", title: "Post lower fees", body: "Pass the savings to clients. Charge 25% instead of 33%. You can afford it.", color: "from-blue-500 to-indigo-400", textColor: "text-blue-600" },
+              { n: "3", title: "Rank higher", body: "Fee competitiveness is a core ranking signal. Lower rates = more visibility.", color: "from-violet-500 to-purple-400", textColor: "text-violet-600" },
+              { n: "4", title: "Win more cases", body: "More traffic, more leads, more clients. Revenue grows even at lower margins.", color: "from-amber-400 to-orange-500", textColor: "text-amber-600" },
+            ].map((step, i) => (
+              <div key={step.n} className="flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0">
+                <div className="flex sm:flex-col items-center w-full">
+                  <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
+                    <span className="text-xl font-extrabold text-white">{step.n}</span>
+                  </div>
+                  {i < 3 && (
+                    <div className="hidden sm:flex flex-1 items-center justify-center w-full my-0 -mx-2 relative z-10">
+                      <ChevronRight className="w-5 h-5 text-gray-300 absolute left-[calc(50%+28px)]" />
+                    </div>
+                  )}
+                </div>
+                <div className="sm:text-center sm:mt-4 pb-6 sm:pb-0">
+                  <p className={`font-bold text-sm mb-1 ${step.textColor}`}>{step.title}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">{step.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Loop callout */}
+          <div className="reveal bg-white/80 border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start gap-4 max-w-2xl mx-auto">
+            <RefreshCw className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-gray-900 text-sm mb-1">Then it loops</p>
+              <p className="text-gray-500 text-sm leading-relaxed">More cases → stronger reviews and response metrics → even higher ranking → more leads. Every attorney who competes on value makes the platform more valuable for everyone — including you.</p>
+            </div>
+          </div>
         </div>
       </section>
 
