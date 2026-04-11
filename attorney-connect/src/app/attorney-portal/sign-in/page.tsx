@@ -25,8 +25,8 @@ export default function AttorneySignInPage() {
           </span>
         </Link>
 
-        <div className="flex flex-col items-center w-full max-w-[400px]">
-          <div className="mb-8 text-center w-full">
+        <div className="flex flex-col items-center">
+          <div className="mb-8 text-center self-stretch">
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-1">
               Attorney Portal
             </h1>
@@ -64,7 +64,7 @@ export default function AttorneySignInPage() {
             }}
           />
 
-          <p className="text-gray-500 text-xs text-center mt-6">
+          <p className="text-gray-500 text-xs text-center mt-6 self-stretch">
             Not a partner yet?{" "}
             <Link href="/join" className="text-blue-500 hover:text-blue-600 font-semibold transition-colors">
               Apply to join
