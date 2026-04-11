@@ -122,27 +122,28 @@ export default function AttorneyProfilePage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-navy-900 overflow-hidden">
-        <div className="dot-grid absolute inset-0 opacity-30" />
+      <section className="relative bg-white border-b border-gray-100 overflow-hidden">
+        {/* Subtle right-panel tint */}
+        <div className="absolute inset-y-0 right-0 w-[38%] bg-navy-50/60 hidden lg:block pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-8 pb-0">
           {/* Back button */}
           <button
             onClick={() => router.back()}
-            className="opacity-0 animate-fade-in flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors mb-8"
+            className="opacity-0 animate-fade-in flex items-center gap-1.5 text-sm text-gray-400 hover:text-navy-900 transition-colors mb-8"
             style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to results
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-12">
             {/* Left: Info */}
-            <div className="pb-12">
+            <div className="lg:col-span-7">
               {/* Mobile photo */}
               {attorney.avatar && (
                 <div className="opacity-0 animate-slide-up lg:hidden flex justify-center mb-6" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
-                  <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/20 shadow-xl">
+                  <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-gray-100 shadow-lg">
                     <Image
                       src={attorney.avatar}
                       alt={attorney.name}
@@ -159,25 +160,30 @@ export default function AttorneyProfilePage() {
               {/* Badges */}
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-2 mb-5" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
                 {attorney.badges.map((badge) => (
-                  <span key={badge} className="glass text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
-                    {badge === "Fastest Response" && <Zap className="w-3 h-3 text-yellow-300" />}
-                    {badge === "Top Rated" && <Star className="w-3 h-3 text-yellow-300 fill-yellow-300" />}
-                    {badge === "Best Value" && <TrendingDown className="w-3 h-3 text-accent-300" />}
+                  <span key={badge} className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border ${
+                    badge === "Top Rated" ? "bg-yellow-50 border-yellow-200 text-yellow-700" :
+                    badge === "Fastest Response" ? "bg-blue-50 border-blue-200 text-blue-700" :
+                    badge === "Best Value" ? "bg-emerald-50 border-emerald-200 text-emerald-700" :
+                    "bg-gray-100 border-gray-200 text-gray-600"
+                  }`}>
+                    {badge === "Fastest Response" && <Zap className="w-3 h-3" />}
+                    {badge === "Top Rated" && <Star className="w-3 h-3 fill-current" />}
+                    {badge === "Best Value" && <TrendingDown className="w-3 h-3" />}
                     {badge}
                   </span>
                 ))}
               </div>
 
               {/* Name & firm */}
-              <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+              <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-navy-900 tracking-[-0.02em] leading-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
                 {attorney.name}
               </h1>
-              <p className="opacity-0 animate-slide-up text-lg text-white font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
+              <p className="opacity-0 animate-slide-up text-lg text-gray-500 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
                 {attorney.firm}
               </p>
 
               {/* Meta */}
-              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-200 mb-6" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
+              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-400 mb-5" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
                 {(attorney.city || attorney.state) && (
                   <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{[attorney.city, attorney.state].filter(Boolean).join(", ")}</span>
                 )}
@@ -185,45 +191,45 @@ export default function AttorneyProfilePage() {
                   <span className="flex items-center gap-1.5"><Scale className="w-4 h-4" />{attorney.yearsExperience} yrs experience</span>
                 )}
                 {attorney.barNumber && (
-                  <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent-400" />Bar: {attorney.barNumber}</span>
+                  <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-500" />Bar: {attorney.barNumber}</span>
                 )}
               </div>
 
               {/* Bio */}
               {attorney.bio && (
-                <p className="opacity-0 animate-slide-up text-white leading-relaxed text-sm max-w-lg" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
+                <p className="opacity-0 animate-slide-up text-gray-500 leading-relaxed text-sm max-w-lg mb-0" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
                   {attorney.bio}
                 </p>
               )}
 
-              {/* Stats bar */}
-              <div className="opacity-0 animate-slide-up grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
-                <div className="glass rounded-2xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-white">
+              {/* Stats row */}
+              <div className="opacity-0 animate-slide-up flex flex-wrap gap-3 mt-7" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
+                <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-navy-900 leading-none">
                     {isHourly ? `$${attorney.hourlyRate}` : `${attorney.feePercent}%`}
                   </p>
-                  <p className="text-[10px] text-white/50 mt-0.5 font-medium">{isHourly ? "Per Hour" : "Fee"}</p>
+                  <p className="text-[10px] text-gray-400 mt-1 font-medium">{isHourly ? "Per Hour" : "Fee"}</p>
                   {!isHourly && savings > 0 && (
-                    <p className="text-[10px] text-accent-300 font-bold mt-0.5">-{savings}% avg</p>
+                    <p className="text-[10px] text-emerald-600 font-bold mt-0.5">-{savings}% avg</p>
                   )}
                 </div>
                 {attorney.rating > 0 && (
-                  <div className="glass rounded-2xl p-3 text-center">
-                    <div className="flex items-center justify-center gap-0.5">
-                      <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                      <p className="text-2xl font-extrabold text-white">{formatRating(attorney.rating)}</p>
+                  <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
+                    <div className="flex items-center justify-center gap-1 leading-none">
+                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                      <p className="text-2xl font-extrabold text-navy-900">{formatRating(attorney.rating)}</p>
                     </div>
-                    <p className="text-[10px] text-white/50 mt-0.5 font-medium">{attorney.reviewCount} reviews</p>
+                    <p className="text-[10px] text-gray-400 mt-1 font-medium">{attorney.reviewCount} reviews</p>
                   </div>
                 )}
-                <div className="glass rounded-2xl p-3 text-center">
-                  <p className="text-2xl font-extrabold text-white">{getResponseLabel(attorney.responseTimeHours)}</p>
-                  <p className="text-[10px] text-white/50 mt-0.5 font-medium">Response</p>
+                <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-navy-900 leading-none">{getResponseLabel(attorney.responseTimeHours)}</p>
+                  <p className="text-[10px] text-gray-400 mt-1 font-medium">Response</p>
                 </div>
                 {winRate !== null && (
-                  <div className="glass rounded-2xl p-3 text-center">
-                    <p className="text-2xl font-extrabold text-white">{winRate}%</p>
-                    <p className="text-[10px] text-white/50 mt-0.5 font-medium">Success</p>
+                  <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
+                    <p className="text-2xl font-extrabold text-navy-900 leading-none">{winRate}%</p>
+                    <p className="text-[10px] text-gray-400 mt-1 font-medium">Success</p>
                   </div>
                 )}
               </div>
@@ -231,8 +237,8 @@ export default function AttorneyProfilePage() {
 
             {/* Right: Photo */}
             {attorney.avatar && (
-              <div className="opacity-0 animate-slide-up hidden lg:flex justify-end items-end" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-                <div className="relative w-72 h-80 rounded-t-3xl overflow-hidden shadow-2xl">
+              <div className="opacity-0 animate-slide-up hidden lg:flex lg:col-span-5 justify-end items-end" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+                <div className="relative w-72 h-80 rounded-t-3xl overflow-hidden shadow-[0_8px_40px_rgba(15,48,85,0.15)]">
                   <Image
                     src={attorney.avatar}
                     alt={attorney.name}
@@ -242,15 +248,11 @@ export default function AttorneyProfilePage() {
                     sizes="288px"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-800/60 via-transparent to-transparent" />
                 </div>
               </div>
             )}
           </div>
         </div>
-
-        {/* Bottom fade into content */}
-        <div className="h-8 bg-gradient-to-b from-navy-900/0 to-gray-50" />
       </section>
 
       {/* ── Main content ─────────────────────────────────────── */}
@@ -374,7 +376,7 @@ export default function AttorneyProfilePage() {
               {/* Fee highlight */}
               <div className="reveal bg-navy-900 rounded-2xl p-5 relative overflow-hidden">
                 <div className="relative">
-                  <p className="text-gray-200 text-xs font-semibold uppercase tracking-widest mb-1">
+                  <p className="text-navy-200 text-xs font-semibold uppercase tracking-widest mb-1">
                     {isHourly ? "Hourly Rate" : "Contingency Fee"}
                   </p>
                   {isHourly ? (
@@ -384,10 +386,10 @@ export default function AttorneyProfilePage() {
                       </p>
                       {hourlySavings > 0 && attorney.avgHourlyRate && (
                         <>
-                          <p className="text-gray-200 text-sm mt-1">{hourlySavings}% below the ${attorney.avgHourlyRate}/hr area average</p>
+                          <p className="text-gray-300 text-sm mt-1">{hourlySavings}% below the ${attorney.avgHourlyRate}/hr area average</p>
                           <div className="mt-3 bg-white/10 rounded-xl p-3">
-                            <p className="text-gray-200 text-xs">Save per 10 hours vs. avg:</p>
-                            <p className="text-2xl font-extrabold text-accent-300 mt-0.5">
+                            <p className="text-gray-300 text-xs">Save per 10 hours vs. avg:</p>
+                            <p className="text-2xl font-extrabold text-emerald-400 mt-0.5">
                               ${((attorney.avgHourlyRate - attorney.hourlyRate!) * 10).toLocaleString()}
                             </p>
                           </div>
@@ -399,10 +401,10 @@ export default function AttorneyProfilePage() {
                       <p className="text-5xl font-extrabold text-white">{attorney.feePercent}%</p>
                       {savings > 0 && (
                         <>
-                          <p className="text-gray-200 text-sm mt-1">{savings}% below the {attorney.avgFeePercent}% industry average</p>
+                          <p className="text-gray-300 text-sm mt-1">{savings}% below the {attorney.avgFeePercent}% industry average</p>
                           <div className="mt-3 bg-white/10 rounded-xl p-3">
-                            <p className="text-white/60 text-xs">On a $300K settlement you save:</p>
-                            <p className="text-2xl font-extrabold text-accent-300 mt-0.5">
+                            <p className="text-gray-300 text-xs">On a $300K settlement you save:</p>
+                            <p className="text-2xl font-extrabold text-emerald-400 mt-0.5">
                               ${(300000 * savings / 100).toLocaleString()}
                             </p>
                           </div>

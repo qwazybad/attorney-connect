@@ -122,14 +122,14 @@ function ComparePageInner() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Page header */}
-      <div className="bg-navy-950 text-white pt-24 pb-10">
+      <div className="bg-white border-b border-gray-100 pt-24 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs text-emerald-400 font-semibold uppercase tracking-widest mb-2">Live Marketplace</p>
-          <h1 className="text-3xl font-extrabold mb-1">
+          <p className="text-xs text-blue-500 font-semibold uppercase tracking-widest mb-2">Live Marketplace</p>
+          <h1 className="text-3xl font-extrabold text-navy-900 mb-1">
             {areaLabel ? `${areaLabel} Attorneys` : "Compare Attorneys"}
             {filterState ? ` in ${filterState}` : ""}
           </h1>
-          <p className="text-white text-sm">
+          <p className="text-gray-400 text-sm">
             {loadingLive ? "Loading attorneys…" : `${sorted.length} attorneys available`} · Sort by fee, rating, success rate, or response time
           </p>
         </div>

@@ -43,25 +43,25 @@ export default function ForAttorneysPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-navy-900">
-        {/* Orbs */}
-        <div className="absolute inset-0 dot-grid opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-800/60" />
+      <section className="relative bg-white border-b border-gray-100 overflow-hidden pt-32 pb-20">
+        {/* Subtle right-panel tint */}
+        <div className="absolute inset-y-0 right-0 w-[40%] bg-navy-50/60 hidden lg:block pointer-events-none" />
+        <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full">
+        <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm text-white mb-8 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
-              <Zap className="w-3.5 h-3.5 text-accent-400" />
-              <span>Performance-based · Zero upfront · 2,800+ partner firms</span>
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
+              <Zap className="w-3 h-3 text-blue-500" />
+              Performance-based · Zero upfront · 2,800+ partner firms
             </div>
 
-            <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+            <h1 className="text-5xl sm:text-6xl font-extrabold tracking-[-0.02em] text-navy-900 leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
               Grow your practice with{" "}
               <span className="text-gradient-blue">performance-based</span>{" "}
               leads.
             </h1>
 
-            <p className="text-lg text-white mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
               AttorneyCompete sends you pre-qualified consumers actively looking for representation.
               You pay nothing until a client signs an engagement letter or retainer agreement with your firm. No wasted ad spend. Pure results.
             </p>
@@ -69,22 +69,21 @@ export default function ForAttorneysPage() {
             <div className="flex flex-col sm:flex-row gap-3 opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
+                className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg shadow-navy-900/20 text-base overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 Apply as a Partner Firm
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base"
+                className="inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base"
               >
                 See How It Works
               </a>
             </div>
           </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
       </section>
 
       {/* ── Stats bar ─────────────────────────────────────────── */}
