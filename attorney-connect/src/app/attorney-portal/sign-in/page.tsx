@@ -1,5 +1,5 @@
 import { SignIn } from "@clerk/nextjs";
-import { Scale, Shield, Lock, CheckCircle } from "lucide-react";
+import { Scale } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -13,50 +13,7 @@ export default function AttorneySignInPage() {
       className="min-h-screen flex flex-col lg:flex-row"
       style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}
     >
-      {/* Left panel */}
-      <div className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 bg-gray-900 p-12 relative overflow-hidden">
-        <div className="dot-grid absolute inset-0 opacity-20" />
-        <div className="orb w-[400px] h-[400px] bg-blue-600/20 -top-20 -left-20" />
-
-        <div className="relative z-10">
-          <Link href="/" className="flex items-center gap-2.5 mb-16">
-            <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg">
-              <Scale className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-extrabold text-xl tracking-tight text-white">
-              Attorney<span className="text-blue-400">Compete</span>
-            </span>
-          </Link>
-
-          <h2 className="text-3xl font-extrabold text-white tracking-tight leading-snug mb-4">
-            Your portal.<br />Your leads.<br />Your practice.
-          </h2>
-          <p className="text-gray-200 text-sm leading-relaxed mb-10">
-            Manage your profile, respond to leads, and track your ranking — all from one place.
-          </p>
-
-          <div className="space-y-4">
-            {[
-              { icon: Shield, text: "Bar-verified attorney profile" },
-              { icon: CheckCircle, text: "Real-time lead notifications" },
-              { icon: Lock, text: "Founding rate locked in your account" },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4 text-blue-400" />
-                </div>
-                <p className="text-gray-100 text-sm">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p className="relative z-10 text-gray-600 text-xs">
-          © {new Date().getFullYear()} AttorneyCompete
-        </p>
-      </div>
-
-      {/* Right panel */}
+      {/* Main panel */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16">
         {/* Mobile logo */}
         <Link href="/" className="flex lg:hidden items-center gap-2.5 mb-10">
