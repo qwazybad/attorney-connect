@@ -44,8 +44,6 @@ export default function ForAttorneysPage() {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative bg-white border-b border-gray-100 overflow-hidden pt-32 pb-20">
-        {/* Subtle right-panel tint */}
-        <div className="absolute inset-y-0 right-0 w-[40%] bg-navy-50/60 hidden lg:block pointer-events-none" />
         <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
