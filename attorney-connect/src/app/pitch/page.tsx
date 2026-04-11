@@ -310,7 +310,7 @@ export default function PitchPage() {
           <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">3,450 Attorneys. Already Seeded.</h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">We scraped every AZ Bar attorney with a public email address. Their profiles are live in the platform. Not one has been contacted yet — we're waiting for the right moment to launch outreach.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { stat: "3,450", label: "Arizona attorneys in the database", sub: "All with verified email addresses", color: "text-blue-500", delay: "reveal-delay-1" },
               { stat: "$0", label: "Spent on attorney acquisition", sub: "Seeded the supply side before spending a dollar", color: "text-emerald-500", delay: "reveal-delay-2" },
@@ -322,67 +322,6 @@ export default function PitchPage() {
                 <p className="text-gray-400 text-xs">{item.sub}</p>
               </div>
             ))}
-          </div>
-
-          <div className="reveal bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-            <div className="px-8 pt-8 pb-4 border-b border-gray-100">
-              <h3 className="font-extrabold text-xl text-gray-900 mb-1">Arizona Conversion Projections</h3>
-              <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at the founding-member rate of $249/mo</p>
-            </div>
-            {(() => {
-              const rows = [
-                { rate: "2%",  members: "69",  mrr: "$17,181",  arr: "$206,172" },
-                { rate: "5%",  members: "172", mrr: "$42,828",  arr: "$513,936" },
-                { rate: "10%", members: "345", mrr: "$85,905",  arr: "$1,030,860" },
-                { rate: "20%", members: "690", mrr: "$171,810", arr: "$2,061,720" },
-              ];
-              return (
-                <>
-                  {/* Mobile cards */}
-                  <div className="sm:hidden divide-y divide-gray-100">
-                    {rows.map((row, i) => (
-                      <div key={i} className={`p-5 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Conversion</span>
-                          <span className="text-lg font-extrabold text-gray-900">{row.rate}</span>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2 text-center">
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Attorneys</p>
-                            <p className="font-bold text-gray-700">{row.members}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Monthly</p>
-                            <p className="font-bold text-emerald-600">{row.mrr}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Annual</p>
-                            <p className="font-bold text-emerald-500">{row.arr}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  {/* Desktop grid */}
-                  <div className="hidden sm:block">
-                    <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
-                      <div className="p-4 text-gray-400">Conversion Rate</div>
-                      <div className="p-4 text-gray-400">Active Attorneys</div>
-                      <div className="p-4 text-gray-400">Monthly Revenue</div>
-                      <div className="p-4 text-gray-400">Annual Revenue</div>
-                    </div>
-                    {rows.map((row, i) => (
-                      <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
-                        <div className="p-5 text-gray-900 font-bold">{row.rate}</div>
-                        <div className="p-5 text-gray-600">{row.members}</div>
-                        <div className="p-5 text-emerald-600 font-bold">{row.mrr}</div>
-                        <div className="p-5 text-emerald-500 font-semibold">{row.arr}</div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              );
-            })()}
           </div>
         </div>
       </section>
