@@ -59,25 +59,6 @@ function titleCase(str) {
     .join(" ");
 }
 
-async function fetchPage(page, seed) {
-  const res = await fetch(
-    `${API_BASE}/MemberSearch/Search/?PageSize=${PAGE_SIZE}&Page=${page}&Seed=${seed ?? "null"}&Shuffle=false`,
-    {
-      method: "POST",
-      headers: HEADERS,
-      body: JSON.stringify({
-        City: "Phoenix",
-        State: "AZ",
-        MemberStatus: "Active",
-      }),
-    }
-  );
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  const json = await res.json();
-  if (!json.IsSuccess) throw new Error(json.Error || "API failure");
-  return json.Result;
-}
-
 function mapAttorney(row) {
   return {
     id: `azbar_${row.EntityNumber}`,
@@ -98,37 +79,56 @@ function mapAttorney(row) {
   };
 }
 
+async function fetchPage(page, seed) {
+  const res = await fetch(
+    `${API_BASE}/MemberSearch/Search/?PageSize=${PAGE_SIZE}&Page=${page}&Seed=${seed ?? "null"}&Shuffle=false`,
+    {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({
+        State: "AZ",
+        MemberStatus: "Active",
+      }),
+    }
+  );
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  const json = await res.json();
+  if (!json.IsSuccess) throw new Error(json.Error || "API failure");
+  return json.Result;
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log("Fetching page 1 to get total count...");
+  console.log("Fetching page 1...");
   const first = await fetchPage(1, null);
   const { TotalCount: total, Seed: seed, Results: firstResults } = first;
   const totalPages = Math.ceil(total / PAGE_SIZE);
+  console.log(`${total} active AZ attorneys across ${totalPages} pages\n`);
 
-  console.log(`${total} active Phoenix attorneys across ${totalPages} pages\n`);
-
-  const allRows = [...firstResults];
+  let allRows = firstResults.filter((r) => r.Email);
 
   for (let page = 2; page <= totalPages; page++) {
     try {
       const result = await fetchPage(page, seed);
-      allRows.push(...result.Results);
+      // Only keep rows that have an email — saves memory and DB writes
+      allRows.push(...result.Results.filter((r) => r.Email));
     } catch (err) {
       console.error(`  Page ${page} error: ${err.message} — retrying once`);
       await sleep(1000);
       try {
         const result = await fetchPage(page, seed);
-        allRows.push(...result.Results);
+        allRows.push(...result.Results.filter((r) => r.Email));
       } catch {
         console.error(`  Page ${page} failed again, skipping`);
       }
     }
-
     if (page % 20 === 0 || page === totalPages) {
-      console.log(`  Fetched ${page}/${totalPages} pages — ${allRows.length} attorneys`);
+      console.log(`  Fetched ${page}/${totalPages} pages — ${allRows.length} with email so far`);
     }
     await sleep(DELAY_MS);
   }
+
+  console.log(`\nTotal AZ attorneys with email: ${allRows.length}`);
 
   console.log(`\nInserting ${allRows.length} attorneys into Supabase...`);
 

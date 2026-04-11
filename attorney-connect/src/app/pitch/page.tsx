@@ -5,7 +5,7 @@ export default function PitchPage() {
   return (
     <div className="min-h-screen bg-gray-950 text-white overflow-x-hidden">
 
-      {/* ── Slide 1: Hero ─────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         <div className="dot-grid absolute inset-0 opacity-40" />
         <div className="orb w-[600px] h-[600px] bg-blue-600/20 -top-40 -left-40" />
@@ -47,19 +47,29 @@ export default function PitchPage() {
         </div>
       </section>
 
-      {/* ── Slide 2: The Problem ──────────────────────────────── */}
+      {/* ── The Problem ─────────────────────────────────────────── */}
       <section id="problem" className="py-32 px-6 bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">The Problem</p>
           <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Legal Advertising Is Broken</h2>
           <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">Billions are spent on billboards, radio, and TV — yet consumers can't remember a single name when they actually need an attorney.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+          <div className="bg-red-950/40 border border-red-800/40 rounded-2xl p-10 text-center max-w-3xl mx-auto mb-16">
+            <p className="text-2xl sm:text-3xl font-extrabold text-white leading-snug mb-3">
+              "I'm paying $3,000 a month to FindLaw
+            </p>
+            <p className="text-2xl sm:text-3xl font-extrabold text-red-400 leading-snug">
+              and getting garbage leads."
+            </p>
+            <p className="text-gray-500 text-sm mt-4">— What we hear from attorneys every week</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { icon: "📺", title: "High Cost", desc: "Law firms spend $9.8B/year on advertising — mostly on traditional media with no measurable ROI." },
+              { icon: "📺", title: "$9.8B Wasted", desc: "Law firms spend $9.8B/year on advertising — mostly on traditional media with no measurable ROI." },
               { icon: "🧠", title: "Zero Retention", desc: "Consumers see hundreds of legal ads but retain almost none when they actually need legal help." },
-              { icon: "🎯", title: "Narrow Funnels", desc: "Most ads target a single practice area, creating expensive and inefficient client acquisition." },
-              { icon: "❓", title: "No Pricing Transparency", desc: "Consumers have no idea what attorneys cost. There is no benchmark or comparison tool." },
+              { icon: "💸", title: "No Transparency", desc: "There is no benchmark, no fee comparison, no way for consumers to make an informed choice." },
+              { icon: "🎯", title: "Guesswork Marketing", desc: "Attorneys have no data-driven way to reach people who actually need them right now." },
             ].map((card) => (
               <div key={card.title} className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                 <div className="text-4xl mb-4">{card.icon}</div>
@@ -68,15 +78,10 @@ export default function PitchPage() {
               </div>
             ))}
           </div>
-
-          <div className="bg-red-950/40 border border-red-800/40 rounded-2xl p-8 text-center max-w-3xl mx-auto">
-            <p className="text-2xl font-extrabold text-white mb-2">"Instead of hoping a consumer remembers your billboard,</p>
-            <p className="text-2xl font-extrabold text-blue-400">we capture them at the exact moment they need you."</p>
-          </div>
         </div>
       </section>
 
-      {/* ── Slide 3: The Insight ──────────────────────────────── */}
+      {/* ── The Insight: Market Shift ────────────────────────────── */}
       <section className="py-32 px-6 bg-gray-950 relative overflow-hidden">
         <div className="dot-grid absolute inset-0 opacity-20" />
         <div className="relative max-w-6xl mx-auto">
@@ -84,7 +89,7 @@ export default function PitchPage() {
           <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Every Major Industry Has<br />Already Made This Shift</h2>
           <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">Consumers moved to marketplaces for mortgages, insurance, travel, and cars. Legal is the last major category that hasn't.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {[
               { industry: "Mortgages", platforms: "LendingTree · Bankrate · FreeRateUpdate", status: "done", emoji: "🏠" },
               { industry: "Insurance", platforms: "Policygenius · The Zebra · Insurify", status: "done", emoji: "🛡️" },
@@ -96,7 +101,7 @@ export default function PitchPage() {
                 <span className="text-4xl">{row.emoji}</span>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className={`font-extrabold text-lg ${row.status === "us" ? "text-white" : "text-white"}`}>{row.industry}</h3>
+                    <h3 className="font-extrabold text-lg text-white">{row.industry}</h3>
                     {row.status === "done" && <CheckCircle className="w-4 h-4 text-emerald-400" />}
                     {row.status === "us" && <span className="text-xs bg-white/20 text-white font-bold px-2 py-0.5 rounded-full">Our Opportunity</span>}
                   </div>
@@ -108,7 +113,7 @@ export default function PitchPage() {
         </div>
       </section>
 
-      {/* ── Slide 4: The Solution ─────────────────────────────── */}
+      {/* ── The Solution ─────────────────────────────────────────── */}
       <section className="py-32 px-6 bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">The Solution</p>
@@ -119,7 +124,7 @@ export default function PitchPage() {
             {[
               { icon: Target, title: "Aggregate Demand", desc: "Instead of fragmented ads across thousands of channels, we create a single destination where consumers go when they need legal help.", color: "text-blue-400" },
               { icon: TrendingDown, title: "Price Transparency", desc: "Consumers see attorney fees, ratings, and response times side by side — for the first time ever in the legal industry.", color: "text-emerald-400" },
-              { icon: BarChart3, title: "Performance Acquisition", desc: "Attorneys pay for results, not impressions. Lower fees and better ratings earn higher placement — merit only.", color: "text-purple-400" },
+              { icon: BarChart3, title: "Performance Acquisition", desc: "Attorneys pay a flat monthly subscription — not a percentage of each case. Lower fees and better ratings earn higher placement.", color: "text-purple-400" },
             ].map((card) => (
               <div key={card.title} className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
                 <card.icon className={`w-8 h-8 ${card.color} mb-5`} />
@@ -129,7 +134,6 @@ export default function PitchPage() {
             ))}
           </div>
 
-          {/* How it works */}
           <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
             <h3 className="font-extrabold text-xl text-white mb-6 text-center">How It Works</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -151,7 +155,96 @@ export default function PitchPage() {
         </div>
       </section>
 
-      {/* ── Slide 5: Market Opportunity ───────────────────────── */}
+      {/* ── Business Model ───────────────────────────────────────── */}
+      <section className="py-32 px-6 bg-gray-950 relative overflow-hidden">
+        <div className="dot-grid absolute inset-0 opacity-20" />
+        <div className="relative max-w-6xl mx-auto">
+          <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">Business Model</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">Predictable Recurring Revenue</h2>
+          <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">Attorneys pay a flat monthly subscription — not a percentage of their cases. This aligns our interests and creates highly predictable MRR as the platform scales.</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+            {[
+              { tier: "Essential", price: "$149/mo", desc: "Verified profile, appear in searches, receive leads directly." },
+              { tier: "Pro", price: "$299/mo", desc: "Featured placement, priority ranking, profile badges.", highlight: true },
+              { tier: "Premium", price: "$499/mo", desc: "Top-of-page placement, full analytics, dedicated account manager." },
+            ].map((plan) => (
+              <div key={plan.tier} className={`rounded-2xl p-8 border text-center ${plan.highlight ? "bg-blue-600 border-blue-400 ring-2 ring-blue-400" : "bg-gray-800 border-gray-700"}`}>
+                <h3 className="font-extrabold text-xl text-white mb-2">{plan.tier}</h3>
+                <p className={`text-4xl font-extrabold mb-3 ${plan.highlight ? "text-white" : "text-blue-400"}`}>{plan.price}</p>
+                <p className={`text-sm ${plan.highlight ? "text-blue-100" : "text-gray-400"}`}>{plan.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-900 rounded-2xl border border-gray-700 p-8">
+            <p className="text-gray-400 text-sm uppercase tracking-widest font-bold mb-6 text-center">Additional Revenue Streams</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+              {[
+                { label: "Attorney subscriptions", desc: "Core MRR from active attorney profiles across all tiers" },
+                { label: "Featured placements", desc: "Premium positioning sold on top of base subscription" },
+                { label: "Consumer services", desc: "Document prep, premium consultations, legal guides" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <p className="font-bold text-white mb-1">{s.label}</p>
+                  <p className="text-gray-500 text-sm">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Traction ─────────────────────────────────────────────── */}
+      <section className="py-32 px-6 bg-gray-900">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">Traction</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight">3,450 Attorneys. Already Seeded.</h2>
+          <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto mb-16">We scraped every AZ Bar attorney with a public email address. Their profiles are live in the platform. Not one has been contacted yet — we're waiting for the right moment to launch outreach.</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+            {[
+              { stat: "3,450", label: "Arizona attorneys in the database", sub: "All with verified email addresses", color: "text-blue-400" },
+              { stat: "$0", label: "Spent on attorney acquisition", sub: "Seeded the supply side before spending a dollar", color: "text-emerald-400" },
+              { stat: "1 of 50", label: "States scraped so far", sub: "1.3M attorneys available nationally", color: "text-purple-400" },
+            ].map((item) => (
+              <div key={item.stat} className="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center">
+                <p className={`text-5xl font-extrabold mb-2 ${item.color}`}>{item.stat}</p>
+                <p className="text-white font-semibold mb-1">{item.label}</p>
+                <p className="text-gray-500 text-xs">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
+            <div className="px-8 pt-8 pb-4">
+              <h3 className="font-extrabold text-xl text-white mb-1">Arizona Conversion Projections</h3>
+              <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at $149/mo Essential tier</p>
+            </div>
+            <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-t border-gray-700 bg-gray-900">
+              <div className="p-4 text-gray-400">Conversion Rate</div>
+              <div className="p-4 text-gray-400">Active Attorneys</div>
+              <div className="p-4 text-gray-400">Monthly Revenue</div>
+              <div className="p-4 text-gray-400">Annual Revenue</div>
+            </div>
+            {[
+              { rate: "2%",  members: "69",  mrr: "$10,281",  arr: "$123,372" },
+              { rate: "5%",  members: "172", mrr: "$25,628",  arr: "$307,536" },
+              { rate: "10%", members: "345", mrr: "$51,405",  arr: "$616,860" },
+              { rate: "20%", members: "690", mrr: "$102,810", arr: "$1,233,720" },
+            ].map((row, i) => (
+              <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-700 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-900/40" : ""}`}>
+                <div className="p-5 text-white font-bold">{row.rate}</div>
+                <div className="p-5 text-gray-300">{row.members}</div>
+                <div className="p-5 text-emerald-400 font-bold">{row.mrr}</div>
+                <div className="p-5 text-emerald-300 font-semibold">{row.arr}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Market Opportunity ───────────────────────────────────── */}
       <section className="py-32 px-6 bg-gray-950 relative overflow-hidden">
         <div className="dot-grid absolute inset-0 opacity-20" />
         <div className="orb w-[400px] h-[400px] bg-blue-600/10 top-0 right-0" />
@@ -182,19 +275,19 @@ export default function PitchPage() {
             <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
               <DollarSign className="w-7 h-7 text-emerald-400 mb-4" />
               <h3 className="font-extrabold text-xl text-white mb-3">Multiple Revenue Streams</h3>
-              <p className="text-gray-400 leading-relaxed">Attorney subscriptions, lead fees, featured placements, and consumer-facing premium services — all compounding as the platform grows.</p>
+              <p className="text-gray-400 leading-relaxed">Attorney subscriptions, featured placements, premium tiers, and consumer-facing services — all compounding as the platform expands state by state.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Slide 6: Why Now / Why Us ─────────────────────────── */}
+      {/* ── Why Now ──────────────────────────────────────────────── */}
       <section className="py-32 px-6 bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <p className="text-blue-400 text-xs font-bold uppercase tracking-widest text-center mb-3">Why Now</p>
           <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-16 tracking-tight">The Timing Has Never Been Better</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { emoji: "📱", title: "Mobile-first consumers", desc: "People search for services on their phones the moment they need them — not after seeing a billboard." },
               { emoji: "💸", title: "Ad costs exploding", desc: "Google and Meta CPCs for legal keywords are among the highest of any industry — attorneys are desperate for alternatives." },
@@ -213,7 +306,7 @@ export default function PitchPage() {
         </div>
       </section>
 
-      {/* ── Slide 7: CTA ──────────────────────────────────────── */}
+      {/* ── CTA ──────────────────────────────────────────────────── */}
       <section className="relative py-40 px-6 overflow-hidden bg-gray-950">
         <div className="dot-grid absolute inset-0 opacity-30" />
         <div className="orb w-[500px] h-[500px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
@@ -228,9 +321,10 @@ export default function PitchPage() {
             Let's Build the<br />
             <span className="text-blue-400">LendingTree of Law</span>
           </h2>
-          <p className="text-xl text-gray-300 mb-10 leading-relaxed">
-            Legal services is one of the last major consumer categories without a dominant marketplace. We're building it — and we're looking for partners who see what we see.
+          <p className="text-xl text-gray-300 mb-4 leading-relaxed">
+            Legal services is one of the last major consumer categories without a dominant marketplace. The platform is built. The supply side is seeded. We're looking for partners who see what we see.
           </p>
+          <p className="text-blue-400 font-semibold mb-10">3,450 attorneys in the database. Zero contacted. The outreach starts when you say go.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a href="mailto:Jackhumphres.jh@gmail.com" className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-colors text-base">
               Get in Touch <ArrowRight className="w-5 h-5" />
