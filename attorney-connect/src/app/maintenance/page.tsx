@@ -327,7 +327,6 @@ export default function MaintenancePage() {
             <div className="text-center sm:text-left border-t border-gray-200 pt-8 sm:border-t-0 sm:pt-0 sm:border-l sm:border-gray-200 sm:pl-8">
               <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">For Attorneys</p>
               <h3 className="text-2xl font-extrabold text-gray-900 mb-3">Lock in $249/mo before it closes.</h3>
-              <p className="text-gray-500 text-sm mb-6">After 500 founding members the rate goes to $499/mo — permanently.</p>
               <Link
                 href="/for-attorneys"
                 className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm"
