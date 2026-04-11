@@ -176,12 +176,12 @@ export default function AttorneyProfilePage() {
               <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-white tracking-[-0.02em] leading-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
                 {attorney.name}
               </h1>
-              <p className="opacity-0 animate-slide-up text-lg text-gray-400 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
+              <p className="opacity-0 animate-slide-up text-lg text-gray-200 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
                 {attorney.firm}
               </p>
 
               {/* Meta */}
-              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-400 mb-5" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
+              <div className="opacity-0 animate-slide-up flex flex-wrap gap-4 text-sm text-gray-200 mb-5" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
                 {(attorney.city || attorney.state) && (
                   <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{[attorney.city, attorney.state].filter(Boolean).join(", ")}</span>
                 )}
@@ -195,7 +195,7 @@ export default function AttorneyProfilePage() {
 
               {/* Bio */}
               {attorney.bio && (
-                <p className="opacity-0 animate-slide-up text-gray-400 leading-relaxed text-sm max-w-lg mb-0" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
+                <p className="opacity-0 animate-slide-up text-gray-200 leading-relaxed text-sm max-w-lg mb-0" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
                   {attorney.bio}
                 </p>
               )}
