@@ -174,7 +174,7 @@ export default function MaintenancePage() {
             <RefreshCw className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
             <p className="text-sm text-gray-500 leading-relaxed">
               <span className="font-bold text-gray-900">Then it compounds.</span>{" "}
-              Attorneys who charge lower fees get more clients. More clients means better reviews. Better reviews means even higher ranking. Everyone — attorneys and clients — benefits from the same loop.
+              Attorneys who charge lower fees get more clients. More clients means better reviews. Better reviews means even higher ranking. Attorneys and clients benefit from the same loop.
             </p>
           </div>
         </div>
