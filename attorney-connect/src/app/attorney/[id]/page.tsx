@@ -422,8 +422,9 @@ export default function AttorneyProfilePage() {
                 <button
                   type="button"
                   onClick={() => setFunnelOpen(true)}
-                  className="w-full bg-navy-900 hover:bg-navy-800 active:bg-navy-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                  className="group relative w-full bg-navy-900 hover:bg-navy-800 active:bg-navy-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm overflow-hidden"
                 >
+                  <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                   Start Free Consultation
                 </button>
                 <p className="text-xs text-center text-gray-400 mt-3">Takes 60 seconds · No spam</p>

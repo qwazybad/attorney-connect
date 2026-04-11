@@ -71,8 +71,9 @@ export default function HeroSection() {
                   const el = document.querySelector("[aria-label='Open legal assistant']") as HTMLButtonElement | null;
                   el?.click();
                 }}
-                className="inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-200 text-gray-700 hover:text-navy-900 font-semibold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px]"
+                className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-200 text-gray-700 hover:text-navy-900 font-semibold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px] overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-navy-900/5 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 <Bot className="w-4 h-4 text-navy-600" />
                 AI Match My Case
               </button>
@@ -157,8 +158,9 @@ export default function HeroSection() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-navy-900/20"
+                  className="group relative w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-navy-900/20 overflow-hidden"
                 >
+                  <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                   <Search className="w-4 h-4" />
                   Compare Attorneys
                   <ArrowRight className="w-4 h-4" />

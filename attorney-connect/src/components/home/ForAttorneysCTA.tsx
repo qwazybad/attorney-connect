@@ -59,15 +59,17 @@ export default function ForAttorneysCTA() {
             <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-400 text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm"
+                className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-400 text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 Apply as a Partner Firm
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/for-attorneys"
-                className="inline-flex items-center justify-center gap-2 border border-white/20 hover:bg-white/10 text-white font-semibold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm"
+                className="group relative inline-flex items-center justify-center gap-2 border border-white/20 hover:bg-white/10 text-white font-semibold px-6 py-3.5 rounded-2xl transition-all duration-200 text-sm overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 Learn More
               </Link>
             </div>

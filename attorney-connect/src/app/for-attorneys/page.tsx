@@ -74,8 +74,9 @@ export default function ForAttorneysPage() {
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base"
+                className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-navy-900/5 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 See How It Works
               </a>
             </div>
@@ -185,8 +186,9 @@ export default function ForAttorneysPage() {
 
             <Link
               href="/join"
-              className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
+              className="group relative block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base overflow-hidden"
             >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Apply Now — It&apos;s Free
               <ArrowRight className="w-5 h-5 inline ml-2" />
             </Link>
@@ -243,15 +245,17 @@ export default function ForAttorneysPage() {
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/join"
-              className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base"
+              className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base overflow-hidden"
             >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Apply as a Partner Firm
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/compare"
-              className="inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base"
+              className="group relative inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
             >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Browse the Marketplace
             </Link>
           </div>

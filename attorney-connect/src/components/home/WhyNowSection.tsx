@@ -77,15 +77,17 @@ export default function WhyNowSection() {
                 const el = document.querySelector("[aria-label='Open legal assistant']") as HTMLButtonElement | null;
                 el?.click();
               }}
-              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl transition-colors text-sm"
+              className="group relative inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl transition-colors text-sm overflow-hidden"
             >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               <Bot className="w-4 h-4" />
               Try the AI Match
             </button>
             <Link
               href="/compare"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl transition-colors text-sm"
+              className="group relative inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl transition-colors text-sm overflow-hidden"
             >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Browse All Attorneys
               <ArrowRight className="w-4 h-4" />
             </Link>
