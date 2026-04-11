@@ -64,7 +64,7 @@ export default function PitchPage() {
       <section id="problem" className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">The Problem</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Legal Advertising Is Broken</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Legal Advertising Is Broken</h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">Billions are spent on billboards, radio, and TV — yet consumers can't remember a single name when they actually need an attorney.</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
@@ -85,10 +85,10 @@ export default function PitchPage() {
           </div>
 
           <div className="reveal bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-10 max-w-3xl mx-auto text-center">
-            <p className="text-xl font-bold text-gray-900 leading-relaxed mb-4">
+            <p className="text-base sm:text-xl font-bold text-gray-900 leading-relaxed mb-4">
               Law firms spend billions on advertising to stay top of mind. Consumers see hundreds of ads but retain very few. When legal need arises, recall fails and decision quality suffers.
             </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-lg text-gray-600 leading-relaxed">
               AttorneyCompete replaces fragmented advertising with a centralized marketplace where consumers arrive with intent and attorneys compete in real time.
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function PitchPage() {
         <div className="orb w-[400px] h-[400px] bg-blue-400/10 -top-20 -right-20" />
         <div className="relative max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">The Big Insight</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Every Major Industry Has<br />Already Made This Shift</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Every Major Industry Has<br />Already Made This Shift</h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">Consumers moved to marketplaces for mortgages, insurance, travel, and cars. Legal is the last major category that hasn't.</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -132,7 +132,7 @@ export default function PitchPage() {
       <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">The Solution</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">AttorneyCompete Changes Everything</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">AttorneyCompete Changes Everything</h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">One platform that aggregates demand, creates transparency, and shifts attorneys from guesswork marketing to performance-based acquisition.</p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
@@ -141,7 +141,7 @@ export default function PitchPage() {
               { icon: TrendingDown, title: "Price Transparency", desc: "Consumers see attorney fees, ratings, and response times side by side — for the first time ever in the legal industry.", color: "text-emerald-500", bg: "bg-emerald-50", delay: "reveal-delay-2" },
               { icon: BarChart3, title: "Merit-Based Ranking", desc: "Attorneys are ranked purely on fee, rating, and response time — no paid placements, no pay-to-win. The best value wins.", color: "text-purple-500", bg: "bg-purple-50", delay: "reveal-delay-3" },
             ].map((card) => (
-              <div key={card.title} className={`reveal ${card.delay} card-lift bg-white rounded-2xl p-8 border border-gray-200 shadow-sm`}>
+              <div key={card.title} className={`reveal ${card.delay} card-lift bg-white rounded-2xl p-5 sm:p-8 border border-gray-200 shadow-sm`}>
                 <div className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center mb-5`}>
                   <card.icon className={`w-6 h-6 ${card.color}`} />
                 </div>
@@ -179,7 +179,7 @@ export default function PitchPage() {
         <div className="orb w-[400px] h-[400px] bg-purple-400/10 bottom-0 left-0" />
         <div className="relative max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Business Model</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Pricing That Scales With the Network</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">Pricing That Scales With the Network</h2>
           <p className="reveal reveal-delay-2 text-gray-600 text-center text-lg max-w-2xl mx-auto mb-16">
             Attorneys pay a flat monthly subscription — not a percentage of their cases. Price increases as the platform grows, rewarding early adopters and compounding revenue automatically.
           </p>
@@ -221,13 +221,13 @@ export default function PitchPage() {
                 delay: "reveal-delay-3",
               },
             ].map((plan) => (
-              <div key={plan.milestone} className={`reveal ${plan.delay} card-lift bg-white rounded-2xl p-8 border-2 ${plan.border} shadow-sm`}>
+              <div key={plan.milestone} className={`reveal ${plan.delay} card-lift bg-white rounded-2xl p-5 sm:p-8 border-2 ${plan.border} shadow-sm`}>
                 <div className={`inline-flex items-center text-xs font-bold px-3 py-1 rounded-full mb-4 ${plan.badgeBg}`}>
                   {plan.badge}
                 </div>
                 <p className="text-gray-500 text-sm font-semibold mb-2">{plan.milestone}</p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className={`text-5xl font-extrabold ${plan.numColor}`}>{plan.price}</span>
+                  <span className={`text-4xl sm:text-5xl font-extrabold ${plan.numColor}`}>{plan.price}</span>
                   <span className="text-gray-400 text-sm">/mo</span>
                 </div>
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">{plan.lock}</p>
@@ -308,7 +308,7 @@ export default function PitchPage() {
       <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Traction</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">3,450 Attorneys. Already Seeded.</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 tracking-tight text-gray-900">3,450 Attorneys. Already Seeded.</h2>
           <p className="reveal reveal-delay-2 text-gray-500 text-center text-lg max-w-2xl mx-auto mb-16">We scraped every AZ Bar attorney with a public email address. Their profiles are live in the platform. Not one has been contacted yet — we're waiting for the right moment to launch outreach.</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -317,8 +317,8 @@ export default function PitchPage() {
               { stat: "$0", label: "Spent on attorney acquisition", sub: "Seeded the supply side before spending a dollar", color: "text-emerald-500", delay: "reveal-delay-2" },
               { stat: "1 of 50", label: "States scraped so far", sub: "1.3M attorneys available nationally", color: "text-purple-500", delay: "reveal-delay-3" },
             ].map((item) => (
-              <div key={item.stat} className={`reveal ${item.delay} card-lift bg-white rounded-2xl p-8 border border-gray-200 shadow-sm text-center`}>
-                <p className={`text-5xl font-extrabold mb-2 ${item.color}`}>{item.stat}</p>
+              <div key={item.stat} className={`reveal ${item.delay} card-lift bg-white rounded-2xl p-5 sm:p-8 border border-gray-200 shadow-sm text-center`}>
+                <p className={`text-4xl sm:text-5xl font-extrabold mb-2 ${item.color}`}>{item.stat}</p>
                 <p className="text-gray-900 font-semibold mb-1">{item.label}</p>
                 <p className="text-gray-400 text-xs">{item.sub}</p>
               </div>
@@ -333,7 +333,7 @@ export default function PitchPage() {
         <div className="orb w-[400px] h-[400px] bg-blue-400/10 top-0 right-0" />
         <div className="relative max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Market Opportunity</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-16 tracking-tight text-gray-900">A Massive, Underserved Market</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-16 tracking-tight text-gray-900">A Massive, Underserved Market</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
             {[
@@ -341,8 +341,8 @@ export default function PitchPage() {
               { stat: "1.3M+", label: "Licensed attorneys in the United States", sub: "Potential platform users", delay: "reveal-delay-2" },
               { stat: "100M+", label: "Americans who need legal help each year", sub: "Consumer demand", delay: "reveal-delay-3" },
             ].map((item) => (
-              <div key={item.stat} className={`reveal ${item.delay} card-lift bg-white rounded-2xl p-8 border border-gray-200 shadow-sm text-center`}>
-                <p className="text-5xl font-extrabold text-blue-500 mb-2">{item.stat}</p>
+              <div key={item.stat} className={`reveal ${item.delay} card-lift bg-white rounded-2xl p-5 sm:p-8 border border-gray-200 shadow-sm text-center`}>
+                <p className="text-4xl sm:text-5xl font-extrabold text-blue-500 mb-2">{item.stat}</p>
                 <p className="text-gray-900 font-semibold mb-1">{item.label}</p>
                 <p className="text-gray-400 text-xs uppercase tracking-widest">{item.sub}</p>
               </div>
@@ -350,14 +350,14 @@ export default function PitchPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="reveal reveal-delay-1 card-lift bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="reveal reveal-delay-1 card-lift bg-white rounded-2xl p-5 sm:p-8 border border-gray-200 shadow-sm">
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
                 <Users className="w-5 h-5 text-blue-500" />
               </div>
               <h3 className="font-extrabold text-xl text-gray-900 mb-3">Two-Sided Network Effect</h3>
               <p className="text-gray-500 leading-relaxed">More attorneys → better selection for consumers → more consumer traffic → more value for attorneys. Each side reinforces the other, creating a defensible moat.</p>
             </div>
-            <div className="reveal reveal-delay-2 card-lift bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="reveal reveal-delay-2 card-lift bg-white rounded-2xl p-5 sm:p-8 border border-gray-200 shadow-sm">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
                 <DollarSign className="w-5 h-5 text-emerald-500" />
               </div>
@@ -372,7 +372,7 @@ export default function PitchPage() {
       <section className="py-16 sm:py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <p className="reveal text-blue-600 text-xs font-bold uppercase tracking-widest text-center mb-3">Why Now</p>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-center mb-16 tracking-tight text-gray-900">The Timing Has Never Been Better</h2>
+          <h2 className="reveal reveal-delay-1 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-16 tracking-tight text-gray-900">The Timing Has Never Been Better</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
