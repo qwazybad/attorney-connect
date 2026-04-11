@@ -68,7 +68,7 @@ export default function ForAttorneysPage() {
   const [casesPerMonth, setCasesPerMonth] = useState(2);
   const [leadSpend, setLeadSpend] = useState(800);
   const [flatLeadsPerMonth, setFlatLeadsPerMonth] = useState(5);
-  const [leadCostPerLead, setLeadCostPerLead] = useState(1500);
+  const [leadCostPerLead, setLeadCostPerLead] = useState(800);
   const [leadsPerMonth, setLeadsPerMonth] = useState(5);
   const [engagementFee, setEngagementFee] = useState(1500);
   const [retainersSigned, setRetainersSigned] = useState(3);
@@ -186,7 +186,7 @@ export default function ForAttorneysPage() {
               </div>
             </>)}
             {calcMode === "flat-plus" && (<>
-              <SliderField label="Cost per lead" value={leadCostPerLead} min={500} max={5000} step={100} format={fmt} onChange={setLeadCostPerLead} />
+              <SliderField label="Cost per lead" value={leadCostPerLead} min={200} max={2000} step={50} format={fmt} onChange={setLeadCostPerLead} />
               <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={100} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
               <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={500} max={5000} step={100} format={fmt} onChange={setEngagementFee} />
               <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
@@ -195,7 +195,7 @@ export default function ForAttorneysPage() {
               </div>
             </>)}
             {calcMode === "flat-plus-pct" && (<>
-              <SliderField label="Cost per lead" value={leadCostPerLead} min={500} max={5000} step={100} format={fmt} onChange={setLeadCostPerLead} />
+              <SliderField label="Cost per lead" value={leadCostPerLead} min={200} max={2000} step={50} format={fmt} onChange={setLeadCostPerLead} />
               <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={100} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
               <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={500} max={5000} step={100} format={fmt} onChange={setEngagementFee} />
               <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
