@@ -255,7 +255,7 @@ export default function ForAttorneysPage() {
           </div>
 
           {/* Cycle steps */}
-          <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-center justify-center mb-10 gap-2">
+          <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-start justify-center mb-10 gap-2">
             {([
               { n: "1", title: "You save", body: "No referral fees. $249/mo flat instead of thousands per case.", color: "from-emerald-500 to-teal-400", textColor: "text-emerald-600" },
               { n: "2", title: "Post lower fees", body: "Pass the savings to clients. Charge 25% instead of 33%. You can afford it.", color: "from-blue-500 to-indigo-400", textColor: "text-blue-600" },

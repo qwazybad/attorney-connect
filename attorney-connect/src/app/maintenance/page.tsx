@@ -146,7 +146,7 @@ export default function MaintenancePage() {
           </div>
 
           {/* Loop steps */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-10">
+          <div className="flex flex-col sm:flex-row items-start justify-center gap-2 mb-10">
             {([
               { n: "1", title: "Attorneys save", body: "No referral fees means thousands saved per case.", color: "from-emerald-500 to-teal-400", textColor: "text-emerald-600" },
               { n: "2", title: "They charge you less", body: "They can post lower contingency fees and still come out ahead.", color: "from-blue-500 to-indigo-400", textColor: "text-blue-600" },
