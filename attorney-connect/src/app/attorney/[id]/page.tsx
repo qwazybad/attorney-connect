@@ -122,15 +122,13 @@ export default function AttorneyProfilePage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-white border-b border-gray-100 overflow-hidden">
-        {/* Subtle right-panel tint */}
-        <div className="absolute inset-y-0 right-0 w-[38%] bg-navy-50/60 hidden lg:block pointer-events-none" />
+      <section className="relative bg-gray-900 overflow-hidden">
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-8 pb-0">
           {/* Back button */}
           <button
             onClick={() => router.back()}
-            className="opacity-0 animate-fade-in flex items-center gap-1.5 text-sm text-gray-400 hover:text-navy-900 transition-colors mb-8"
+            className="opacity-0 animate-fade-in flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors mb-8"
             style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
           >
             <ArrowLeft className="w-4 h-4" />
@@ -143,7 +141,7 @@ export default function AttorneyProfilePage() {
               {/* Mobile photo */}
               {attorney.avatar && (
                 <div className="opacity-0 animate-slide-up lg:hidden flex justify-center mb-6" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
-                  <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-gray-100 shadow-lg">
+                  <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/10 shadow-lg">
                     <Image
                       src={attorney.avatar}
                       alt={attorney.name}
@@ -161,10 +159,10 @@ export default function AttorneyProfilePage() {
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-2 mb-5" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
                 {attorney.badges.map((badge) => (
                   <span key={badge} className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border ${
-                    badge === "Top Rated" ? "bg-yellow-50 border-yellow-200 text-yellow-700" :
-                    badge === "Fastest Response" ? "bg-blue-50 border-blue-200 text-blue-700" :
-                    badge === "Best Value" ? "bg-emerald-50 border-emerald-200 text-emerald-700" :
-                    "bg-gray-100 border-gray-200 text-gray-600"
+                    badge === "Top Rated" ? "bg-yellow-400/10 border-yellow-400/30 text-yellow-300" :
+                    badge === "Fastest Response" ? "bg-blue-400/10 border-blue-400/30 text-blue-300" :
+                    badge === "Best Value" ? "bg-emerald-400/10 border-emerald-400/30 text-emerald-300" :
+                    "bg-white/10 border-white/20 text-gray-300"
                   }`}>
                     {badge === "Fastest Response" && <Zap className="w-3 h-3" />}
                     {badge === "Top Rated" && <Star className="w-3 h-3 fill-current" />}
@@ -175,10 +173,10 @@ export default function AttorneyProfilePage() {
               </div>
 
               {/* Name & firm */}
-              <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-navy-900 tracking-[-0.02em] leading-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+              <h1 className="opacity-0 animate-slide-up text-4xl sm:text-5xl font-extrabold text-white tracking-[-0.02em] leading-tight mb-2" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
                 {attorney.name}
               </h1>
-              <p className="opacity-0 animate-slide-up text-lg text-gray-500 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
+              <p className="opacity-0 animate-slide-up text-lg text-gray-400 font-medium mb-4" style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}>
                 {attorney.firm}
               </p>
 
@@ -191,44 +189,44 @@ export default function AttorneyProfilePage() {
                   <span className="flex items-center gap-1.5"><Scale className="w-4 h-4" />{attorney.yearsExperience} yrs experience</span>
                 )}
                 {attorney.barNumber && (
-                  <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-500" />Bar: {attorney.barNumber}</span>
+                  <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-400" />Bar: {attorney.barNumber}</span>
                 )}
               </div>
 
               {/* Bio */}
               {attorney.bio && (
-                <p className="opacity-0 animate-slide-up text-gray-500 leading-relaxed text-sm max-w-lg mb-0" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
+                <p className="opacity-0 animate-slide-up text-gray-400 leading-relaxed text-sm max-w-lg mb-0" style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}>
                   {attorney.bio}
                 </p>
               )}
 
               {/* Stats row */}
               <div className="opacity-0 animate-slide-up flex flex-wrap gap-3 mt-7" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
-                <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
-                  <p className="text-2xl font-extrabold text-navy-900 leading-none">
+                <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-white leading-none">
                     {isHourly ? `$${attorney.hourlyRate}` : `${attorney.feePercent}%`}
                   </p>
                   <p className="text-[10px] text-gray-400 mt-1 font-medium">{isHourly ? "Per Hour" : "Fee"}</p>
                   {!isHourly && savings > 0 && (
-                    <p className="text-[10px] text-emerald-600 font-bold mt-0.5">-{savings}% avg</p>
+                    <p className="text-[10px] text-emerald-400 font-bold mt-0.5">-{savings}% avg</p>
                   )}
                 </div>
                 {attorney.rating > 0 && (
-                  <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
+                  <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
                     <div className="flex items-center justify-center gap-1 leading-none">
                       <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <p className="text-2xl font-extrabold text-navy-900">{formatRating(attorney.rating)}</p>
+                      <p className="text-2xl font-extrabold text-white">{formatRating(attorney.rating)}</p>
                     </div>
                     <p className="text-[10px] text-gray-400 mt-1 font-medium">{attorney.reviewCount} reviews</p>
                   </div>
                 )}
-                <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
-                  <p className="text-2xl font-extrabold text-navy-900 leading-none">{getResponseLabel(attorney.responseTimeHours)}</p>
+                <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                  <p className="text-2xl font-extrabold text-white leading-none">{getResponseLabel(attorney.responseTimeHours)}</p>
                   <p className="text-[10px] text-gray-400 mt-1 font-medium">Response</p>
                 </div>
                 {winRate !== null && (
-                  <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 text-center shadow-sm min-w-[80px]">
-                    <p className="text-2xl font-extrabold text-navy-900 leading-none">{winRate}%</p>
+                  <div className="bg-white/10 border border-white/10 rounded-2xl px-5 py-3 text-center min-w-[80px]">
+                    <p className="text-2xl font-extrabold text-white leading-none">{winRate}%</p>
                     <p className="text-[10px] text-gray-400 mt-1 font-medium">Success</p>
                   </div>
                 )}
