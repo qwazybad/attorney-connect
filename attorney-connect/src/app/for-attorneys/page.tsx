@@ -148,20 +148,24 @@ export default function ForAttorneysPage() {
             </p>
           </div>
 
-          {/* Mode tabs */}
-          <div className="reveal flex flex-wrap gap-2 justify-center mb-8">
-            {[
-              { id: "referral" as const, label: "Referral Fee (%)" },
-              { id: "flat" as const, label: "Flat Fee for Leads" },
-              { id: "flat-plus" as const, label: "Flat Fee + Engagement" },
-              { id: "flat-plus-pct" as const, label: "Flat Fee + Engagement + % of Settlement" },
-            ].map((m) => (
+          {/* Mode selector cards */}
+          <div className="reveal grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            {([
+              { id: "referral" as const, icon: TrendingDown, label: "Referral Fee", desc: "You pay a % of every case settled" },
+              { id: "flat" as const, icon: DollarSign, label: "Flat Lead Fee", desc: "Fixed monthly spend on lead packages" },
+              { id: "flat-plus" as const, icon: Users, label: "Lead + Retainer Fee", desc: "Per-lead cost plus fee when client signs" },
+              { id: "flat-plus-pct" as const, icon: BarChart3, label: "Lead + Retainer + Settlement %", desc: "All of the above plus a cut of the case" },
+            ]).map(({ id, icon: Icon, label, desc }) => (
               <button
-                key={m.id}
-                onClick={() => setCalcMode(m.id)}
-                className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${calcMode === m.id ? "bg-blue-500 text-white shadow-sm" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                key={id}
+                onClick={() => setCalcMode(id)}
+                className={`text-left p-4 rounded-2xl border-2 transition-all duration-200 ${calcMode === id ? "border-blue-400 bg-blue-50 shadow-sm" : "border-gray-100 bg-gray-50 hover:border-gray-200 hover:bg-white"}`}
               >
-                {m.label}
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-3 ${calcMode === id ? "bg-blue-500" : "bg-gray-200"}`}>
+                  <Icon className={`w-4 h-4 ${calcMode === id ? "text-white" : "text-gray-500"}`} />
+                </div>
+                <p className={`text-sm font-bold mb-1 ${calcMode === id ? "text-blue-700" : "text-gray-700"}`}>{label}</p>
+                <p className="text-xs text-gray-400 leading-snug">{desc}</p>
               </button>
             ))}
           </div>
