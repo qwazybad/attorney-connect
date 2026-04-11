@@ -2,34 +2,34 @@
 
 import Link from "next/link";
 import {
-  CheckCircle, DollarSign, Users, BarChart3, TrendingUp,
-  ArrowRight, Shield, Clock, Zap,
+  CheckCircle, DollarSign, Users, BarChart3, TrendingDown,
+  ArrowRight, Shield, Clock, Zap, Lock, Star, Flag,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
 
-const steps = [
-  { number: "1", title: "Apply online", description: "Fill out your firm profile, upload your bar license, and set your fee percentage. Takes under 10 minutes.", gradient: "from-accent-500 to-emerald-400" },
-  { number: "2", title: "Verification (24–48 hrs)", description: "We verify your bar license, check for disciplinary actions, and confirm your malpractice insurance.", gradient: "from-blue-500 to-accent-500" },
-  { number: "3", title: "Go live", description: "Once approved, your profile is live and you start receiving matched leads immediately.", gradient: "from-violet-500 to-purple-600" },
-  { number: "4", title: "Pay when client signs", description: "Once a client signs an engagement letter or retainer agreement, you remit our platform fee. No upfront costs, no subscriptions.", gradient: "from-amber-400 to-orange-500" },
+const features = [
+  { icon: DollarSign, title: "Flat monthly rate — not a cut of your cases", description: "Other platforms take 20–40% of every case they refer. We charge a flat subscription. Win a $500K case and we don't see a dime more than the attorney next to you.", gradient: "from-emerald-500 to-teal-400" },
+  { icon: TrendingDown, title: "Merit-based ranking", description: "You rank higher by charging lower fees and responding faster — not by paying for placement. No pay-to-win. The best value wins.", gradient: "from-blue-500 to-indigo-400" },
+  { icon: Users, title: "Consumers arrive with intent", description: "People come to AttorneyCompete because they need an attorney right now — not because they saw a billboard three weeks ago.", gradient: "from-violet-500 to-purple-400" },
+  { icon: Clock, title: "Response time matters", description: "Your average response time is displayed publicly and factors into your ranking. Fast responders win more cases.", gradient: "from-amber-400 to-orange-500" },
+  { icon: Shield, title: "Verified bar profile", description: "Your bar license, malpractice insurance, and credentials are verified and displayed on your profile — building consumer trust instantly.", gradient: "from-teal-400 to-cyan-500" },
+  { icon: BarChart3, title: "No paid placements", description: "We don't sell top spots. Every attorney earns their position through fee competitiveness, ratings, and responsiveness. Period.", gradient: "from-rose-400 to-pink-500" },
 ];
 
-const features = [
-  { icon: DollarSign, title: "Zero upfront cost", description: "No application fees, no monthly subscriptions, no pay-per-click. You only pay when a client signs an engagement letter or retainer agreement.", gradient: "from-accent-500 to-emerald-400" },
-  { icon: Users, title: "Pre-qualified leads", description: "Consumers have already answered key questions about their case. You get context before the first call.", gradient: "from-blue-500 to-accent-500" },
-  { icon: BarChart3, title: "Performance dashboard", description: "Track leads, conversion rates, response times, and revenue from a single intuitive dashboard.", gradient: "from-violet-500 to-purple-600" },
-  { icon: Clock, title: "Faster case acquisition", description: "Our matching algorithm routes cases to you based on practice area, state, and fee competitiveness.", gradient: "from-amber-400 to-orange-500" },
-  { icon: Shield, title: "Trust signals", description: "Your profile shows bar verification, malpractice insurance confirmation, and verified reviews.", gradient: "from-teal-400 to-cyan-500" },
-  { icon: TrendingUp, title: "Merit-based visibility", description: "Firms with lower fees and faster responses rank higher. No paid placements — quality wins.", gradient: "from-rose-400 to-pink-500" },
+const steps = [
+  { number: "1", title: "Apply online", description: "Fill out your firm profile, upload your bar license, and set your fee structure. Takes under 10 minutes.", gradient: "from-blue-500 to-indigo-400" },
+  { number: "2", title: "Verification (24–48 hrs)", description: "We verify your bar license, check for disciplinary actions, and confirm your malpractice insurance.", gradient: "from-violet-500 to-purple-400" },
+  { number: "3", title: "Secure your founding rate", description: "Enter your card — $0 is charged. Your $249/mo founding member rate is locked for life the moment you save it.", gradient: "from-emerald-500 to-teal-400" },
+  { number: "4", title: "Go live at launch", description: "When the platform launches you'll be notified. Your card is charged and your profile goes live to start receiving leads.", gradient: "from-amber-400 to-orange-500" },
 ];
 
 const faqs = [
-  { q: "What is the performance fee?", a: "Our fee is a flat referral fee due when a client signs an engagement letter or retainer agreement with your firm. The exact rate is disclosed during onboarding and varies by practice area. There are no fees before that moment." },
-  { q: "How does the matching work?", a: "When a consumer submits their case, our system matches them with attorneys based on practice area, state bar license, fee range, and availability. You'll receive a notification within minutes." },
-  { q: "Can I control which cases I receive?", a: "Yes. You set your practice areas, geographic coverage, case types you accept, and minimum case thresholds. You can pause lead flow at any time." },
-  { q: "How do you verify attorneys?", a: "We check your state bar license, look for disciplinary history, and confirm active malpractice insurance. The process typically takes 24–48 hours." },
-  { q: "What if a client disputes the fee?", a: "Our partner agreement includes clear terms. Disputes are handled by our partner success team and are rare — less than 0.5% of cases." },
-  { q: "Is there a minimum commitment?", a: "No. There are no contracts, no minimums, and no cancellation fees. You can pause or close your account at any time." },
+  { q: "What does $249/mo actually include?", a: "A fully verified attorney profile, placement in consumer search results, direct lead delivery to your portal, and your ranking based on fee, rating, and response time. No add-ons required." },
+  { q: "When does billing start?", a: "Your card is saved when you sign up but we do not charge it until the platform officially launches. You'll receive an email before any charge goes out." },
+  { q: "What happens to my rate after 500 founding members?", a: "New attorneys joining after the first 500 pay $499/mo. Your founding rate of $249/mo is locked permanently — it never increases no matter how large the platform grows." },
+  { q: "How does the ranking work?", a: "Attorneys are ranked by a combination of fee competitiveness, client rating, and average response time. There are no paid placements — the best value rises to the top." },
+  { q: "Can I cancel?", a: "Yes. No contracts, no minimums, no cancellation fees. If you cancel, your profile is removed from search results. You can rejoin at the then-current rate." },
+  { q: "How do you verify attorneys?", a: "We check your state bar license number against the bar's public records, look for any disciplinary history, and confirm active malpractice insurance. The process takes 24–48 hours." },
 ];
 
 export default function ForAttorneysPage() {
@@ -47,42 +47,55 @@ export default function ForAttorneysPage() {
         <div className="absolute top-[88px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
-              <Zap className="w-3 h-3 text-blue-500" />
-              Performance-based · Zero upfront · 2,800+ partner firms
+          <div className="inline-flex items-center gap-2 bg-white/70 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 opacity-0 animate-fade-in" style={{ animationFillMode: "forwards" }}>
+            <Zap className="w-3 h-3 text-blue-500" />
+            Founding Member Rate · First 500 Only · $249/mo Locked for Life
+          </div>
+
+          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-[-0.02em] text-gray-900 leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+            Stop paying referral fees.<br />
+            <span className="text-gradient-blue">Pay a flat rate instead.</span>
+          </h1>
+
+          <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+            Other platforms take 20–40% of every case they send you. On a $100,000 settlement that's $30,000 gone before you see it. AttorneyCompete charges $249/mo flat — and your earnings stay yours.
+          </p>
+
+          {/* Math callout */}
+          <div className="opacity-0 animate-slide-up max-w-2xl mx-auto mb-10" style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}>
+            <div className="bg-white/80 border border-gray-200 rounded-2xl p-5 grid grid-cols-3 gap-4 text-center shadow-sm">
+              {[
+                { label: "Other platforms (30%)", value: "$30,000", sub: "on a $100K case", bad: true },
+                { label: "AttorneyCompete", value: "$249", sub: "per month flat", bad: false },
+                { label: "You save", value: "$29,751", sub: "on that one case", bad: false, highlight: true },
+              ].map((item) => (
+                <div key={item.label}>
+                  <p className="text-xs text-gray-400 font-semibold mb-1">{item.label}</p>
+                  <p className={`text-2xl font-extrabold ${item.highlight ? "text-emerald-600" : item.bad ? "text-red-500" : "text-gray-900"}`}>{item.value}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{item.sub}</p>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <h1 className="text-5xl sm:text-6xl font-extrabold tracking-[-0.02em] text-navy-900 leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-              Grow your practice with{" "}
-              <span className="text-gradient-blue">performance-based</span>{" "}
-              leads.
-            </h1>
-
-            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-              AttorneyCompete sends you pre-qualified consumers actively looking for representation.
-              You pay nothing until a client signs an engagement letter or retainer agreement with your firm. No wasted ad spend. Pure results.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-              <Link
-                href="/join"
-                className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg shadow-navy-900/20 text-base overflow-hidden"
-              >
-                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
-                Apply as a Partner Firm
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-              </Link>
-              <a
-                href="#how-it-works"
-                className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
-              >
-                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-navy-900/5 skew-x-12 transition-transform duration-500 pointer-events-none" />
-                See How It Works
-              </a>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center opacity-0 animate-slide-up" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+            <Link
+              href="/join"
+              className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg text-base overflow-hidden"
+            >
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
+              Claim Your Founding Rate
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+            <a
+              href="#how-it-works"
+              className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
+            >
+              See How It Works
+            </a>
+          </div>
         </div>
       </section>
-
 
       {/* ── Features ──────────────────────────────────────────── */}
       <section ref={featuresRef} className="py-24 bg-gray-50">
@@ -92,16 +105,16 @@ export default function ForAttorneysPage() {
               Why AttorneyCompete
             </div>
             <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
-              Everything your firm needs to grow
+              A better deal for attorneys
             </h2>
             <p className="reveal reveal-delay-2 mt-4 text-gray-500 text-lg">
-              Built for modern law firms who want results, not just exposure.
+              Built around your interests, not a percentage of your wins.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map(({ icon: Icon, title, description, gradient }, i) => (
-              <div key={title} className={`reveal reveal-delay-${(i % 3) + 1} card-lift bg-white rounded-2xl p-6 shadow-card border border-gray-100`}>
+              <div key={title} className={`reveal reveal-delay-${(i % 3) + 1} card-lift bg-white rounded-2xl p-6 shadow-sm border border-gray-100`}>
                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-4 shadow-sm`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
@@ -145,51 +158,97 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Pricing ───────────────────────────────────────────── */}
-      <section id="pricing" ref={pricingRef} className="relative py-24 bg-gray-50 overflow-hidden">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-          <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-5">
-            Pricing
-          </div>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
-            Pay when the client signs
-          </h2>
-          <p className="reveal reveal-delay-2 text-gray-500 mb-12 text-lg max-w-xl mx-auto">
-            No subscriptions. No pay-per-click. A flat referral fee due only when a client signs an engagement letter or retainer agreement.
-            If you don&apos;t earn, we don&apos;t earn.
-          </p>
-
-          <div className="reveal reveal-delay-2 bg-white border border-gray-100 rounded-3xl p-8 sm:p-12 max-w-lg mx-auto shadow-card">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <Zap className="w-10 h-10 text-blue-500" />
-              <p className="text-7xl font-extrabold text-gray-900">$0</p>
+      <section id="pricing" ref={pricingRef} className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}>
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-16">
+            <div className="reveal inline-flex items-center gap-2 bg-white/70 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-5">
+              Pricing
             </div>
-            <p className="text-gray-400 text-lg mb-8">Upfront. Always.</p>
+            <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+              Pricing that scales with the platform
+            </h2>
+            <p className="reveal reveal-delay-2 text-gray-500 text-lg max-w-xl mx-auto">
+              Get in early and your rate is locked forever. The founding member window closes after the first 500 attorneys.
+            </p>
+          </div>
 
-            <ul className="space-y-3.5 text-left mb-10">
-              {[
-                "No application fee",
-                "No monthly subscription",
-                "No pay-per-lead fees",
-                "Flat referral fee due when client signs an engagement letter or retainer agreement",
-                "Cancel anytime, no penalties",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-gray-600">
-                  <div className="w-5 h-5 rounded-full bg-accent-50 flex items-center justify-center shrink-0">
-                    <CheckCircle className="w-3.5 h-3.5 text-accent-500" />
-                  </div>
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+            {[
+              {
+                badge: "Founding Member",
+                badgeIcon: Star,
+                badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+                price: "$249",
+                label: "First 500 attorneys",
+                lock: "Locked for life",
+                desc: "Secure your rate now. Card saved, not charged until launch.",
+                border: "border-emerald-300",
+                ring: "ring-2 ring-emerald-200",
+                numColor: "text-emerald-600",
+                delay: "reveal-delay-1",
+                cta: true,
+              },
+              {
+                badge: "Standard",
+                badgeIcon: Flag,
+                badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
+                price: "$499",
+                label: "501–2,000 attorneys",
+                lock: "Standard rate",
+                desc: "As the platform grows and proves its value, pricing reflects that.",
+                border: "border-blue-200",
+                ring: "",
+                numColor: "text-blue-600",
+                delay: "reveal-delay-2",
+                cta: false,
+              },
+              {
+                badge: "Scale",
+                badgeIcon: Zap,
+                badgeColor: "bg-purple-50 text-purple-700 border-purple-200",
+                price: "$699",
+                label: "2,001+ attorneys",
+                lock: "Mature network rate",
+                desc: "A proven national marketplace commands a premium. The value justifies it.",
+                border: "border-purple-200",
+                ring: "",
+                numColor: "text-purple-600",
+                delay: "reveal-delay-3",
+                cta: false,
+              },
+            ].map((plan) => (
+              <div key={plan.badge} className={`reveal ${plan.delay} card-lift bg-white rounded-2xl p-8 border-2 ${plan.border} ${plan.ring} shadow-sm`}>
+                <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border mb-4 ${plan.badgeColor}`}>
+                  <plan.badgeIcon className="w-3 h-3" />
+                  {plan.badge}
+                </div>
+                <p className="text-gray-500 text-sm font-semibold mb-2">{plan.label}</p>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className={`text-5xl font-extrabold ${plan.numColor}`}>{plan.price}</span>
+                  <span className="text-gray-400 text-sm">/mo</span>
+                </div>
+                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">{plan.lock}</p>
+                <p className="text-gray-500 text-sm leading-relaxed mb-6">{plan.desc}</p>
+                {plan.cta && (
+                  <Link
+                    href="/join"
+                    className="group relative block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm overflow-hidden"
+                  >
+                    <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
+                    Claim This Rate
+                    <ArrowRight className="w-4 h-4 inline ml-1.5" />
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
 
-            <Link
-              href="/join"
-              className="group relative block w-full text-center bg-navy-900 hover:bg-navy-800 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
-            >
-              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
-              Apply Now — It&apos;s Free
-              <ArrowRight className="w-5 h-5 inline ml-2" />
-            </Link>
+          <div className="reveal bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-start gap-4 max-w-2xl mx-auto">
+            <Lock className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-gray-900 text-sm mb-1">Your card is saved — not charged until launch</p>
+              <p className="text-gray-500 text-sm">We'll email you before the platform goes live and before any billing begins. You'll know exactly when and what you're being charged.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -202,7 +261,7 @@ export default function ForAttorneysPage() {
               FAQ
             </div>
             <h2 className="reveal reveal-delay-1 text-4xl font-extrabold text-gray-900 tracking-tight">
-              Partner FAQs
+              Common questions
             </h2>
           </div>
 
@@ -210,11 +269,11 @@ export default function ForAttorneysPage() {
             {faqs.map(({ q, a }, i) => (
               <details
                 key={q}
-                className={`reveal reveal-delay-${(i % 3) + 1} group bg-gray-50 border border-gray-100 rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-200`}
+                className={`reveal reveal-delay-${(i % 3) + 1} group bg-gray-50 border border-gray-100 rounded-2xl overflow-hidden hover:shadow-sm transition-all duration-200`}
               >
                 <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-gray-900 text-sm select-none list-none">
                   {q}
-                  <span className="w-6 h-6 rounded-full bg-gray-200 group-open:bg-accent-500 flex items-center justify-center shrink-0 ml-3 transition-colors duration-200">
+                  <span className="w-6 h-6 rounded-full bg-gray-200 group-open:bg-blue-500 flex items-center justify-center shrink-0 ml-3 transition-colors duration-200">
                     <span className="text-gray-600 group-open:text-white text-base leading-none font-bold transition-colors duration-200 group-open:rotate-45 inline-block transition-transform">+</span>
                   </span>
                 </summary>
@@ -228,30 +287,47 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Bottom CTA ────────────────────────────────────────── */}
-      <section ref={ctaRef} className="relative py-24 bg-gray-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="reveal text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
-            Ready to grow your caseload?
+      <section ref={ctaRef} className="relative py-24 bg-gray-900 overflow-hidden">
+        <div className="dot-grid absolute inset-0 opacity-30" />
+        <div className="orb w-[500px] h-[500px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
+        <div className="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
+          <div className="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-6">
+            <Lock className="w-3 h-3" />
+            Founding Member · First 500 Only
+          </div>
+          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+            Lock in $249/mo before<br />the window closes.
           </h2>
-          <p className="reveal reveal-delay-1 text-gray-500 text-lg mb-10 max-w-xl mx-auto">
-            Join 2,800+ law firms already using AttorneyCompete to compete for high-quality cases.
+          <p className="reveal reveal-delay-2 text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+            After 500 founding members the rate goes to $499/mo — and eventually $699/mo. Your founding rate is locked for life. Card saved today, charged at launch.
           </p>
-          <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/join"
-              className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden shadow-lg"
             >
               <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
-              Apply as a Partner Firm
+              Claim Your Founding Rate
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/compare"
-              className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
             >
-              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-navy-900/5 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Browse the Marketplace
             </Link>
+          </div>
+          <div className="reveal reveal-delay-4 flex items-center justify-center gap-6 mt-10">
+            {[
+              { icon: CheckCircle, text: "No charge until launch" },
+              { icon: Lock, text: "Rate locked for life" },
+              { icon: Shield, text: "Cancel anytime" },
+            ].map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Icon className="w-3.5 h-3.5 text-gray-600" />
+                {text}
+              </div>
+            ))}
           </div>
         </div>
       </section>
