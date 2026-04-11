@@ -10,7 +10,14 @@ import {
 } from "lucide-react";
 import { LEGAL_ISSUES, US_STATES } from "@/lib/data";
 
-type Status = "active" | "pending" | "suspended";
+type Status = "unclaimed" | "claimed_pending" | "active" | "suspended";
+
+const STATUS_LABELS: Record<Status, string> = {
+  unclaimed: "Unclaimed",
+  claimed_pending: "Claimed · Pending",
+  active: "Active",
+  suspended: "Suspended",
+};
 
 type AdminAttorney = {
   id: string; name: string | null; firm: string | null; bio: string | null;
@@ -27,9 +34,19 @@ function fmt(iso: string) {
 }
 
 function StatusPill({ status }: { status: Status }) {
-  const map: Record<Status, string> = { active: "bg-green-100 text-green-700", pending: "bg-yellow-100 text-yellow-700", suspended: "bg-red-100 text-red-600" };
-  const icons: Record<Status, React.ReactNode> = { active: <CheckCircle className="w-3 h-3" />, pending: <Clock className="w-3 h-3" />, suspended: <XCircle className="w-3 h-3" /> };
-  return <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${map[status]}`}>{icons[status]} {status}</span>;
+  const map: Record<Status, string> = {
+    unclaimed:       "bg-gray-100 text-gray-500",
+    claimed_pending: "bg-yellow-100 text-yellow-700",
+    active:          "bg-green-100 text-green-700",
+    suspended:       "bg-red-100 text-red-600",
+  };
+  const icons: Record<Status, React.ReactNode> = {
+    unclaimed:       <Inbox className="w-3 h-3" />,
+    claimed_pending: <Clock className="w-3 h-3" />,
+    active:          <CheckCircle className="w-3 h-3" />,
+    suspended:       <XCircle className="w-3 h-3" />,
+  };
+  return <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${map[status]}`}>{icons[status]} {STATUS_LABELS[status]}</span>;
 }
 
 function AddAttorneyModal({ onClose, onAdded }: { onClose: () => void; onAdded: (a: AdminAttorney) => void }) {
@@ -126,7 +143,7 @@ function AddAttorneyModal({ onClose, onAdded }: { onClose: () => void; onAdded: 
           <div>
             <label className={lbl}>Status</label>
             <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className={inp}>
-              <option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
+              <option value="unclaimed">Unclaimed</option><option value="claimed_pending">Claimed · Pending</option><option value="active">Active</option><option value="suspended">Suspended</option>
             </select>
           </div>
           {error && <p className="text-xs text-red-500">{error}</p>}
@@ -169,18 +186,20 @@ function AttorneysContent() {
       (statusFilter === "all" || a.status === statusFilter);
   });
 
-  const counts = {
-    all: attorneys.length,
-    active: attorneys.filter((a) => a.status === "active").length,
-    pending: attorneys.filter((a) => a.status === "pending").length,
-    suspended: attorneys.filter((a) => a.status === "suspended").length,
+  const counts: Record<"all" | Status, number> = {
+    all:             attorneys.length,
+    unclaimed:       attorneys.filter((a) => a.status === "unclaimed").length,
+    claimed_pending: attorneys.filter((a) => a.status === "claimed_pending").length,
+    active:          attorneys.filter((a) => a.status === "active").length,
+    suspended:       attorneys.filter((a) => a.status === "suspended").length,
   };
 
   const STATUS_PILLS: { key: "all" | Status; label: string; color: string; activeColor: string }[] = [
-    { key: "all",       label: "All",       color: "bg-white text-gray-600 border-gray-200",        activeColor: "bg-blue-500 text-white border-blue-500" },
-    { key: "active",    label: "Active",    color: "bg-white text-green-700 border-green-200",       activeColor: "bg-green-500 text-white border-green-500" },
-    { key: "pending",   label: "Pending",   color: "bg-white text-yellow-700 border-yellow-200",     activeColor: "bg-yellow-400 text-white border-yellow-400" },
-    { key: "suspended", label: "Suspended", color: "bg-white text-red-600 border-red-200",           activeColor: "bg-red-500 text-white border-red-500" },
+    { key: "all",             label: "All",             color: "bg-white text-gray-600 border-gray-200",       activeColor: "bg-blue-500 text-white border-blue-500" },
+    { key: "unclaimed",       label: "Unclaimed",       color: "bg-white text-gray-500 border-gray-200",       activeColor: "bg-gray-500 text-white border-gray-500" },
+    { key: "claimed_pending", label: "Claimed·Pending", color: "bg-white text-yellow-700 border-yellow-200",   activeColor: "bg-yellow-400 text-white border-yellow-400" },
+    { key: "active",          label: "Active",          color: "bg-white text-green-700 border-green-200",     activeColor: "bg-green-500 text-white border-green-500" },
+    { key: "suspended",       label: "Suspended",       color: "bg-white text-red-600 border-red-200",         activeColor: "bg-red-500 text-white border-red-500" },
   ];
 
   return (
@@ -210,7 +229,7 @@ function AttorneysContent() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Attorneys</h1>
-            <p className="text-sm text-gray-500 mt-1">{attorneys.length} total · {counts.active} active · {counts.pending} pending</p>
+            <p className="text-sm text-gray-500 mt-1">{attorneys.length} total · {counts.active} active · {counts.claimed_pending} pending approval · {counts.unclaimed} unclaimed</p>
           </div>
           <button onClick={() => setShowAdd(true)} className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors">
             <Plus className="w-4 h-4" /> Add Attorney

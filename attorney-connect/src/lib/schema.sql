@@ -61,8 +61,8 @@ CREATE POLICY "leads_select_own" ON leads
 -- Run this block if the table already exists (e.g. in production).
 -- Safe to re-run — IF NOT EXISTS / IF NOT COLUMN guards every statement.
 ALTER TABLE attorneys
-  ADD COLUMN IF NOT EXISTS status               TEXT    DEFAULT 'pending'
-                                                        CHECK (status IN ('pending','active','suspended')),
+  ADD COLUMN IF NOT EXISTS status               TEXT    DEFAULT 'unclaimed'
+                                                        CHECK (status IN ('unclaimed','claimed_pending','active','suspended')),
   ADD COLUMN IF NOT EXISTS practice_areas       TEXT[]  DEFAULT '{}',
   ADD COLUMN IF NOT EXISTS licensed_states      TEXT[]  DEFAULT '{}',
   ADD COLUMN IF NOT EXISTS billing_type         TEXT    DEFAULT 'contingency',

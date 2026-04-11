@@ -52,10 +52,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "account_exists" }, { status: 409 });
   }
 
-  // Link the Clerk user to this attorney row
+  // Link the Clerk user to this attorney row and move to claimed_pending
   const { error: updateError } = await supabaseAdmin
     .from("attorneys")
-    .update({ clerk_id: userId, claimed: true })
+    .update({ clerk_id: userId, claimed: true, status: "claimed_pending", unclaimed: false })
     .eq("id", attorney.id);
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });

@@ -16,7 +16,7 @@ type AdminAttorney = {
   id: string; name: string | null; firm: string | null; bio: string | null;
   phone: string | null; website: string | null; email: string | null;
   photo_url: string | null; webhook_url: string | null;
-  status: "active" | "pending" | "suspended";
+  status: "unclaimed" | "claimed_pending" | "active" | "suspended";
   notes: string | null; practice_areas: string[] | null; licensed_states: string[] | null;
   years_experience: string | null; firm_size: string | null;
   billing_type: string | null; fee_percent: number | null; hourly_rate: number | null; flat_fee: number | null;
@@ -214,8 +214,13 @@ export default function AttorneyDetailPage() {
                 <h1 className="text-2xl font-extrabold text-gray-900">{attorney.name ?? <span className="text-gray-400 italic">No name</span>}</h1>
                 <p className="text-sm text-gray-500 mt-0.5">{attorney.firm ?? "No firm"}{attorney.city ? ` · ${attorney.city}, ${attorney.state ?? ""}` : ""}</p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${attorney.status === "active" ? "bg-green-100 text-green-700" : attorney.status === "pending" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-600"}`}>
-                    {attorney.status}
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                    attorney.status === "active" ? "bg-green-100 text-green-700" :
+                    attorney.status === "claimed_pending" ? "bg-yellow-100 text-yellow-700" :
+                    attorney.status === "unclaimed" ? "bg-gray-100 text-gray-500" :
+                    "bg-red-100 text-red-600"
+                  }`}>
+                    {{ unclaimed: "Unclaimed", claimed_pending: "Claimed · Pending", active: "Active", suspended: "Suspended" }[attorney.status]}
                   </span>
                   {attorney.claimed
                     ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600"><BadgeCheck className="w-3.5 h-3.5" />Claimed</span>
@@ -270,8 +275,9 @@ export default function AttorneyDetailPage() {
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Status</p>
               <select value={fields.status} onChange={(e) => setFields((p) => ({ ...p, status: e.target.value }))} className={inp} style={{ maxWidth: 240 }}>
+                <option value="unclaimed">Unclaimed</option>
+                <option value="claimed_pending">Claimed · Pending</option>
                 <option value="active">Active</option>
-                <option value="pending">Pending</option>
                 <option value="suspended">Suspended</option>
               </select>
             </div>

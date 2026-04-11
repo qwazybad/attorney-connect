@@ -102,7 +102,7 @@ function JoinPageInner() {
           flat_fee: form.billingType === "flat" && form.feePercent ? parseFloat(form.feePercent) : null,
           bar_license: form.barLicense,
           malpractice_insurance: form.malpracticeInsurance,
-          status: "pending",
+          status: "claimed_pending",
         }),
       });
 

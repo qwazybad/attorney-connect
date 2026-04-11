@@ -93,7 +93,7 @@ function mapAttorney(row) {
     practice_areas: [],
     billing_type: "contingency",
     fee_percent: 33,
-    status: "pending",
+    status: "unclaimed",
     unclaimed: true,
   };
 }
