@@ -68,8 +68,8 @@ export default function AttorneySignInPage() {
           </span>
         </Link>
 
-        <div className="w-full max-w-md">
-          <div className="mb-8 text-center">
+        <div className="flex flex-col items-center w-full max-w-md">
+          <div className="mb-8 text-center w-full max-w-[400px]">
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-1">
               Attorney Portal
             </h1>
