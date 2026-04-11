@@ -174,7 +174,7 @@ export default function ForAttorneysPage() {
           {/* Inputs */}
           <div className="reveal reveal-delay-1 bg-gray-50 rounded-2xl p-6 border border-gray-100 mb-6 space-y-6">
             {calcMode === "referral" && (<>
-              <SliderField label="Average case value" value={caseValue} min={25000} max={500000} step={5000} format={fmt} onChange={setCaseValue} />
+              <SliderField label="Average case value" value={caseValue} min={10000} max={500000} step={5000} format={fmt} onChange={setCaseValue} />
               <SliderField label="Referral fee percentage" value={referralPct} min={15} max={45} step={1} format={(v) => `${v}%`} onChange={setReferralPct} />
               <SliderField label="Cases referred per month" value={casesPerMonth} min={1} max={20} step={1} format={(v) => `${v}`} onChange={setCasesPerMonth} />
             </>)}
@@ -199,7 +199,7 @@ export default function ForAttorneysPage() {
               <SliderField label="Leads purchased per month" value={leadsPerMonth} min={1} max={100} step={1} format={(v) => `${v}`} onChange={setLeadsPerMonth} />
               <SliderField label="Fee per retainer / engagement signed" value={engagementFee} min={500} max={5000} step={100} format={fmt} onChange={setEngagementFee} />
               <SliderField label="Retainers signed per month" value={retainersSigned} min={1} max={30} step={1} format={(v) => `${v}`} onChange={setRetainersSigned} />
-              <SliderField label="Average settlement value" value={settlementValue} min={25000} max={500000} step={5000} format={fmt} onChange={setSettlementValue} />
+              <SliderField label="Average settlement value" value={settlementValue} min={10000} max={500000} step={5000} format={fmt} onChange={setSettlementValue} />
               <SliderField label="Settlement percentage taken" value={settlementPct} min={15} max={40} step={1} format={(v) => `${v}%`} onChange={setSettlementPct} />
               <SliderField label="Cases that settle per month" value={casesSettled} min={1} max={10} step={1} format={(v) => `${v}`} onChange={setCasesSettled} />
               <div className="text-xs text-gray-400 pt-1 border-t border-gray-200 space-y-0.5">
