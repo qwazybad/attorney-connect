@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Scale, Zap, ArrowRight, CheckCircle, Lock, Users, Shield } from "lucide-react";
+import { Scale, Zap, ArrowRight, CheckCircle, Lock, Users } from "lucide-react";
 
 export default function MaintenancePage() {
   const [email, setEmail] = useState("");
@@ -124,19 +124,6 @@ export default function MaintenancePage() {
             </div>
           </div>
 
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center justify-center gap-5">
-            {[
-              { icon: Shield, text: "Bar verified attorneys", color: "text-blue-500" },
-              { icon: Lock, text: "Card not charged until launch", color: "text-emerald-500" },
-              { icon: CheckCircle, text: "Cancel anytime", color: "text-purple-500" },
-            ].map(({ icon: Icon, text, color }) => (
-              <div key={text} className="flex items-center gap-1.5 text-xs text-gray-500">
-                <Icon className={`w-3.5 h-3.5 ${color}`} />
-                {text}
-              </div>
-            ))}
-          </div>
 
         </div>
       </div>
