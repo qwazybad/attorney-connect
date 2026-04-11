@@ -84,10 +84,10 @@ export default function PitchPage() {
           </div>
 
           <div className="reveal bg-gray-50 border border-gray-200 rounded-2xl p-10 max-w-3xl mx-auto text-center">
-            <p className="text-lg text-gray-600 leading-relaxed mb-4">
+            <p className="text-lg font-bold text-gray-900 leading-relaxed mb-4">
               Law firms spend billions on advertising to stay top of mind. Consumers see hundreds of ads but retain very few. When legal need arises, recall fails and decision quality suffers.
             </p>
-            <p className="text-xl font-bold text-gray-900 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed">
               AttorneyCompete replaces fragmented advertising with a centralized marketplace where consumers arrive with intent and attorneys compete in real time.
             </p>
           </div>
