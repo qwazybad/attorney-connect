@@ -7,9 +7,14 @@ import {
   Smartphone, Flag, Shuffle, Search,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
+import { useEffect } from "react";
 
 export default function PitchPage() {
   const ref = useReveal();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div ref={ref} className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
@@ -52,11 +57,6 @@ export default function PitchPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 rounded-full border-2 border-gray-400/40 flex items-start justify-center pt-2">
-            <div className="w-1 h-2 bg-gray-500/40 rounded-full" />
-          </div>
-        </div>
       </section>
 
       {/* ── The Problem ─────────────────────────────────────────── */}
@@ -236,29 +236,53 @@ export default function PitchPage() {
           </div>
 
           {/* Revenue at full milestones */}
-          <div className="reveal bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm mb-8">
-            <div className="px-6 sm:px-8 pt-6 pb-3 border-b border-gray-100">
-              <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Revenue at Each Milestone</p>
-            </div>
-            <div className="overflow-x-auto">
-            <div className="grid grid-cols-3 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50 min-w-[420px]">
-              <div className="p-4 text-gray-400">Milestone</div>
-              <div className="p-4 text-gray-400">Monthly Revenue</div>
-              <div className="p-4 text-gray-400">Annual Revenue</div>
-            </div>
-            {[
+          {(() => {
+            const rows = [
               { label: "500 attorneys @ $249", mrr: "$124,500", arr: "$1,494,000", color: "text-emerald-600" },
               { label: "2,000 attorneys (mixed)", mrr: "$872,500", arr: "$10,470,000", color: "text-blue-600" },
               { label: "2,500 attorneys (mixed)", mrr: "$1,222,000", arr: "$14,664,000", color: "text-purple-600" },
-            ].map((row, i) => (
-              <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-100 last:border-b-0 min-w-[420px] ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
-                <div className="p-5 text-gray-600 text-sm">{row.label}</div>
-                <div className={`p-5 font-bold ${row.color}`}>{row.mrr}</div>
-                <div className={`p-5 font-semibold ${row.color} opacity-80`}>{row.arr}</div>
+            ];
+            return (
+              <div className="reveal bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm mb-8">
+                <div className="px-6 sm:px-8 pt-6 pb-3 border-b border-gray-100">
+                  <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Revenue at Each Milestone</p>
+                </div>
+                {/* Mobile */}
+                <div className="sm:hidden divide-y divide-gray-100">
+                  {rows.map((row, i) => (
+                    <div key={i} className="p-5">
+                      <p className="text-gray-600 text-sm font-semibold mb-3">{row.label}</p>
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Monthly</p>
+                          <p className={`text-lg font-bold ${row.color}`}>{row.mrr}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Annual</p>
+                          <p className={`text-lg font-semibold ${row.color}`}>{row.arr}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Desktop */}
+                <div className="hidden sm:block">
+                  <div className="grid grid-cols-3 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
+                    <div className="p-4 text-gray-400">Milestone</div>
+                    <div className="p-4 text-gray-400">Monthly Revenue</div>
+                    <div className="p-4 text-gray-400">Annual Revenue</div>
+                  </div>
+                  {rows.map((row, i) => (
+                    <div key={i} className={`grid grid-cols-3 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
+                      <div className="p-5 text-gray-600 text-sm">{row.label}</div>
+                      <div className={`p-5 font-bold ${row.color}`}>{row.mrr}</div>
+                      <div className={`p-5 font-semibold ${row.color} opacity-80`}>{row.arr}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-            </div>{/* /overflow-x-auto */}
-          </div>
+            );
+          })()}
 
           {/* Future revenue */}
           <div className="reveal bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
@@ -305,27 +329,60 @@ export default function PitchPage() {
               <h3 className="font-extrabold text-xl text-gray-900 mb-1">Arizona Conversion Projections</h3>
               <p className="text-gray-400 text-sm">Based on 3,450 seeded attorneys at the founding-member rate of $249/mo</p>
             </div>
-            <div className="overflow-x-auto">
-            <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50 min-w-[500px]">
-              <div className="p-4 text-gray-400">Conversion Rate</div>
-              <div className="p-4 text-gray-400">Active Attorneys</div>
-              <div className="p-4 text-gray-400">Monthly Revenue</div>
-              <div className="p-4 text-gray-400">Annual Revenue</div>
-            </div>
-            {[
-              { rate: "2%",  members: "69",  mrr: "$17,181",  arr: "$206,172" },
-              { rate: "5%",  members: "172", mrr: "$42,828",  arr: "$513,936" },
-              { rate: "10%", members: "345", mrr: "$85,905",  arr: "$1,030,860" },
-              { rate: "20%", members: "690", mrr: "$171,810", arr: "$2,061,720" },
-            ].map((row, i) => (
-              <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 min-w-[500px] ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
-                <div className="p-5 text-gray-900 font-bold">{row.rate}</div>
-                <div className="p-5 text-gray-600">{row.members}</div>
-                <div className="p-5 text-emerald-600 font-bold">{row.mrr}</div>
-                <div className="p-5 text-emerald-500 font-semibold">{row.arr}</div>
-              </div>
-            ))}
-            </div>{/* /overflow-x-auto */}
+            {(() => {
+              const rows = [
+                { rate: "2%",  members: "69",  mrr: "$17,181",  arr: "$206,172" },
+                { rate: "5%",  members: "172", mrr: "$42,828",  arr: "$513,936" },
+                { rate: "10%", members: "345", mrr: "$85,905",  arr: "$1,030,860" },
+                { rate: "20%", members: "690", mrr: "$171,810", arr: "$2,061,720" },
+              ];
+              return (
+                <>
+                  {/* Mobile cards */}
+                  <div className="sm:hidden divide-y divide-gray-100">
+                    {rows.map((row, i) => (
+                      <div key={i} className={`p-5 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Conversion</span>
+                          <span className="text-lg font-extrabold text-gray-900">{row.rate}</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 text-center">
+                          <div>
+                            <p className="text-xs text-gray-400 mb-0.5">Attorneys</p>
+                            <p className="font-bold text-gray-700">{row.members}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 mb-0.5">Monthly</p>
+                            <p className="font-bold text-emerald-600">{row.mrr}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 mb-0.5">Annual</p>
+                            <p className="font-bold text-emerald-500">{row.arr}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Desktop grid */}
+                  <div className="hidden sm:block">
+                    <div className="grid grid-cols-4 text-center text-xs font-bold uppercase tracking-widest border-b border-gray-100 bg-gray-50">
+                      <div className="p-4 text-gray-400">Conversion Rate</div>
+                      <div className="p-4 text-gray-400">Active Attorneys</div>
+                      <div className="p-4 text-gray-400">Monthly Revenue</div>
+                      <div className="p-4 text-gray-400">Annual Revenue</div>
+                    </div>
+                    {rows.map((row, i) => (
+                      <div key={i} className={`grid grid-cols-4 text-center border-b border-gray-100 last:border-b-0 ${i % 2 !== 0 ? "bg-gray-50/60" : "bg-white"}`}>
+                        <div className="p-5 text-gray-900 font-bold">{row.rate}</div>
+                        <div className="p-5 text-gray-600">{row.members}</div>
+                        <div className="p-5 text-emerald-600 font-bold">{row.mrr}</div>
+                        <div className="p-5 text-emerald-500 font-semibold">{row.arr}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       </section>
