@@ -27,7 +27,7 @@ export default function HeroSection() {
       {/* Thin blue top bar */}
       <div className="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
-      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center py-16 sm:py-20 lg:py-24">
+      <div className="relative max-w-5xl mx-auto px-5 sm:px-8 text-center py-10 sm:py-12 lg:py-16">
 
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-[11px] font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest mb-7 animate-fade-in opacity-0" style={{ animationFillMode: "forwards" }}>
@@ -54,7 +54,7 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row gap-3 mb-10 opacity-0 animate-slide-up justify-center"
+              className="flex flex-col sm:flex-row gap-3 mb-6 opacity-0 animate-slide-up justify-center"
               style={{ animationDelay: "0.14s", animationFillMode: "forwards" }}
             >
               <button
@@ -97,7 +97,7 @@ export default function HeroSection() {
 
             {/* Quick-select pills */}
             <div
-              className="mt-7 opacity-0 animate-slide-up"
+              className="mt-4 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.26s", animationFillMode: "forwards" }}
             >
               <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest block mb-2">Popular</span>
@@ -126,59 +126,24 @@ export default function HeroSection() {
 
           {/* ── Search card ──────────────────────────────────────── */}
           <div
-              className="mt-10 bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300 text-left"
+              className="mt-8 bg-white border border-gray-200/80 rounded-2xl shadow-[0_8px_40px_rgba(15,48,85,0.10)] p-4 sm:p-5 opacity-0 animate-slide-up transition-all duration-300 text-left"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
-              <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
-              <p className="text-sm text-gray-400 mb-6">Tell us about your case and we&apos;ll match you instantly.</p>
-
-              <form onSubmit={handleSearch} className="space-y-3">
-                {[
-                  {
-                    label: "Legal Issue",
-                    value: legalIssue,
-                    onChange: setLegalIssue,
-                    placeholder: "Select issue type",
-                    options: LEGAL_ISSUES.map((i) => ({ value: i.value, label: i.label })),
-                  },
-                  {
-                    label: "Your State",
-                    value: state,
-                    onChange: setState,
-                    placeholder: "Select state",
-                    options: US_STATES.map((s) => ({ value: s, label: s })),
-                  },
-                ].map(({ label, value, onChange, placeholder, options }) => (
-                  <div key={label}>
-                    <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">{label}</label>
-                    <div className="relative">
-                      <select
-                        value={value}
-                        onChange={(e) => onChange(e.target.value)}
-                        className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-4 py-3 pr-9 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
-                      >
-                        <option value="">{placeholder}</option>
-                        {options.map((o) => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                    </div>
-                  </div>
-                ))}
-
-                <div className="grid grid-cols-2 gap-3">
+              <form onSubmit={handleSearch}>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
                   {[
+                    { label: "Legal Issue", value: legalIssue, onChange: setLegalIssue, placeholder: "Select issue type", options: LEGAL_ISSUES.map((i) => ({ value: i.value, label: i.label })) },
+                    { label: "Your State", value: state, onChange: setState, placeholder: "Select state", options: US_STATES.map((s) => ({ value: s, label: s })) },
                     { label: "Timeline", value: timeline, onChange: setTimeline, placeholder: "When needed?", options: TIMELINES.map((t) => ({ value: t, label: t })) },
                     { label: "Max Fee", value: feePreference, onChange: setFeePreference, placeholder: "Any fee", options: [{ value: "under-25", label: "Under 25%" }, { value: "under-30", label: "Under 30%" }, { value: "under-33", label: "Under 34% (avg)" }] },
                   ].map(({ label, value, onChange, placeholder, options }) => (
                     <div key={label}>
-                      <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">{label}</label>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</label>
                       <div className="relative">
                         <select
                           value={value}
                           onChange={(e) => onChange(e.target.value)}
-                          className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-3 py-3 pr-7 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
+                          className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm font-medium rounded-xl px-3 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all cursor-pointer"
                         >
                           <option value="">{placeholder}</option>
                           {options.map((o) => (
@@ -190,10 +155,9 @@ export default function HeroSection() {
                     </div>
                   ))}
                 </div>
-
                 <button
                   type="submit"
-                  className="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-[15px] mt-1 shadow-lg shadow-navy-900/20"
+                  className="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-navy-900/20"
                 >
                   <Search className="w-4 h-4" />
                   Compare Attorneys
