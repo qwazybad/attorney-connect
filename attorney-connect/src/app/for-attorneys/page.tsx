@@ -145,27 +145,25 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Pricing ───────────────────────────────────────────── */}
-      <section id="pricing" ref={pricingRef} className="relative py-24 bg-navy-900 overflow-hidden">
-        <div className="absolute inset-0 dot-grid opacity-25" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center">
-          <div className="reveal inline-flex items-center gap-2 glass text-white/60 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-5">
+      <section id="pricing" ref={pricingRef} className="relative py-24 bg-gray-50 overflow-hidden">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 text-center">
+          <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-5">
             Pricing
           </div>
-          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
             Pay when the client signs
           </h2>
-          <p className="reveal reveal-delay-2 text-gray-200 mb-12 text-lg max-w-xl mx-auto">
+          <p className="reveal reveal-delay-2 text-gray-500 mb-12 text-lg max-w-xl mx-auto">
             No subscriptions. No pay-per-click. A flat referral fee due only when a client signs an engagement letter or retainer agreement.
             If you don&apos;t earn, we don&apos;t earn.
           </p>
 
-          <div className="reveal reveal-delay-2 glass-dark rounded-3xl p-8 sm:p-12 max-w-lg mx-auto">
+          <div className="reveal reveal-delay-2 bg-white border border-gray-100 rounded-3xl p-8 sm:p-12 max-w-lg mx-auto shadow-card">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <Zap className="w-10 h-10 text-accent-400" />
-              <p className="text-7xl font-extrabold text-white">$0</p>
+              <Zap className="w-10 h-10 text-blue-500" />
+              <p className="text-7xl font-extrabold text-gray-900">$0</p>
             </div>
-            <p className="text-gray-200 text-lg mb-8">Upfront. Always.</p>
+            <p className="text-gray-400 text-lg mb-8">Upfront. Always.</p>
 
             <ul className="space-y-3.5 text-left mb-10">
               {[
@@ -175,9 +173,9 @@ export default function ForAttorneysPage() {
                 "Flat referral fee due when client signs an engagement letter or retainer agreement",
                 "Cancel anytime, no penalties",
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-gray-200">
-                  <div className="w-5 h-5 rounded-full bg-accent-500/20 flex items-center justify-center shrink-0">
-                    <CheckCircle className="w-3.5 h-3.5 text-accent-400" />
+                <li key={item} className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-5 h-5 rounded-full bg-accent-50 flex items-center justify-center shrink-0">
+                    <CheckCircle className="w-3.5 h-3.5 text-accent-500" />
                   </div>
                   {item}
                 </li>
@@ -186,7 +184,7 @@ export default function ForAttorneysPage() {
 
             <Link
               href="/join"
-              className="group relative block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base overflow-hidden"
+              className="group relative block w-full text-center bg-navy-900 hover:bg-navy-800 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
             >
               <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Apply Now — It&apos;s Free
@@ -194,8 +192,6 @@ export default function ForAttorneysPage() {
             </Link>
           </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
@@ -232,20 +228,18 @@ export default function ForAttorneysPage() {
       </section>
 
       {/* ── Bottom CTA ────────────────────────────────────────── */}
-      <section ref={ctaRef} className="relative py-24 bg-navy-900 overflow-hidden">
-        <div className="absolute inset-0 dot-grid opacity-25" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="reveal text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+      <section ref={ctaRef} className="relative py-24 bg-gray-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 text-center">
+          <h2 className="reveal text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
             Ready to grow your caseload?
           </h2>
-          <p className="reveal reveal-delay-1 text-gray-200 text-lg mb-10 max-w-xl mx-auto">
+          <p className="reveal reveal-delay-1 text-gray-500 text-lg mb-10 max-w-xl mx-auto">
             Join 2,800+ law firms already using AttorneyCompete to compete for high-quality cases.
           </p>
           <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/join"
-              className="group relative inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] text-base overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
             >
               <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Apply as a Partner Firm
@@ -253,9 +247,9 @@ export default function ForAttorneysPage() {
             </Link>
             <Link
               href="/compare"
-              className="group relative inline-flex items-center justify-center gap-2 glass hover:bg-white/10 text-white font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:border-navy-300 text-gray-700 hover:text-navy-900 font-semibold px-10 py-4 rounded-2xl transition-all duration-200 text-base overflow-hidden"
             >
-              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-navy-900/5 skew-x-12 transition-transform duration-500 pointer-events-none" />
               Browse the Marketplace
             </Link>
           </div>
