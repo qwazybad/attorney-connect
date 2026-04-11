@@ -37,7 +37,7 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1
-              className="text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-extrabold text-navy-900 leading-[1.05] tracking-[-0.02em] mb-6 opacity-0 animate-slide-up"
+              className="text-[2.25rem] sm:text-[3rem] lg:text-[3.75rem] font-extrabold text-navy-900 leading-[1.05] tracking-[-0.02em] mb-5 opacity-0 animate-slide-up"
               style={{ animationFillMode: "forwards" }}
             >
               Attorneys Compete.
