@@ -21,9 +21,6 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
-            <Link href="/for-attorneys" className="relative text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-blue-500 after:transition-all after:duration-200 hover:after:w-full">
-              For Attorneys
-            </Link>
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
@@ -43,9 +40,6 @@ export default function Header() {
 
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-5 py-4 space-y-1">
-          <Link href="/for-attorneys" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-            For Attorneys
-          </Link>
           <Link href="/attorney-portal/sign-in" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
             Attorney Login
           </Link>
