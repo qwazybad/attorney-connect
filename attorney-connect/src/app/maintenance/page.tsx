@@ -146,55 +146,29 @@ export default function MaintenancePage() {
           </div>
 
           {/* Loop steps */}
-          {(() => {
-            const steps = [
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-10">
+            {([
               { n: "1", title: "Attorneys save", body: "No referral fees means thousands saved per case.", color: "from-emerald-500 to-teal-400", textColor: "text-emerald-600" },
               { n: "2", title: "They charge you less", body: "They can post lower contingency fees and still come out ahead.", color: "from-blue-500 to-indigo-400", textColor: "text-blue-600" },
               { n: "3", title: "Best value ranks highest", body: "Lower fees + strong ratings = higher placement. No pay-to-win.", color: "from-violet-500 to-purple-400", textColor: "text-violet-600" },
               { n: "4", title: "You win", body: "More competitive attorneys, lower fees, better outcomes.", color: "from-amber-400 to-orange-500", textColor: "text-amber-600" },
-            ] as const;
-            return (
-              <div className="mb-10">
-                {/* Desktop: icon row + text row */}
-                <div className="hidden sm:block">
-                  <div className="flex items-center justify-center mb-5">
-                    {steps.map((step, i) => (
-                      <div key={step.n} className="flex items-center">
-                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
-                          <span className="text-xl font-extrabold text-white">{step.n}</span>
-                        </div>
-                        {i < steps.length - 1 && (
-                          <ChevronRight className="w-5 h-5 text-gray-300 mx-4" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-4 gap-4 text-center">
-                    {steps.map((step) => (
-                      <div key={step.n}>
-                        <p className={`font-bold text-sm mb-1 ${step.textColor}`}>{step.title}</p>
-                        <p className="text-xs text-gray-500 leading-relaxed">{step.body}</p>
-                      </div>
-                    ))}
-                  </div>
+            ] as const).flatMap((step, i, arr) => [
+              <div key={step.n} className="flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center flex-1 min-w-0 max-w-[180px]">
+                <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
+                  <span className="text-xl font-extrabold text-white">{step.n}</span>
                 </div>
-                {/* Mobile: vertical stack */}
-                <div className="sm:hidden space-y-4">
-                  {steps.map((step) => (
-                    <div key={step.n} className="flex items-start gap-4">
-                      <div className={`w-12 h-12 shrink-0 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md`}>
-                        <span className="text-lg font-extrabold text-white">{step.n}</span>
-                      </div>
-                      <div>
-                        <p className={`font-bold text-sm mb-1 ${step.textColor}`}>{step.title}</p>
-                        <p className="text-xs text-gray-500 leading-relaxed">{step.body}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="sm:mt-4">
+                  <p className={`font-bold text-sm mb-1 ${step.textColor}`}>{step.title}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">{step.body}</p>
                 </div>
-              </div>
-            );
-          })()}
+              </div>,
+              i < arr.length - 1 ? (
+                <div key={`arrow-${i}`} className="hidden sm:flex items-center justify-center shrink-0 self-start mt-5">
+                  <ChevronRight className="w-5 h-5 text-gray-300" />
+                </div>
+              ) : null,
+            ])}
+          </div>
 
           <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex items-start gap-4 max-w-2xl mx-auto">
             <RefreshCw className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
