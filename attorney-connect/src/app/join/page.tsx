@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { SignUp } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -100,14 +100,14 @@ function BillingStepForm({
             </div>
           </div>
           <div className="text-right">
-            <p className="text-xs text-gray-400 line-through">$499/mo standard</p>
-            <p className="text-xs font-bold text-emerald-600">Save $250/mo forever</p>
+            <p className="text-xs text-gray-400 line-through">$699/mo standard</p>
+            <p className="text-xs font-bold text-emerald-600">Save $450/mo forever</p>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-emerald-100 rounded-xl px-4 py-2.5">
-          <Lock className="w-4 h-4 text-emerald-600 shrink-0" />
-          <p className="text-xs font-semibold text-emerald-700">
-            Your card is saved but <span className="font-extrabold">not charged</span> until the platform goes live. You&apos;ll be notified before any billing begins.
+          <Lock className="w-4 h-4 text-gray-900 shrink-0" />
+          <p className="text-xs font-bold text-gray-900">
+            Your card is saved but <span className="font-extrabold underline">NOT CHARGED</span>{" "}until the platform goes live. You&apos;ll be notified before any billing begins.
           </p>
         </div>
       </div>
@@ -291,9 +291,9 @@ function JoinPageInner() {
         {/* Progress bar */}
         <div className="flex items-start mb-8 w-full">
           {STEPS.map(({ n, label }, i) => (
-            <>
+            <React.Fragment key={n}>
               {/* Step bubble + label */}
-              <div key={n} className="flex flex-col items-center shrink-0 w-10 sm:w-14">
+              <div className="flex flex-col items-center shrink-0 w-10 sm:w-14">
                 <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-colors ${currentStep > n ? "bg-green-500 text-white" : currentStep === n ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"}`}>
                   {currentStep > n ? <CheckCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5" /> : n}
                 </div>
@@ -303,7 +303,7 @@ function JoinPageInner() {
               {i < STEPS.length - 1 && (
                 <div className={`flex-1 h-px mt-3.5 sm:mt-4 ${currentStep > n ? "bg-green-400" : "bg-gray-200"}`} />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
 
@@ -589,7 +589,7 @@ function JoinPageInner() {
                   disabled={submitting || (currentStep === 3 && (form.practiceAreas.length === 0 || form.states.length === 0))}
                   className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
                 >
-                  {submitting ? "Submitting…" : currentStep === 6 ? "Complete Application" : "Continue"}
+                  {submitting ? "Submitting…" : currentStep === 6 ? "Continue to Billing" : "Continue"}
                   {!submitting && currentStep < 6 && <ArrowRight className="w-4 h-4" />}
                 </button>
               </div>
