@@ -43,7 +43,7 @@ export default function PitchPage() {
             <span className="text-gradient-blue">Legal Services</span><br />
             Has Been Waiting For
           </h1>
-          <p className="reveal reveal-delay-3 text-base sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="reveal reveal-delay-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
             Legal services is one of the last major consumer categories without a dominant marketplace. The platform is built. The supply side is seeded.
           </p>
           <p className="reveal reveal-delay-4 text-blue-500 font-semibold mb-10 text-sm sm:text-base">

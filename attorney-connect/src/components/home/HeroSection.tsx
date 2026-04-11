@@ -31,7 +31,7 @@ export default function HeroSection() {
             </h1>
 
             <p
-              className="text-lg text-gray-500 leading-relaxed max-w-lg mx-auto mb-8 opacity-0 animate-slide-up"
+              className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-lg mx-auto mb-8 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.08s", animationFillMode: "forwards" }}
             >
               Stop guessing what an attorney costs. Start comparing.
