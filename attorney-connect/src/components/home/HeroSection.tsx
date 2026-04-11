@@ -72,7 +72,7 @@ export default function HeroSection() {
               {[
                 { icon: Shield, color: "text-emerald-500", label: "Bar-verified attorneys" },
                 { icon: Star,   color: "text-yellow-400",   label: "4.8 platform rating" },
-                { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
+                { icon: Zap,    color: "text-blue-500",    label: "Avg response 10 min" },
               ].map(({ icon: Icon, color, label }) => (
                 <span key={label} className="group flex items-center gap-1.5 text-sm text-gray-500 cursor-default">
                   <Icon className={`w-4 h-4 ${color} group-hover:scale-125 transition-transform duration-200`} />
