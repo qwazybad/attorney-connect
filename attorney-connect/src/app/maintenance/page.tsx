@@ -10,7 +10,7 @@ export default function MaintenancePage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
     await fetch("/api/waitlist", {
@@ -46,7 +46,7 @@ export default function MaintenancePage() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-5 text-gray-900">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5 text-gray-900">
             The legal marketplace where<br />
             <span className="text-gradient-blue">attorneys compete for your business.</span>
           </h1>

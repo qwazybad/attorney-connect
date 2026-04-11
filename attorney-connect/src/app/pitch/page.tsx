@@ -38,7 +38,7 @@ export default function PitchPage() {
             </div>
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">Attorney<span className="text-blue-500">Compete</span></span>
           </div>
-          <h1 className="reveal reveal-delay-2 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
+          <h1 className="reveal reveal-delay-2 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
             The Marketplace<br />
             <span className="text-gradient-blue">Legal Services</span><br />
             Has Been Waiting For
@@ -409,7 +409,7 @@ export default function PitchPage() {
             </div>
             <span className="text-3xl font-extrabold tracking-tight text-gray-900">Attorney<span className="text-blue-500">Compete</span></span>
           </div>
-          <h2 className="reveal reveal-delay-1 text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
+          <h2 className="reveal reveal-delay-1 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-gray-900">
             Ready to Build<br />
             <span className="text-gradient-blue">Something Big?</span>
           </h2>
