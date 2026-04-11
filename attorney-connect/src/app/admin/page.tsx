@@ -218,6 +218,9 @@ export default function AdminPage() {
       setAttorneys(aRes.data ?? []);
       setLeads(lRes.data ?? []);
       setLoading(false);
+    }).catch((err) => {
+      console.error("Admin fetch failed:", err);
+      setLoading(false);
     });
   }, []);
 
@@ -456,7 +459,7 @@ export default function AdminPage() {
                   <SectionCard title="Unclaimed Profiles" icon={ShieldAlert}
                     action={<span className="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{unclaimedAttorneys.length}</span>}>
                     <div className="divide-y divide-gray-50 max-h-48 overflow-y-auto">
-                      {unclaimedAttorneys.map((a) => (
+                      {unclaimedAttorneys.slice(0, 50).map((a) => (
                         <div key={a.id} className="flex items-center justify-between px-4 py-3 gap-2">
                           <Link href={`/admin/attorneys/${a.id}`} className="flex items-center gap-2 min-w-0 hover:text-blue-600 transition-colors">
                             <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
