@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import {
   Scale, TrendingDown, TrendingUp, Users, Zap, DollarSign,
   BarChart3, Target, CheckCircle, EyeOff,
-  Smartphone, Flag, Shuffle, Search,
+  Smartphone, Flag, Shuffle, Search, ArrowRight,
 } from "lucide-react";
 import { useReveal } from "@/hooks/useInView";
 import { useEffect } from "react";
@@ -18,6 +19,46 @@ export default function PitchPage() {
   return (
     <div ref={ref} className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
 
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <section
+        className="relative flex flex-col items-center justify-center text-center px-6 py-24 sm:py-40 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}
+      >
+        <div className="dot-grid-dark absolute inset-0 opacity-30" />
+        <div className="orb w-[600px] h-[600px] bg-blue-400/15 -top-40 -left-40" />
+        <div className="orb w-[500px] h-[500px] bg-indigo-400/10 -bottom-20 -right-20" />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="reveal inline-flex items-center gap-2 bg-white/70 border border-blue-200 text-blue-600 text-xs font-bold px-4 py-2 rounded-full mb-8 uppercase tracking-widest shadow-sm">
+            <Zap className="w-3.5 h-3.5" />
+            Investor Presentation · 2026
+          </div>
+          <div className="reveal reveal-delay-1 flex items-center justify-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg">
+              <Scale className="w-7 h-7 text-white" />
+            </div>
+            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">Attorney<span className="text-blue-500">Compete</span></span>
+          </div>
+          <h1 className="reveal reveal-delay-2 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900">
+            The Marketplace<br />
+            <span className="text-gradient-blue">Legal Services</span><br />
+            Has Been Waiting For
+          </h1>
+          <p className="reveal reveal-delay-3 text-base sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
+            Legal services is one of the last major consumer categories without a dominant marketplace. The platform is built. The supply side is seeded.
+          </p>
+          <p className="reveal reveal-delay-4 text-blue-500 font-semibold mb-10 text-sm sm:text-base">
+            3,450 attorneys in the database. Zero contacted. The outreach starts when you say go.
+          </p>
+          <div className="reveal reveal-delay-4 flex flex-wrap items-center justify-center gap-4">
+            <a href="#problem" className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-sm shadow-lg">
+              See the Opportunity <ArrowRight className="w-4 h-4" />
+            </a>
+            <Link href="/" className="inline-flex items-center gap-2 bg-white/80 hover:bg-white border border-gray-200 text-gray-700 font-semibold px-8 py-4 rounded-2xl transition-colors text-sm shadow-sm">
+              Visit the Platform
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ── The Problem ─────────────────────────────────────────── */}
       <section id="problem" className="py-16 sm:py-32 px-6 bg-white">
@@ -354,6 +395,41 @@ export default function PitchPage() {
         </div>
       </section>
 
+      {/* ── CTA ──────────────────────────────────────────────────── */}
+      <section
+        className="relative py-20 sm:py-40 px-6 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #EAF0FB 0%, #F0EEF8 40%, #F5F0EC 100%)" }}
+      >
+        <div className="dot-grid-dark absolute inset-0 opacity-30" />
+        <div className="orb w-[600px] h-[600px] bg-blue-400/15 top-0 left-1/2 -translate-x-1/2" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <div className="reveal flex items-center justify-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg">
+              <Scale className="w-7 h-7 text-white" />
+            </div>
+            <span className="text-3xl font-extrabold tracking-tight text-gray-900">Attorney<span className="text-blue-500">Compete</span></span>
+          </div>
+          <h2 className="reveal reveal-delay-1 text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
+            Ready to Build<br />
+            <span className="text-gradient-blue">Something Big?</span>
+          </h2>
+          <p className="reveal reveal-delay-2 text-base sm:text-xl text-gray-600 mb-4 leading-relaxed max-w-xl mx-auto">
+            We're looking for partners who see what we see. Let's talk.
+          </p>
+          <p className="reveal reveal-delay-3 text-blue-500 font-semibold mb-10 text-sm sm:text-base">
+            3,450 attorneys. Zero contacted. The outreach starts when you say go.
+          </p>
+          <div className="reveal reveal-delay-4 flex flex-wrap items-center justify-center gap-4">
+            <a href="mailto:Jackhumphres.jh@gmail.com" className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-10 py-4 rounded-2xl transition-colors text-base shadow-lg">
+              Get in Touch <ArrowRight className="w-5 h-5" />
+            </a>
+            <Link href="/" className="inline-flex items-center gap-2 bg-white/80 hover:bg-white border border-gray-200 text-gray-700 font-semibold px-10 py-4 rounded-2xl transition-colors text-base shadow-sm">
+              Visit the Platform
+            </Link>
+          </div>
+          <p className="reveal text-gray-400 text-sm mt-10">AttorneyCompete · attorneycompete.com</p>
+        </div>
+      </section>
 
     </div>
   );
