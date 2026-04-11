@@ -26,7 +26,7 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
   const primaryBadge = attorney.badges[0];
 
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-gray-100/80 flex flex-col">
+    <div className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-gray-100/80 hover:border-blue-200 flex flex-col">
       {/* Image header */}
       <div className="relative h-40 sm:h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
         {attorney.avatar ? (
@@ -45,6 +45,8 @@ export default function AttorneyCard({ attorney, rank }: AttorneyCardProps) {
         )}
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {/* Avatar ring on hover */}
+        <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-inset ring-blue-400/40 transition-all duration-300 rounded-none" />
 
         {/* Rank badge */}
         {rank && rank <= 3 && (

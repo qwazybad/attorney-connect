@@ -46,11 +46,11 @@ export default function StatsBar() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 divide-y-2 md:divide-y-0 md:divide-x divide-gray-100">
           {stats.map(({ icon: Icon, value, suffix, label, iconColor, iconBg }, i) => (
-            <div key={label} className={`flex flex-col items-center text-center ${i > 0 && i % 2 === 0 ? "pt-8 md:pt-0" : ""} md:px-8`}>
-              <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center mb-3`}>
-                <Icon className={`w-5 h-5 ${iconColor}`} />
+            <div key={label} className={`group flex flex-col items-center text-center ${i > 0 && i % 2 === 0 ? "pt-8 md:pt-0" : ""} md:px-8`}>
+              <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                <Icon className={`w-5 h-5 ${iconColor} group-hover:scale-110 transition-transform duration-200`} />
               </div>
-              <p className="text-3xl font-extrabold text-navy-900 tracking-tight">
+              <p className="text-3xl font-extrabold text-navy-900 tracking-tight group-hover:text-navy-700 transition-colors duration-200">
                 {label === "Platform Rating" ? (
                   <>4.8<span className="text-gray-300 text-xl font-sans font-medium">/5.0</span></>
                 ) : (

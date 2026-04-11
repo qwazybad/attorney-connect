@@ -21,7 +21,7 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
-            <Link href="/for-attorneys" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+            <Link href="/for-attorneys" className="relative text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-blue-500 after:transition-all after:duration-200 hover:after:w-full">
               For Attorneys
             </Link>
           </nav>

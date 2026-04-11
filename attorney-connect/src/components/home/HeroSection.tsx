@@ -65,11 +65,12 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => router.push("/compare")}
-                className="inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px] shadow-lg shadow-navy-900/20 hover:shadow-navy-900/30"
+                className="group relative inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-bold px-7 py-4 rounded-2xl transition-all duration-200 text-[15px] shadow-lg shadow-navy-900/20 hover:shadow-navy-900/40 overflow-hidden"
               >
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-white/10 skew-x-12 transition-transform duration-500 pointer-events-none" />
                 <Search className="w-4 h-4" />
                 Compare Attorneys — Free
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </button>
               <button
                 onClick={() => {
@@ -93,8 +94,8 @@ export default function HeroSection() {
                 { icon: Star,   color: "text-yellow-400",   label: "4.8 platform rating" },
                 { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
               ].map(({ icon: Icon, color, label }) => (
-                <span key={label} className="flex items-center gap-1.5 text-sm text-gray-500">
-                  <Icon className={`w-4 h-4 ${color}`} />
+                <span key={label} className="group flex items-center gap-1.5 text-sm text-gray-500 cursor-default">
+                  <Icon className={`w-4 h-4 ${color} group-hover:scale-125 transition-transform duration-200`} />
                   {label}
                 </span>
               ))}
@@ -113,14 +114,15 @@ export default function HeroSection() {
                 { label: "Malpractice", area: "Medical Malpractice" },
                 { label: "Employment", area: "Employment Law" },
                 { label: "Workers' Comp", area: "Workers' Comp" },
-              ].map(({ label, area }) => (
+              ].map(({ label, area }, i) => (
                 <button
                   key={area}
                   onClick={() => {
                     const found = LEGAL_ISSUES.find((i) => i.label === area || i.label.includes(area.split(" ")[0]));
                     if (found) router.push(`/compare?area=${found.value}`);
                   }}
-                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-navy-300 hover:text-navy-700 hover:bg-navy-50 transition-all duration-200 whitespace-nowrap"
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:bg-navy-900 hover:text-white hover:border-navy-900 transition-all duration-200 whitespace-nowrap opacity-0 animate-fade-in"
+                  style={{ animationDelay: `${0.32 + i * 0.06}s`, animationFillMode: "forwards" }}
                 >
                   {label}
                 </button>
@@ -132,7 +134,7 @@ export default function HeroSection() {
           {/* ── Right: Search card ────────────────────────────────── */}
           <div className="lg:col-span-5 lg:pl-10">
             <div
-              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up"
+              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
               <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>

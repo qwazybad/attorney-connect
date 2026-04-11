@@ -1,9 +1,23 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useReveal } from "@/hooks/useInView";
 
 export default function EducationalSection() {
   const ref = useReveal();
+  const [barsAnimated, setBarsAnimated] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setBarsAnimated(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section ref={ref} className="py-24 bg-gray-50 overflow-hidden">
@@ -56,7 +70,7 @@ export default function EducationalSection() {
               badgeBg: "bg-emerald-100 text-emerald-700",
               desc: "The most competitive attorneys on our platform — keeping significantly more money in your pocket.",
             },
-          ].map(({ label, fee, color, bg, border, badge, badgeBg, desc }, i) => (
+          ].map(({ label, fee, color, border, badge, badgeBg, desc }, i) => (
             <div
               key={label}
               className={`reveal reveal-delay-${i + 1} card-lift bg-white rounded-2xl border ${border} p-6 shadow-card`}
@@ -70,7 +84,7 @@ export default function EducationalSection() {
         </div>
 
         {/* Dark comparison panel */}
-        <div className="reveal bg-navy-900 rounded-3xl overflow-hidden">
+        <div ref={panelRef} className="reveal bg-navy-900 rounded-3xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="p-8 lg:p-12 flex flex-col justify-center">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-4 leading-tight">
@@ -109,7 +123,7 @@ export default function EducationalSection() {
                     { label: "Typical Directory", fee: 33, highlight: false },
                     { label: "AttorneyCompete Avg", fee: 27, highlight: false },
                     { label: "Best on Platform", fee: 20, highlight: true },
-                  ].map(({ label, fee, highlight }) => {
+                  ].map(({ label, fee, highlight }, idx) => {
                     const youKeep = 500000 * (1 - fee / 100);
                     const maxKeep = 500000 * 0.8;
                     const width = (youKeep / maxKeep) * 100;
@@ -119,13 +133,16 @@ export default function EducationalSection() {
                           <span className={`text-sm font-medium ${highlight ? "text-white" : "text-gray-200"}`}>{label}</span>
                           <div className="flex items-center gap-3">
                             <span className={`text-xs font-semibold ${highlight ? "text-accent-400" : "text-gray-300"}`}>{fee}%</span>
-                            <span className={`text-sm font-bold ${highlight ? "text-white" : "text-white"}`}>${youKeep.toLocaleString()}</span>
+                            <span className="text-sm font-bold text-white">${youKeep.toLocaleString()}</span>
                           </div>
                         </div>
                         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-all ${highlight ? "bg-accent-400" : "bg-white/20"}`}
-                            style={{ width: `${width}%` }}
+                            className={`h-full rounded-full transition-all duration-700 ${highlight ? "bg-accent-400" : "bg-white/20"}`}
+                            style={{
+                              width: barsAnimated ? `${width}%` : "0%",
+                              transitionDelay: `${idx * 0.12}s`,
+                            }}
                           />
                         </div>
                       </div>
