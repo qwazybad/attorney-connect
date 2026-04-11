@@ -43,10 +43,10 @@ const stats = [
 export default function StatsBar() {
   return (
     <section className="bg-white border-y border-gray-100">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {stats.map(({ icon: Icon, value, suffix, label, iconColor, iconBg }, i) => (
-            <div key={label} className={`group flex flex-col items-center text-center py-8 px-4 md:px-8 ${i >= 2 ? "border-t border-gray-100 md:border-t-0" : ""} ${i % 2 !== 0 ? "border-l border-gray-100" : ""} ${i > 0 ? "md:border-l md:border-gray-100" : ""}`}>
+            <div key={label} className={`group flex flex-col items-center text-center py-4 px-4 md:px-8 ${i >= 2 ? "border-t border-gray-100 md:border-t-0" : ""}`}>
               <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
                 <Icon className={`w-5 h-5 ${iconColor} group-hover:scale-110 transition-transform duration-200`} />
               </div>
