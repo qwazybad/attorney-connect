@@ -7,7 +7,6 @@ const maintenanceRedirects = inMaintenance
       { source: "/", destination: "/maintenance", permanent: false },
       { source: "/compare/:path*", destination: "/maintenance", permanent: false },
       { source: "/attorney/:path*", destination: "/maintenance", permanent: false },
-      { source: "/join/:path*", destination: "/maintenance", permanent: false },
     ]
   : [];
 
