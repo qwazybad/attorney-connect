@@ -132,9 +132,9 @@ export default function HeroSection() {
           </div>
 
           {/* ── Right: Search card ────────────────────────────────── */}
-          <div className="lg:col-span-5 lg:pl-10">
+          <div className="lg:col-span-5 lg:flex lg:justify-end lg:pl-6 xl:pl-0">
             <div
-              className="bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
+              className="w-full lg:max-w-[400px] bg-white border border-gray-200/80 rounded-3xl shadow-[0_8px_60px_rgba(15,48,85,0.12)] p-7 opacity-0 animate-slide-up hover:-translate-y-1 hover:shadow-[0_16px_80px_rgba(15,48,85,0.2)] transition-all duration-300"
               style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
             >
               <p className="text-xl font-bold text-navy-900 mb-1">Find your attorney</p>
