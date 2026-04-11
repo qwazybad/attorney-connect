@@ -43,11 +43,11 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1
-              className="text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-bold text-navy-900 leading-[1.08] tracking-tight mb-6 opacity-0 animate-slide-up"
+              className="text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-extrabold text-navy-900 leading-[1.05] tracking-[-0.02em] mb-6 opacity-0 animate-slide-up"
               style={{ animationFillMode: "forwards" }}
             >
-              Attorneys Compete.{" "}
-              <br className="hidden sm:block" />
+              Attorneys Compete.
+              <br />
               <span className="text-blue-500">You Win.</span>
             </h1>
 
@@ -90,7 +90,7 @@ export default function HeroSection() {
             >
               {[
                 { icon: Shield, color: "text-emerald-500", label: "Bar-verified attorneys" },
-                { icon: Star,   color: "text-yellow-400",   label: "4.8★ platform rating" },
+                { icon: Star,   color: "text-yellow-400",   label: "4.8 platform rating" },
                 { icon: Zap,    color: "text-blue-500",    label: "Avg response 1.8 hrs" },
               ].map(({ icon: Icon, color, label }) => (
                 <span key={label} className="flex items-center gap-1.5 text-sm text-gray-500">
@@ -102,24 +102,31 @@ export default function HeroSection() {
 
             {/* Quick-select pills */}
             <div
-              className="mt-8 flex flex-wrap gap-2 opacity-0 animate-slide-up"
+              className="mt-7 opacity-0 animate-slide-up"
               style={{ animationDelay: "0.26s", animationFillMode: "forwards" }}
             >
-              <span className="text-xs text-gray-400 font-medium self-center mr-1">Popular:</span>
-              {["Personal Injury", "Car Accident", "Medical Malpractice", "Employment Law", "Workers' Comp"].map((area) => (
+              <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest block mb-2">Popular</span>
+              <div className="flex flex-wrap gap-1.5">
+              {[
+                { label: "Personal Injury", area: "Personal Injury" },
+                { label: "Car Accident", area: "Car Accident" },
+                { label: "Malpractice", area: "Medical Malpractice" },
+                { label: "Employment", area: "Employment Law" },
+                { label: "Workers' Comp", area: "Workers' Comp" },
+              ].map(({ label, area }) => (
                 <button
                   key={area}
                   onClick={() => {
                     const found = LEGAL_ISSUES.find((i) => i.label === area || i.label.includes(area.split(" ")[0]));
                     if (found) router.push(`/compare?area=${found.value}`);
                   }}
-                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-navy-300 hover:text-navy-700 hover:bg-navy-50 transition-all duration-200"
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-navy-300 hover:text-navy-700 hover:bg-navy-50 transition-all duration-200 whitespace-nowrap"
                 >
-                  {area}
+                  {label}
                 </button>
               ))}
+              </div>
             </div>
-          </div>
 
           {/* ── Right: Search card ────────────────────────────────── */}
           <div className="lg:col-span-5 lg:pl-10">
