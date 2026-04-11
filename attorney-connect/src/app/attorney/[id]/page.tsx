@@ -122,7 +122,7 @@ export default function AttorneyProfilePage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-gray-800 overflow-hidden">
+      <section className="relative bg-navy-900 overflow-hidden">
         <div className="dot-grid absolute inset-0 opacity-30" />
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-8 pb-0">
@@ -250,7 +250,7 @@ export default function AttorneyProfilePage() {
         </div>
 
         {/* Bottom fade into content */}
-        <div className="h-8 bg-gradient-to-b from-transparent to-gray-50" />
+        <div className="h-8 bg-gradient-to-b from-navy-900/0 to-gray-50" />
       </section>
 
       {/* ── Main content ─────────────────────────────────────── */}
@@ -372,7 +372,7 @@ export default function AttorneyProfilePage() {
             <div className="sticky top-20 space-y-4">
 
               {/* Fee highlight */}
-              <div className="reveal bg-gray-800 rounded-2xl p-5 relative overflow-hidden">
+              <div className="reveal bg-navy-900 rounded-2xl p-5 relative overflow-hidden">
                 <div className="relative">
                   <p className="text-gray-200 text-xs font-semibold uppercase tracking-widest mb-1">
                     {isHourly ? "Hourly Rate" : "Contingency Fee"}
@@ -422,7 +422,7 @@ export default function AttorneyProfilePage() {
                 <button
                   type="button"
                   onClick={() => setFunnelOpen(true)}
-                  className="w-full bg-gray-900 hover:bg-gray-800 active:bg-gray-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                  className="w-full bg-navy-900 hover:bg-navy-800 active:bg-navy-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
                 >
                   Start Free Consultation
                 </button>

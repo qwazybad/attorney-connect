@@ -57,7 +57,7 @@ export default function ForAttorneysPage() {
 
             <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.05] mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
               Grow your practice with{" "}
-              <span className="text-gradient">performance-based</span>{" "}
+              <span className="text-gradient-blue">performance-based</span>{" "}
               leads.
             </h1>
 
@@ -95,7 +95,7 @@ export default function ForAttorneysPage() {
               { value: "2,800+", label: "Partner law firms", color: "text-accent-500", bg: "bg-accent-50" },
               { value: "48,000+", label: "Cases matched", color: "text-blue-500", bg: "bg-blue-50" },
               { value: "$0", label: "Upfront cost", color: "text-emerald-500", bg: "bg-emerald-50" },
-              { value: "4.8★", label: "Avg firm satisfaction", color: "text-yellow-500", bg: "bg-yellow-50" },
+              { value: "4.8/5", label: "Avg firm satisfaction", color: "text-yellow-500", bg: "bg-yellow-50" },
             ].map(({ value, label, color, bg }) => (
               <div key={label} className="flex flex-col items-center text-center group">
                 <div className={`w-12 h-12 rounded-2xl ${bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
@@ -113,7 +113,7 @@ export default function ForAttorneysPage() {
       <section ref={featuresRef} className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-2xl mx-auto text-center mb-16">
-            <div className="reveal inline-flex items-center gap-2 bg-accent-50 border border-accent-100 text-accent-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
+            <div className="reveal inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4">
               Why AttorneyCompete
             </div>
             <h2 className="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
