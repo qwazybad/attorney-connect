@@ -204,6 +204,44 @@ function DashboardTab({
         ))}
       </div>
 
+      {/* Lead Pipeline */}
+      <SectionCard>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Inbox className="w-4 h-4 text-gray-400" />
+            <h3 className="text-sm font-bold text-gray-900">Lead Pipeline</h3>
+            <span className="text-xs text-gray-400 font-medium">— {totalLeads} total across all statuses</span>
+          </div>
+          <Link href="/attorney-portal/leads" className="text-xs text-blue-500 hover:text-blue-700 font-semibold">View all →</Link>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+          {[
+            { key: "new",                label: "New",          dot: "bg-blue-500",   bg: "bg-blue-50",   text: "text-blue-700" },
+            { key: "attempting_contact", label: "Attempting",   dot: "bg-amber-500",  bg: "bg-amber-50",  text: "text-amber-700" },
+            { key: "contacted",          label: "Contacted",    dot: "bg-orange-500", bg: "bg-orange-50", text: "text-orange-700" },
+            { key: "retained",           label: "Retained",     dot: "bg-purple-500", bg: "bg-purple-50", text: "text-purple-700" },
+            { key: "in_progress",        label: "In Progress",  dot: "bg-indigo-500", bg: "bg-indigo-50", text: "text-indigo-700" },
+            { key: "settlement",         label: "Settlement",   dot: "bg-teal-500",   bg: "bg-teal-50",   text: "text-teal-700" },
+            { key: "closed",             label: "Closed / Won", dot: "bg-green-500",  bg: "bg-green-50",  text: "text-green-700" },
+            { key: "lost",               label: "Lost",         dot: "bg-gray-400",   bg: "bg-gray-50",   text: "text-gray-500" },
+          ].map(({ key, label, dot, bg, text }) => {
+            const count = leads.filter((l) => (l.status ?? "new") === key).length;
+            const pct = totalLeads > 0 ? Math.round((count / totalLeads) * 100) : 0;
+            return (
+              <Link key={key} href={`/attorney-portal/leads?status=${key}`}
+                className={`${bg} rounded-2xl p-4 border border-transparent hover:border-gray-200 transition-all`}>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${dot}`} />
+                  <span className={`text-xs font-semibold ${text} truncate`}>{label}</span>
+                </div>
+                <p className="text-2xl font-extrabold text-gray-900">{count}</p>
+                <p className="text-xs text-gray-400 mt-1">{pct}% of total</p>
+              </Link>
+            );
+          })}
+        </div>
+      </SectionCard>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent leads */}
         <div className="lg:col-span-2">
