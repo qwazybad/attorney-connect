@@ -445,6 +445,7 @@ export default function LeadFunnel({ attorney, open, onClose }: Props) {
                         className={`${inp} flex-1 tracking-widest text-center font-bold text-lg`}
                         type="text"
                         inputMode="numeric"
+                        autoComplete="one-time-code"
                         maxLength={6}
                         placeholder="_ _ _ _ _ _"
                         value={verifyCode}
