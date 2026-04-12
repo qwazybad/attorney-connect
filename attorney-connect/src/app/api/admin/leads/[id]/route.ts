@@ -38,10 +38,28 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const { id } = await params;
   const body = await req.json();
 
-  const allowed = ["status", "notes"];
+  const allowed = ["status", "notes", "attorney_id"];
   const update: Record<string, unknown> = {};
   for (const key of allowed) {
     if (key in body) update[key] = body[key];
+  }
+
+  // If reassigning, fetch old attorney name for the activity log
+  let oldAttorneyName: string | null = null;
+  if ("attorney_id" in update) {
+    const { data: existing } = await supabaseAdmin
+      .from("leads")
+      .select("attorney_id")
+      .eq("id", id)
+      .single();
+    if (existing?.attorney_id && existing.attorney_id !== update.attorney_id) {
+      const { data: oldAtty } = await supabaseAdmin
+        .from("attorneys")
+        .select("name, firm")
+        .eq("id", existing.attorney_id)
+        .maybeSingle();
+      oldAttorneyName = oldAtty?.name ?? oldAtty?.firm ?? existing.attorney_id;
+    }
   }
 
   const { data, error } = await supabaseAdmin
@@ -62,5 +80,26 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     });
   }
 
-  return NextResponse.json({ data });
+  // Log attorney assignment/reassignment to activity
+  if ("attorney_id" in update) {
+    const { data: newAtty } = await supabaseAdmin
+      .from("attorneys")
+      .select("name, firm")
+      .eq("id", update.attorney_id as string)
+      .maybeSingle();
+    const newName = newAtty?.name ?? newAtty?.firm ?? String(update.attorney_id);
+    const body = oldAttorneyName
+      ? `Reassigned from ${oldAttorneyName} to ${newName}`
+      : `Assigned to ${newName}`;
+    await supabaseAdmin.from("lead_activity").insert({ lead_id: id, type: "status_change", body });
+  }
+
+  // Return updated lead with attorney info
+  const { data: attorney } = await supabaseAdmin
+    .from("attorneys")
+    .select("id, name, firm, photo_url")
+    .eq("id", data.attorney_id)
+    .maybeSingle();
+
+  return NextResponse.json({ data: { ...data, attorney } });
 }

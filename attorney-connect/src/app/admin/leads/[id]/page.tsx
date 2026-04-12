@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   Scale, ArrowLeft, Phone, Mail, ChevronDown,
-  MessageSquare, Clock, CheckCircle, Send, User, FolderOpen,
+  MessageSquare, Clock, CheckCircle, Send, User, FolderOpen, UserCheck, Search,
 } from "lucide-react";
 import { DocumentsPanel } from "@/components/shared/DocumentsPanel";
 
@@ -99,21 +99,32 @@ export default function LeadDetailPage() {
   const [savingNote, setSavingNote] = useState(false);
   const statusRef = useRef<HTMLDivElement>(null);
 
+  // Attorney assignment
+  const [attorneys, setAttorneys] = useState<{ id: string; name: string | null; firm: string | null }[]>([]);
+  const [attorneySearch, setAttorneySearch] = useState("");
+  const [selectedAttorneyId, setSelectedAttorneyId] = useState<string>("");
+  const [assignOpen, setAssignOpen] = useState(false);
+  const [assigningAttorney, setAssigningAttorney] = useState(false);
+  const assignRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     Promise.all([
       fetch(`/api/admin/leads/${id}`).then((r) => r.json()),
       fetch(`/api/admin/leads/${id}/activity`).then((r) => r.json()),
-    ]).then(([lRes, aRes]) => {
+      fetch("/api/admin/attorneys").then((r) => r.json()),
+    ]).then(([lRes, aRes, attyRes]) => {
       setLead(lRes.data ?? null);
       setActivity(aRes.data ?? []);
+      setAttorneys(attyRes.data ?? []);
       setLoading(false);
     });
   }, [id]);
 
-  // Close status dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     function handle(e: MouseEvent) {
       if (statusRef.current && !statusRef.current.contains(e.target as Node)) setStatusOpen(false);
+      if (assignRef.current && !assignRef.current.contains(e.target as Node)) setAssignOpen(false);
     }
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
@@ -135,6 +146,25 @@ export default function LeadDetailPage() {
       fetch(`/api/admin/leads/${id}/activity`).then((r) => r.json()).then((a) => setActivity(a.data ?? []));
     }
     setUpdatingStatus(false);
+  }
+
+  async function assignAttorney() {
+    if (!selectedAttorneyId || !lead) return;
+    setAssigningAttorney(true);
+    setAssignOpen(false);
+    const res = await fetch(`/api/admin/leads/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ attorney_id: selectedAttorneyId }),
+    });
+    if (res.ok) {
+      const { data } = await res.json();
+      setLead(data);
+      setSelectedAttorneyId("");
+      setAttorneySearch("");
+      fetch(`/api/admin/leads/${id}/activity`).then((r) => r.json()).then((a) => setActivity(a.data ?? []));
+    }
+    setAssigningAttorney(false);
   }
 
   async function addNote() {
@@ -271,6 +301,94 @@ export default function LeadDetailPage() {
 
         {tab === "details" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            {/* Assign Attorney */}
+            <div className="lg:col-span-3 bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+              <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Assigned Attorney</h2>
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                {/* Current assignment */}
+                <div className="flex-1">
+                  {lead.attorney ? (
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                        <User className="w-4 h-4 text-blue-500" />
+                      </div>
+                      <div>
+                        <Link href={`/admin/attorneys/${lead.attorney.id}`} className="text-sm font-bold text-blue-600 hover:underline">
+                          {lead.attorney.name ?? lead.attorney.firm ?? "Unknown"}
+                        </Link>
+                        {lead.attorney.firm && lead.attorney.name && (
+                          <p className="text-xs text-gray-400">{lead.attorney.firm}</p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-400 italic">No attorney assigned</p>
+                  )}
+                </div>
+
+                {/* Reassign control */}
+                <div className="relative w-full sm:w-80" ref={assignRef}>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                      <input
+                        value={selectedAttorneyId
+                          ? (attorneys.find((a) => a.id === selectedAttorneyId)?.name ?? attorneys.find((a) => a.id === selectedAttorneyId)?.firm ?? "")
+                          : attorneySearch}
+                        onChange={(e) => {
+                          setAttorneySearch(e.target.value);
+                          setSelectedAttorneyId("");
+                          setAssignOpen(true);
+                        }}
+                        onFocus={() => setAssignOpen(true)}
+                        placeholder="Search attorneys…"
+                        className="w-full border border-gray-200 rounded-xl pl-8 pr-3 py-2 text-sm bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <button
+                      onClick={assignAttorney}
+                      disabled={!selectedAttorneyId || assigningAttorney}
+                      className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-colors whitespace-nowrap"
+                    >
+                      {assigningAttorney ? "Saving…" : lead.attorney ? "Reassign" : "Assign"}
+                    </button>
+                  </div>
+
+                  {assignOpen && (
+                    <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-20 max-h-56 overflow-y-auto">
+                      {attorneys
+                        .filter((a) => {
+                          const q = attorneySearch.toLowerCase();
+                          return !q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q);
+                        })
+                        .slice(0, 40)
+                        .map((a) => (
+                          <button
+                            key={a.id}
+                            onClick={() => {
+                              setSelectedAttorneyId(a.id);
+                              setAttorneySearch("");
+                              setAssignOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${selectedAttorneyId === a.id ? "bg-blue-50 font-semibold text-blue-700" : "text-gray-800"}`}
+                          >
+                            <span className="font-medium">{a.name ?? a.firm ?? a.id}</span>
+                            {a.firm && a.name && <span className="text-gray-400 text-xs ml-2">{a.firm}</span>}
+                          </button>
+                        ))}
+                      {attorneys.filter((a) => {
+                        const q = attorneySearch.toLowerCase();
+                        return !q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q);
+                      }).length === 0 && (
+                        <p className="px-4 py-3 text-sm text-gray-400 italic">No attorneys found.</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
             {/* Contact info */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
               <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contact Info</h2>
