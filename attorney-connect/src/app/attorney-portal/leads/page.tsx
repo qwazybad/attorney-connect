@@ -45,6 +45,8 @@ function LeadsContent() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState(statusParam ?? "all");
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(25);
 
   useEffect(() => {
     if (!isLoaded || !user) return;
@@ -72,9 +74,15 @@ function LeadsContent() {
     return matchSearch && matchStatus;
   });
 
+  // Reset page on filter change
+  useEffect(() => { setPage(0); }, [search, statusFilter, pageSize]);
+
+  const totalPages = Math.ceil(filtered.length / pageSize);
+  const paginated = filtered.slice(page * pageSize, (page + 1) * pageSize);
+
   const grouped = LEAD_STATUSES.map((s) => ({
     ...s,
-    leads: filtered.filter((l) => (l.status ?? "new") === s.key),
+    leads: paginated.filter((l) => (l.status ?? "new") === s.key),
   })).filter((g) => g.leads.length > 0);
 
   const activeStatusInfo = LEAD_STATUSES.find((s) => s.key === statusFilter);
@@ -214,6 +222,33 @@ function LeadsContent() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination footer */}
+        {!loading && filtered.length > 0 && (
+          <div className="flex items-center justify-between mt-4 px-1">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>Show</span>
+              {[20, 30, 50].map((n) => (
+                <button key={n} onClick={() => setPageSize(n)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${pageSize === n ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"}`}>
+                  {n}
+                </button>
+              ))}
+              <span className="ml-1 text-gray-400">of {filtered.length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">Page {page + 1} of {totalPages}</span>
+              <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 bg-white text-gray-600 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                Prev
+              </button>
+              <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 bg-white text-gray-600 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
