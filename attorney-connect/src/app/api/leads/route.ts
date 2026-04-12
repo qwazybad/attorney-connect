@@ -36,6 +36,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Rate limit: block repeat submissions from same email within 5 minutes
+    const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const { count: recentCount } = await supabaseAdmin
+      .from("leads")
+      .select("id", { count: "exact", head: true })
+      .eq("email", email)
+      .gte("created_at", fiveMinAgo);
+    if (recentCount && recentCount > 0) {
+      return NextResponse.json(
+        { error: "You've already submitted a request recently. Please wait a few minutes before trying again." },
+        { status: 429 }
+      );
+    }
+
     // 1. Fetch attorney webhook config (uses service role key — bypasses RLS)
     const { data: attorney, error: attorneyError } = await supabaseAdmin
       .from("attorneys")

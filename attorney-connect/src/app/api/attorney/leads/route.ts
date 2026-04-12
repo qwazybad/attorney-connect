@@ -19,8 +19,7 @@ export async function GET() {
     .from("leads")
     .select("*")
     .eq("attorney_id", attorney.id)
-    .order("created_at", { ascending: false })
-    .limit(100);
+    .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ data: null, error: error.message }, { status: 500 });
 

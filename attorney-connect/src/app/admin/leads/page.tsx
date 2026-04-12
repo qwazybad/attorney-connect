@@ -62,6 +62,7 @@ export default function LeadsPipelinePage() {
   const { isLoaded } = useAuth();
   const [leads, setLeads] = useState<AdminLead[]>([]);
   const [attorneys, setAttorneys] = useState<AdminAttorney[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [attorneyFilter, setAttorneyFilter] = useState("all");
@@ -69,41 +70,44 @@ export default function LeadsPipelinePage() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(25);
 
+  // Fetch attorney list once for the filter dropdown
   useEffect(() => {
     if (!isLoaded) return;
-    Promise.all([
-      fetch("/api/admin/leads").then((r) => r.json()),
-      fetch("/api/admin/attorneys").then((r) => r.json()),
-    ]).then(([lRes, aRes]) => {
-      setLeads(lRes.data ?? []);
-      setAttorneys(aRes.data ?? []);
-      setLoading(false);
-    });
+    fetch("/api/admin/attorneys?all=1")
+      .then((r) => r.json())
+      .then(({ data }) => setAttorneys(data ?? []));
   }, [isLoaded]);
 
-  const filtered = leads.filter((l) => {
-    const q = search.toLowerCase();
-    const matchesSearch =
-      !q ||
-      `${l.first_name} ${l.last_name}`.toLowerCase().includes(q) ||
-      l.email.toLowerCase().includes(q) ||
-      (l.phone ?? "").includes(q) ||
-      l.legal_issue.toLowerCase().includes(q);
-    const matchesAttorney = attorneyFilter === "all" || l.attorney_id === attorneyFilter;
-    const matchesStatus = statusFilter === "all" || (l.status ?? "new") === statusFilter;
-    return matchesSearch && matchesAttorney && matchesStatus;
-  });
+  // Server-side fetch with debounced search
+  useEffect(() => {
+    if (!isLoaded) return;
+    setLoading(true);
+    const t = setTimeout(() => {
+      const params = new URLSearchParams({ page: String(page), limit: String(pageSize) });
+      if (search) params.set("search", search);
+      if (statusFilter !== "all") params.set("status", statusFilter);
+      if (attorneyFilter !== "all") params.set("attorney_id", attorneyFilter);
+      fetch(`/api/admin/leads?${params}`)
+        .then((r) => r.json())
+        .then(({ data, total: t }) => {
+          setLeads(data ?? []);
+          setTotal(t ?? 0);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }, search ? 300 : 0);
+    return () => clearTimeout(t);
+  }, [isLoaded, search, attorneyFilter, statusFilter, page, pageSize]);
 
   // Reset page on filter change
   useEffect(() => { setPage(0); }, [search, attorneyFilter, statusFilter, pageSize]);
 
-  const totalPages = Math.ceil(filtered.length / pageSize);
-  const paginated = filtered.slice(page * pageSize, (page + 1) * pageSize);
+  const totalPages = Math.ceil(total / pageSize);
 
-  // Group by status
+  // Group current page by status
   const grouped = STATUSES.map((s) => ({
     ...s,
-    leads: paginated.filter((l) => (l.status ?? "new") === s.key),
+    leads: leads.filter((l) => (l.status ?? "new") === s.key),
   })).filter((g) => g.leads.length > 0);
 
   return (
@@ -132,7 +136,7 @@ export default function LeadsPipelinePage() {
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Leads Pipeline</h1>
-            <p className="text-gray-500 text-sm mt-1">{leads.length} total leads</p>
+            <p className="text-gray-500 text-sm mt-1">{total} total leads</p>
           </div>
         </div>
 
@@ -173,7 +177,7 @@ export default function LeadsPipelinePage() {
           <div className="flex items-center justify-center py-24">
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
           </div>
-        ) : filtered.length === 0 ? (
+        ) : leads.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <Inbox className="w-10 h-10 text-gray-300 mb-3" />
             <p className="text-gray-400 text-sm">No leads found.</p>
@@ -182,7 +186,6 @@ export default function LeadsPipelinePage() {
           <div className="space-y-6">
             {grouped.map((group) => (
               <div key={group.key}>
-                {/* Group header */}
                 <div className="flex items-center gap-2 mb-2 px-1">
                   <span className={`w-2 h-2 rounded-full ${group.dot}`} />
                   <span className={`text-xs font-bold uppercase tracking-widest ${group.color}`}>{group.label}</span>
@@ -234,7 +237,7 @@ export default function LeadsPipelinePage() {
         )}
 
         {/* Pagination footer */}
-        {!loading && filtered.length > 0 && (
+        {!loading && total > 0 && (
           <div className="flex items-center justify-between mt-4 px-1">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <span>Show</span>
@@ -244,7 +247,7 @@ export default function LeadsPipelinePage() {
                   {n}
                 </button>
               ))}
-              <span className="ml-1 text-gray-400">of {filtered.length}</span>
+              <span className="ml-1 text-gray-400">of {total}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-400">Page {page + 1} of {totalPages}</span>

@@ -164,6 +164,7 @@ function AttorneysContent() {
   const statusParam = searchParams.get("status") as "all" | Status | null;
 
   const [attorneys, setAttorneys] = useState<AdminAttorney[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | Status>(statusParam ?? "all");
@@ -172,35 +173,37 @@ function AttorneysContent() {
   const [pageSize, setPageSize] = useState(25);
 
   useEffect(() => {
-    fetch("/api/admin/attorneys").then((r) => r.json()).then(({ data }) => {
-      setAttorneys(data ?? []);
-      setLoading(false);
-    });
-  }, []);
-
-  useEffect(() => {
     setStatusFilter(statusParam ?? "all");
+    setPage(0);
   }, [statusParam]);
 
-  const filtered = attorneys.filter((a) => {
-    const q = search.toLowerCase();
-    return (!q || (a.name ?? "").toLowerCase().includes(q) || (a.firm ?? "").toLowerCase().includes(q) || (a.email ?? "").toLowerCase().includes(q)) &&
-      (statusFilter === "all" || a.status === statusFilter);
-  });
+  // Server-side fetch with debounced search
+  useEffect(() => {
+    setLoading(true);
+    const t = setTimeout(() => {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: String(pageSize),
+      });
+      if (search) params.set("search", search);
+      if (statusFilter !== "all") params.set("status", statusFilter);
+      fetch(`/api/admin/attorneys?${params}`)
+        .then((r) => r.json())
+        .then(({ data, total: t }) => {
+          setAttorneys(data ?? []);
+          setTotal(t ?? 0);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }, search ? 300 : 0);
+    return () => clearTimeout(t);
+  }, [search, statusFilter, page, pageSize]);
 
-  // Reset to page 0 when filters change
+  // Reset page when filters change
   useEffect(() => { setPage(0); }, [search, statusFilter, pageSize]);
 
-  const totalPages = Math.ceil(filtered.length / pageSize);
-  const paginated = filtered.slice(page * pageSize, (page + 1) * pageSize);
-
-  const counts: Record<"all" | Status, number> = {
-    all:             attorneys.length,
-    unclaimed:       attorneys.filter((a) => a.status === "unclaimed").length,
-    claimed_pending: attorneys.filter((a) => a.status === "claimed_pending").length,
-    active:          attorneys.filter((a) => a.status === "active").length,
-    suspended:       attorneys.filter((a) => a.status === "suspended").length,
-  };
+  const totalPages = Math.ceil(total / pageSize);
+  const paginated = attorneys; // already paginated by server
 
   const STATUS_PILLS: { key: "all" | Status; label: string; color: string; activeColor: string }[] = [
     { key: "all",             label: "All",             color: "bg-white text-gray-600 border-gray-200",       activeColor: "bg-blue-500 text-white border-blue-500" },
@@ -237,7 +240,7 @@ function AttorneysContent() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Attorneys</h1>
-            <p className="text-sm text-gray-500 mt-1">{attorneys.length} total · {counts.active} active · {counts.claimed_pending} pending approval · {counts.unclaimed} unclaimed</p>
+            <p className="text-sm text-gray-500 mt-1">{total} {statusFilter === "all" ? "total attorneys" : STATUS_LABELS[statusFilter]}</p>
           </div>
           <button onClick={() => setShowAdd(true)} className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors">
             <Plus className="w-4 h-4" /> Add Attorney
@@ -249,7 +252,7 @@ function AttorneysContent() {
           {STATUS_PILLS.map(({ key, label, color, activeColor }) => (
             <button key={key} onClick={() => setStatusFilter(key)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-colors ${statusFilter === key ? activeColor : color}`}>
-              {label} ({counts[key]})
+              {label}{statusFilter === key && total > 0 ? ` (${total})` : ""}
             </button>
           ))}
         </div>
@@ -305,7 +308,7 @@ function AttorneysContent() {
         )}
 
         {/* Pagination footer */}
-        {!loading && filtered.length > 0 && (
+        {!loading && total > 0 && (
           <div className="flex items-center justify-between mt-4 px-1">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <span>Show</span>
@@ -315,7 +318,7 @@ function AttorneysContent() {
                   {n}
                 </button>
               ))}
-              <span className="ml-1 text-gray-400">of {filtered.length}</span>
+              <span className="ml-1 text-gray-400">of {total}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-400">Page {page + 1} of {totalPages}</span>

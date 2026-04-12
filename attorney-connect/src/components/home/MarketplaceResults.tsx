@@ -65,7 +65,7 @@ export default function MarketplaceResults() {
   const ref = useReveal();
 
   useEffect(() => {
-    fetch("/api/attorneys")
+    fetch("/api/attorneys?limit=60")
       .then((r) => r.json())
       .then(({ data }) => {
         if (Array.isArray(data) && data.length > 0) {

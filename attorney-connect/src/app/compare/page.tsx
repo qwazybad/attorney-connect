@@ -66,19 +66,20 @@ function ComparePageInner() {
   const [liveAttorneys, setLiveAttorneys] = useState<Attorney[] | null>(null);
   const [loadingLive, setLoadingLive] = useState(true);
 
+  // Re-fetch when state or area changes — pass them as server-side filters
   useEffect(() => {
-    fetch("/api/attorneys")
+    setLoadingLive(true);
+    const params = new URLSearchParams({ limit: "200" });
+    if (filterState) params.set("state", filterState);
+    if (filterArea) params.set("area", filterArea);
+    fetch(`/api/attorneys?${params}`)
       .then((r) => r.json())
       .then(({ data }) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setLiveAttorneys(data.map(mapSupabaseAttorney));
-        } else {
-          setLiveAttorneys([]);
-        }
+        setLiveAttorneys(Array.isArray(data) && data.length > 0 ? data.map(mapSupabaseAttorney) : []);
       })
       .catch(() => setLiveAttorneys([]))
       .finally(() => setLoadingLive(false));
-  }, []);
+  }, [filterState, filterArea]);
 
   const baseAttorneys = [...ATTORNEYS, ...(liveAttorneys ?? [])];
 

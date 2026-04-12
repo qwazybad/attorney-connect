@@ -8,37 +8,56 @@ function isAdmin(userId: string | null) {
   return adminIds.includes(userId);
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const { userId } = await auth();
   if (!isAdmin(userId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-  // Fetch all attorneys in pages to bypass Supabase's 1000-row default limit
-  const PAGE = 1000;
-  let attorneys: Record<string, string>[] = [];
-  let from = 0;
-  while (true) {
-    const { data, error: pageError } = await supabaseAdmin
+  const url = req.nextUrl;
+
+  // ?all=1 — lightweight full list for dropdowns (id, name, firm only)
+  if (url.searchParams.get("all") === "1") {
+    const { data, error } = await supabaseAdmin
       .from("attorneys")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .range(from, from + PAGE - 1);
-    if (pageError) return NextResponse.json({ error: pageError.message }, { status: 500 });
-    if (!data || data.length === 0) break;
-    attorneys = attorneys.concat(data);
-    if (data.length < PAGE) break;
-    from += PAGE;
+      .select("id, name, firm")
+      .order("name", { ascending: true });
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ data: data ?? [] });
   }
 
-  // Get lead counts per attorney
-  const { data: leads } = await supabaseAdmin
-    .from("leads")
-    .select("attorney_id");
+  const page = Math.max(0, parseInt(url.searchParams.get("page") ?? "0"));
+  const limit = Math.min(Math.max(1, parseInt(url.searchParams.get("limit") ?? "25")), 100);
+  const search = (url.searchParams.get("search") ?? "").trim();
+  const status = url.searchParams.get("status") ?? "";
 
-  const counts: Record<string, number> = {};
-  leads?.forEach((l) => { counts[l.attorney_id] = (counts[l.attorney_id] ?? 0) + 1; });
+  const from = page * limit;
+  const to = from + limit - 1;
 
-  const result = attorneys.map((a) => ({ ...a, lead_count: counts[a.id] ?? 0 }));
-  return NextResponse.json({ data: result });
+  let query = supabaseAdmin
+    .from("attorneys")
+    .select("*", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (status) query = query.eq("status", status);
+  if (search) {
+    query = query.or(`name.ilike.%${search}%,firm.ilike.%${search}%,email.ilike.%${search}%`);
+  }
+
+  const { data: attorneys, count, error } = await query;
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // Lead counts for this page's attorneys only
+  const ids = attorneys?.map((a) => a.id) ?? [];
+  const { data: leads } = ids.length > 0
+    ? await supabaseAdmin.from("leads").select("attorney_id").in("attorney_id", ids)
+    : { data: [] };
+
+  const leadCounts: Record<string, number> = {};
+  leads?.forEach((l) => { leadCounts[l.attorney_id] = (leadCounts[l.attorney_id] ?? 0) + 1; });
+
+  const result = attorneys?.map((a) => ({ ...a, lead_count: leadCounts[a.id] ?? 0 })) ?? [];
+
+  return NextResponse.json({ data: result, total: count ?? 0 });
 }
 
 export async function POST(req: NextRequest) {
